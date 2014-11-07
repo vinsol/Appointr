@@ -1,10 +1,20 @@
 Rails.application.routes.draw do
+    devise_for :admins#, controllers: { confirmations: 'admins/confirmations' }
+    devise_for :staffs#, controllers: { confirmations: 'staffs/confirmations' }
+    devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
 
-  devise_for :users, :skip => :registrations
-  devise_for :staffs, :customers, :skip => :sessions
-  devise_for :admins, :skip => [:sessions, :registrations]
+  # devise_for :users, :skip => [:registrations]
+  # devise_for :staffs, :customers, :admins, controllers: { confirmations: 'users/confirmations' }#, :skip => :sessions
+
+    # devise_scope :customer do
+
+    # end
+
+
+  # devise_for :admins, :skip => [:sessions, :registrations]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+
 
   # You can have the root of your site routed with "root"
   root 'customers#home'
