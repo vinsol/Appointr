@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get 'admin' => 'admins#home'
   get 'staff' => 'staffs#home'
 
+  resources :services
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

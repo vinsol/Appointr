@@ -1,0 +1,17 @@
+<p>
+  <strong>Name:</strong>
+  <%= @service.name %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @service.duration.to_s + ' minutes' %>
+</p>
+
+<p>
+  <strong>Enabled:</strong>
+  <%= @service.enabled? %>
+</p>
+
+<%= link_to 'Edit', edit_service_path(@service) %> |
+<%= link_to 'Back', services_path %>
