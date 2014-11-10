@@ -4,6 +4,4 @@ class AdminsController < ApplicationController
       redirect_to new_admin_session_path
     end
   end
-
-  private
 end
