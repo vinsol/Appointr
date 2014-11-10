@@ -22,4 +22,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :name
   end
 
+  def check_admin_logged_in
+    if !current_admin
+      redirect_to new_admin_session_path
+    end
+  end
+
 end

@@ -1,9 +1,10 @@
 class AdminsController < ApplicationController
+
+  before_action :check_admin_logged_in, only: :home
+  layout 'admin'
+
   def home
-    if !current_admin
-      redirect_to new_admin_session_path
-    end
+    @admin = current_admin
   end
 
-  private
 end

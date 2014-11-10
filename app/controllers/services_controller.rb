@@ -1,7 +1,9 @@
 class ServicesController < ApplicationController
 
   before_action :set_service, only: [:show, :edit, :update]
-  before_action :check_admin_logged_in, only: [:show, :new, :edit, :create, :update]
+  before_action :check_admin_logged_in, only: [:index, :show, :new, :edit, :create, :update]
+
+  layout 'admin'
 
   def index
     @services = Service.order(:name)
@@ -48,12 +50,7 @@ class ServicesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white
     # list through.
     def service_params
-      params.require(:service).permit(:name, :duration, :enabled?)
+      params.require(:service).permit(:name, :duration, :enabled)
     end
 
-    def check_admin_logged_in
-      if !current_admin
-        redirect_to new_admin_session_path
-      end
-    end
 end
