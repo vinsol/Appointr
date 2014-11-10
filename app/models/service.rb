@@ -1,9 +1,9 @@
 class Service < ActiveRecord::Base
 
-  Durations = [['15 min', 15], ['30 min', 30], ['45 min', 45], ['1 hour', 60]]
-  EnabledOptions = [true, false]
+  ALLOWED_DURATIONS = [15, 30, 45, 60]
 
+  #validations
   validates :name, presence: true
-  validates :duration, inclusion: { in: Durations.map { |duration| duration[1] } }
-  validates :enabled?, inclusion: { in: EnabledOptions } 
+  validates :duration, inclusion: { in: ALLOWED_DURATIONS }
+  validates :enabled?, inclusion: { in: [true, false] }
 end

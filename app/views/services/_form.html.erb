@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :duration %><br>
-    <%= f.select :duration, options_for_select(Service::Durations)%>
+    <%= f.select :duration, options_for_select(get_duration_periods)%>
   </div>
   <div class="field">
     <%= f.label :enabled? %><br>
