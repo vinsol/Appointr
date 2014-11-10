@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   #validations
   validates :name, presence: true
+  validates :password, format: { with: /\A[^\s]+\z/i, message: 'can not include spaces.' }
 
   def self.types
       %w(Admin Customer Staff)
