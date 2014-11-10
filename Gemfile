@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use postgresql as the database for Active Record
@@ -45,4 +44,7 @@ gem 'devise'
 # Use twitter-bootstrap
 gem "twitter-bootstrap-rails"
 
+gem 'rails_12factor', group: :production
+
+ruby '2.1.2'
 
