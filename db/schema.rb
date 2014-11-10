@@ -11,10 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141107134832) do
+ActiveRecord::Schema.define(version: 20141110091959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "allocations", force: true do |t|
+    t.integer "service_id"
+    t.integer "staff_id"
+  end
 
   create_table "services", force: true do |t|
     t.string  "name"

@@ -6,4 +6,8 @@ class Service < ActiveRecord::Base
   validates :name, presence: true
   validates :duration, inclusion: { in: ALLOWED_DURATIONS }
   validates :enabled?, inclusion: { in: [true, false] }
+
+  #associations
+  has_many :allocations
+  has_many :staffs, through: :allocations
 end
