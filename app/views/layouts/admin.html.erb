@@ -13,7 +13,7 @@
     </div>
     <div class='col-md-2'>
       <% if !@admin %>
-      <%= link_to 'Signout', destroy_admin_session_path %>
+      <%= link_to 'Signout', destroy_admin_session_path, method: :delete %>
       |
       <%= link_to 'Home', admin_path %>
       <% end %>
