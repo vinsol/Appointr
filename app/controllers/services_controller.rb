@@ -1,7 +1,9 @@
 class ServicesController < ApplicationController
 
   before_action :set_service, only: [:show, :edit, :update]
-  before_action :check_admin_logged_in, only: [:show, :new, :edit, :create, :update]
+  before_action :check_admin_logged_in, only: [:index, :show, :new, :edit, :create, :update]
+
+  layout 'admin'
 
   def index
     @services = Service.order(:name)

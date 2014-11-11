@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20141110091959) do
   create_table "services", force: true do |t|
     t.string  "name"
     t.integer "duration"
-    t.boolean "enabled?", default: true
+    t.boolean "enabled",  default: true
   end
 
   create_table "users", force: true do |t|

@@ -17,11 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :duration %><br>
-    <%= f.select :duration, options_for_select(get_duration_periods)%>
+    <%= f.select :duration, options_for_select(get_duration_periods, @service.duration) %>
   </div>
   <div class="field">
-    <%= f.label :enabled? %><br>
-    <%= f.check_box :enabled? %>
+    <%= f.label :enabled %><br>
+    <%= f.check_box :enabled %>
   </div>
    <div class="actions">
     <%= f.submit %>
