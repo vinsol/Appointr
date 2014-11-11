@@ -4,6 +4,8 @@ class StaffsController < ApplicationController
   before_action :set_staff, only: [:edit, :show, :update]
   before_action :check_admin_logged_in, only: [:update, :edit]
 
+  layout 'admin'
+
 
   def home
   end
