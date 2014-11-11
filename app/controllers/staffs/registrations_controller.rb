@@ -1,10 +1,25 @@
 class Staffs::RegistrationsController < Devise::RegistrationsController
-  # def create
-  #   # @staff = Staff.new(params[:staff])
-  #   service_names = params[:staff][:services].split(', ')
-  #   params[:staff][:services] = service_names.map { |service_name| Service.find_by(name: service_name) }
-  #   # @staff.save
-  #   super
-  # end
+
+  #callbacks
+  # before_action :check_admin_logged_in, if: -> { current_staff }
+
+  # skip_before_action :authenticate_scope!, if: -> { current_admin }
+
+  def create
+    super
+    service_ids = services_params.split(',')
+    resource.service_ids = service_ids
+    resource.save
+  end
+
+  private
+
+    def services_params
+      params.require(:staff).require(:services)
+    end
+
+    def staff_params
+      params.require(:staff).permit(:name, :designation, :email)
+    end
 
 end

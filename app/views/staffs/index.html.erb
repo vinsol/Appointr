@@ -16,6 +16,9 @@
       Email
     </th>
     <th>
+      Services
+    </th>
+    <th>
       Actions
     </th>
   </tr>
@@ -31,9 +34,12 @@
         <%= staff.email %>
       </td>
       <td>
-        <%= link_to 'Show', staff %>
+        <%= staff.services.map(&:name).join(', ') %>
+      </td>
+      <td>
+        <%= link_to 'Show', staff_path(staff.id) %>
         |
-        <%= link_to 'Edit', edit_staff_registration_path(staff) %><br/>
+        <%= link_to 'Edit', edit_staff_path(staff), method: :get %><br/>
       </td>
     </tr>
   <% end %>

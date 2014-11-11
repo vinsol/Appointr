@@ -24,10 +24,15 @@ Rails.application.routes.draw do
   root 'customers#home'
   # devise_scope :admin_user do get 'admin' => 'devise/sessions#new'; end
   get 'admin' => 'admins#home'
-  get 'staff' => 'staffs#home'
+  get 'staff_home' => 'staffs#home'
 
-  resources :services
-  resources :staffs
+  resources :services do
+    get 'search', on: :collection
+  end
+
+  resources :staffs do
+    patch 'update_password' => 'staffs#update_password', on: :member
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

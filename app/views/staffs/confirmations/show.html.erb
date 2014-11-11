@@ -1,6 +1,6 @@
 You're almost done! Now create a password to securely access your account.
 
-<%= form_for(resource, as: resource_name, :url => staff_confirm_path) do |f| %>
+<%= form_for(resource, as: resource_name, :url => update_password_staff_path(resource)) do |f| %>
   <%= devise_error_messages! %>  
   <div class="field">
     <%= f.label :password %>

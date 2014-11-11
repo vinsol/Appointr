@@ -1,0 +1,17 @@
+<p>
+  <strong>Name:</strong>
+  <%= @staff.name %>
+</p>
+
+<p>
+  <strong>Designation:</strong>
+  <%= @staff.designation %>
+</p>
+
+<p>
+  <strong>Services</strong>
+  <%= @staff.services.map(&:name).join(', ') %>
+</p>
+
+<%= link_to 'Edit', edit_staff_path(@staff), method: :get %> |
+<%= link_to 'Back', staffs_path %>

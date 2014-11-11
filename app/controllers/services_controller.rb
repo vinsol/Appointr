@@ -36,24 +36,23 @@ class ServicesController < ApplicationController
     end
   end
 
+  def search
+    @services = Service.where("name like '#{ params[:q] }%'")
+    render json: @services
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_service
-      unless @service = Service.find_by(id: params[:id])
-        flash[:notice] = 'No service found.'
-        redirect_to services_path
-      end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_service
+    unless @service = Service.find_by(id: params[:id])
+      flash[:notice] = 'No service found.'
+      redirect_to services_path
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white
-    # list through.
-    def service_params
-      params.require(:service).permit(:name, :duration, :enabled?)
-    end
-
-    def check_admin_logged_in
-      if !current_admin
-        redirect_to new_admin_session_path
-      end
-    end
+  # Never trust parameters from the scary internet, only allow the white
+  # list through.
+  def service_params
+    params.require(:service).permit(:name, :duration, :enabled?)
+  end
 end

@@ -9,17 +9,26 @@ class ApplicationController < ActionController::Base
     if resource.type == 'Admin'
       admin_path
     elsif resource.type == 'Staff'
-      staff_path
+      staff_home_path
     else
       root_path
+    end
+  end
+
+  def check_admin_logged_in
+    if !current_admin
+      redirect_to new_admin_session_path
     end
   end
 
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) << [:name, :designation, :services]
-    devise_parameter_sanitizer.for(:account_update) << [:name, :designation, :services]
+    devise_parameter_sanitizer.for(:sign_up) do |user|
+      user.permit(:name, :email, :password, :password_confirmation, :current_password, :designation, :services => [])
+    end
+    # devise_parameter_sanitizer.for(:sign_up) << [:name, :designation, :services]
+    # devise_parameter_sanitizer.for(:account_update) << [:name, :designation, :services]
   end
 
 end
