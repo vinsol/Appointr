@@ -14,7 +14,7 @@ class StaffsController < ApplicationController
   end
 
   def index
-    @staffs = Staff.order(:name)
+    @staffs = Staff.order(:name).includes(:services)
   end
 
   def update_password
