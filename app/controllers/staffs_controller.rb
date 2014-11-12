@@ -4,6 +4,7 @@ class StaffsController < ApplicationController
   before_action :set_staff, only: [:home, :edit, :show, :update]
   before_action :check_admin_logged_in, only: :index
   before_action :admin_or_staff_logged_in?, only: [:update, :edit]
+  before_action :check_staff_logged_in, only: :home
 
   layout 'admin'
 
@@ -66,6 +67,12 @@ class StaffsController < ApplicationController
   def admin_or_staff_logged_in?
     unless current_admin || current_staff
       redirect_to new_admin_session_path
+    end
+  end
+
+  def check_staff_logged_in
+    if !current_staff
+      redirect_to new_staff_session_path
     end
   end
 end
