@@ -1,6 +1,6 @@
 class Staff < User
-  # validates :designation, presence: true
-  # validates :services, presence: true
+  validates :designation, presence: true
+  validates :services, presence: true
   
   has_many :allocations
   has_many :services, through: :allocations

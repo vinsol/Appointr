@@ -14,13 +14,7 @@ class ApplicationController < ActionController::Base
       root_path
     end
   end
-
-  def check_admin_logged_in
-    if !current_admin
-      redirect_to new_admin_session_path
-    end
-  end
-
+  
   protected
 
   def configure_permitted_parameters
@@ -36,5 +30,6 @@ class ApplicationController < ActionController::Base
       redirect_to new_admin_session_path
     end
   end
+
 
 end

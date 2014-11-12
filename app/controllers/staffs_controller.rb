@@ -1,13 +1,15 @@
 class StaffsController < ApplicationController
 
   #callbacks
-  before_action :set_staff, only: [:edit, :show, :update]
-  before_action :check_admin_logged_in, only: [:update, :edit]
+  before_action :set_staff, only: [:home, :edit, :show, :update]
+  before_action :check_admin_logged_in, only: :index
+  before_action :admin_or_staff_logged_in?, only: [:update, :edit]
 
   layout 'admin'
 
 
   def home
+    render layout: 'application'
   end
 
   def index
@@ -33,8 +35,11 @@ class StaffsController < ApplicationController
   end
 
   def update
+    service_ids = service_param[:services].split(',')
+    @staff.service_ids = service_ids
+    # resource.save
     if @staff.update(staff_params)
-      redirect_to staff_home_path
+      redirect_to staff_path
     else
       render action: 'edit'
     end
@@ -46,11 +51,21 @@ class StaffsController < ApplicationController
     params.require(:staff).permit(:password, :password_confirmation)
   end
 
+  def service_param
+    params.require(:staff).permit(:services)
+  end
+
   def staff_params
-    params.require(:staff).permit(:name, :designation, :services)
+    params.require(:staff).permit(:name, :designation)
   end
 
   def set_staff
     @staff = Staff.find_by(id: params[:id])
+  end
+
+  def admin_or_staff_logged_in?
+    unless current_admin || current_staff
+      redirect_to new_admin_session_path
+    end
   end
 end

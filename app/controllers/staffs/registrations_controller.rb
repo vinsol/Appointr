@@ -1,7 +1,7 @@
 class Staffs::RegistrationsController < Devise::RegistrationsController
 
   #callbacks
-  # before_action :check_admin_logged_in, if: -> { current_staff }
+  before_action :check_admin_logged_in#, if: :current_staff
 
   # skip_before_action :authenticate_scope!, if: -> { current_admin }
 

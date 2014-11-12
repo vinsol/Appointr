@@ -1,3 +1,5 @@
-<h1>hey staff</h1>
+<h1>hey <%= current_staff.name.capitalize %></h1>
 
 <%= link_to 'Sign Out', destroy_staff_session_path, method: :delete %>
+|
+<%= link_to 'Edit', edit_staff_path(current_staff), method: :get %>
