@@ -2,6 +2,7 @@ class Staff < User
   validates :designation, presence: true
   validates :services, presence: true
   validates :password, presence: :true, if: :should_validate_password?
+  # TODO: Extract regex into a constant and move in User class. Use the constant everywhere.
   validates :password, format: { with: /\A[^\s]*\z/i, message: 'can not include spaces.' }, if: :should_validate_password?
   
   has_many :allocations
@@ -19,6 +20,7 @@ class Staff < User
     !encrypted_password && !new_record?
   end
 
+  # TODO: This method should not be present. Validations should not be tested in a regular method.
   def password_match?
     self.errors[:password] << "can't be blank" if password.blank?
     self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   
   #calbacks
+  # TODO: Put in a method and call the method here. Avoid using blocks here.
   before_save { self.email = email.downcase }
 
   #validations

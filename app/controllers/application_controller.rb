@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_admin_logged_in
+    # TODO: Do not redirect to new_admin_session_path. Redirect to home_path
     if !current_admin
       redirect_to new_admin_session_path
     end

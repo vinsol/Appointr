@@ -56,6 +56,7 @@ class StaffsController < ApplicationController
   end
 
   def set_staff
+    # TODO: Handle the case if staff is not found.
     @staff = Staff.find_by(id: params[:id])
   end
 
@@ -65,6 +66,7 @@ class StaffsController < ApplicationController
     end
   end
 
+  # TODO: Rename this method also. Same as check_admin_logged_in
   def check_staff_logged_in
     if !current_staff
       redirect_to new_staff_session_path

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # TODO: Fix indentation
     devise_for :admin, skip: :registrations
     devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' }
     devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
@@ -6,7 +7,7 @@ Rails.application.routes.draw do
     devise_scope :staff do
       patch "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
     end
-
+    # TODO: Remove these commented routes..
   # devise_for :users, :skip => [:registrations]
   # devise_for :staffs, :customers, :admins, controllers: { confirmations: 'users/confirmations' }#, :skip => :sessions
 

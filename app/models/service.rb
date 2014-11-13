@@ -3,6 +3,7 @@ class Service < ActiveRecord::Base
   ALLOWED_DURATIONS = [15, 30, 45, 60]
 
   #callbacks
+  # TODO: Rename to something like +ensure_not_allocated+
   before_destroy :check_for_allocations
 
   #validations
@@ -16,6 +17,7 @@ class Service < ActiveRecord::Base
 
   private
 
+  # TODO: Add proper error message explaining the reason why destroy failed.
   def check_for_allocations
     allocations.empty?
   end

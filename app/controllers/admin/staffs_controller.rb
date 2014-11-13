@@ -27,6 +27,8 @@ class Admin::StaffsController < ApplicationController
     end
   end
 
+  # TODO: Do we need this action here? It should only be for staff. Remove this from here as well as routes.
+  # TODO: Also, look for all other actions and check if they are actually needed.
   def update_password
     @staff = Staff.find_by(id: params[:staff][:id])
     @staff.confirmation_token = nil

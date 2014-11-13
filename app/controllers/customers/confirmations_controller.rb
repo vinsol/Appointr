@@ -10,6 +10,7 @@ class Customers::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # GET /resource/confirmation?confirmation_token=abcdef
+  # TODO: Do we need to keep it? Also, remove the un-necessary commented lines.
   def show
     super
   end
