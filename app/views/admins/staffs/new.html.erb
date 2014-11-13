@@ -1,0 +1,36 @@
+<h2>Create New Staff</h2>
+
+<%= form_for([:admin, @staff]) do |f| %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :designation %><br />
+    <%= f.text_field :designation %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :services %><br />
+    <%= f.text_field :services, value: '' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>
+
+<%= link_to 'back', staffs_path %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#staff_services").tokenInput("/services/search");
+  });
+</script>

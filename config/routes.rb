@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   get 'admin' => 'admins#home'
   get 'staff_home' => 'staffs#home'
 
+  namespace :admins do
+    resources :staffs do
+      patch 'update_password' => 'staffs#update_password', on: :member
+    end
+  end
+
   resources :services do
     get 'search', on: :collection
   end
