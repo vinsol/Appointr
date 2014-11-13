@@ -1,5 +1,10 @@
 <h2>Create New Staff</h2>
 
+<div class='errors'>
+  <% @staff.errors.full_messages.each do |message| %>
+    <p> <%= message %> </p>
+    <% end %>
+</div>
 <%= form_for([:admin, @staff]) do |f| %>
 
   <div class="field">
@@ -27,7 +32,7 @@
   </div>
 <% end %>
 
-<%= link_to 'back', staffs_path %>
+<%= link_to 'back', admin_staffs_path %>
 
 <script type="text/javascript">
   $(document).ready(function () {

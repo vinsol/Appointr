@@ -1,6 +1,8 @@
 class Staff < User
   validates :designation, presence: true
   validates :services, presence: true
+  validates :password, presence: :true, if: :should_validate_password?
+  validates :password, format: { with: /\A[^\s]*\z/i, message: 'can not include spaces.' }, if: :should_validate_password?
   
   has_many :allocations
   has_many :services, through: :allocations
@@ -11,6 +13,10 @@ class Staff < User
 
   def password_required?
     super if confirmed?
+  end
+
+  def should_validate_password?
+    !encrypted_password && !new_record?
   end
 
   def password_match?

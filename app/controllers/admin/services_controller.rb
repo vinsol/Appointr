@@ -1,4 +1,4 @@
-class Admins::ServicesController < ApplicationController
+class Admin::ServicesController < ApplicationController
 
   before_action :set_service, only: [:show, :edit, :update]
   before_action :check_admin_logged_in, only: [:index, :show, :new, :edit, :create, :update]
@@ -6,7 +6,7 @@ class Admins::ServicesController < ApplicationController
   layout 'admin'
 
   def index
-    @services = Service.order(:name)
+    @services = Service.order("LOWER(name)")
   end
 
   def show
@@ -22,7 +22,7 @@ class Admins::ServicesController < ApplicationController
   def create
     @service = Service.new(service_params)
     if @service.save
-      redirect_to @service,
+      redirect_to admin_service_path(@service),
         notice: 'Service was successfully created.'
     else
       render action: 'new'
@@ -31,16 +31,11 @@ class Admins::ServicesController < ApplicationController
 
   def update
     if @service.update(service_params)
-      redirect_to @service,
+      redirect_to admin_service_path(@service),
         notice: 'Service was successfully updated.'
     else
       render action: 'edit'
     end
-  end
-
-  def search
-    @services = Service.where("name like '#{ params[:q] }%'")
-    render json: @services
   end
 
   private

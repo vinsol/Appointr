@@ -1,4 +1,4 @@
-class Admins::StaffsController < ApplicationController
+class Admin::StaffsController < ApplicationController
 
   #callbacks
   before_action :set_staff, only: [:home, :edit, :show, :update]
@@ -7,11 +7,6 @@ class Admins::StaffsController < ApplicationController
   before_action :check_staff_logged_in, only: :home
 
   layout 'admin'
-
-
-  def home
-    render layout: 'application'
-  end
 
   def index
     @staffs = Staff.order(:name).includes(:services)
@@ -26,7 +21,7 @@ class Admins::StaffsController < ApplicationController
     service_ids = service_param[:services].split(',')
     @staff.service_ids = service_ids
     if @staff.save
-      redirect_to admin_path
+      redirect_to admin_staff_path(@staff)
     else
       render action: :new
     end
@@ -55,7 +50,7 @@ class Admins::StaffsController < ApplicationController
     @staff.service_ids = service_ids
     # resource.save
     if @staff.update(staff_params)
-      redirect_to staff_path
+      redirect_to admin_staff_path(@staff)
     else
       render action: 'edit'
     end

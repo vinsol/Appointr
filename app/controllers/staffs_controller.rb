@@ -13,10 +13,6 @@ class StaffsController < ApplicationController
     render layout: 'application'
   end
 
-  def index
-    @staffs = Staff.order(:name).includes(:services)
-  end
-
   def update_password
     @staff = Staff.find_by(id: params[:staff][:id])
     @staff.confirmation_token = nil
@@ -38,7 +34,6 @@ class StaffsController < ApplicationController
   def update
     service_ids = service_param[:services].split(',')
     @staff.service_ids = service_ids
-    # resource.save
     if @staff.update(staff_params)
       redirect_to staff_path
     else
