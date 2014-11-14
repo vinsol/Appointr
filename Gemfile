@@ -38,6 +38,8 @@ end
 group :development, :test do
   # Use debugger
   gem 'byebug', '3.4.1'
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'shoulda-matchers', require: false
 end
 
 group :production do
