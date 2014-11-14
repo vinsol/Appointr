@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
 
-  before_action :check_admin_logged_in, only: :home
+  before_action :user_has_admin_priveleges?, only: :home
   
   layout 'application'
 

@@ -3,7 +3,7 @@ class Admin::ServicesController < ApplicationController
   before_action :set_service, only: [:show, :edit, :update]
 
   # TODO: Rename this filter to something like +require_admin+ or something similar. Make this change all over the Application.
-  before_action :check_admin_logged_in, only: [:index, :show, :new, :edit, :create, :update]
+  before_action :user_has_admin_priveleges?, only: [:index, :show, :new, :edit, :create, :update]
 
   layout 'admin'
 

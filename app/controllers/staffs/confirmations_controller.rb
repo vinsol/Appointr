@@ -22,6 +22,7 @@ class Staffs::ConfirmationsController < Devise::ConfirmationsController
     if resource.valid? && resource.password_match?
       self.resource.confirm!
       set_flash_message :notice, :confirmed
+      debugger
       sign_in_and_redirect resource_name, resource
     else
       render :action => 'show'

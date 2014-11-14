@@ -3,7 +3,7 @@ class Staff < User
   validates :services, presence: true
   validates :password, presence: :true, if: :should_validate_password?
   # TODO: Extract regex into a constant and move in User class. Use the constant everywhere.
-  validates :password, format: { with: /\A[^\s]*\z/i, message: 'can not include spaces.' }, if: :should_validate_password?
+  validates :password, format: { with: PASSWORD_VALIDATOR_REGEX, message: 'can not include spaces.' }, if: :should_validate_password?
   
   has_many :allocations
   has_many :services, through: :allocations

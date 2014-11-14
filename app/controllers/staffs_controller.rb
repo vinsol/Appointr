@@ -1,10 +1,10 @@
 class StaffsController < ApplicationController
 
   #callbacks
-  before_action :set_staff, only: [:home, :edit, :show, :update]
-  before_action :check_admin_logged_in, only: :index
+  before_action :set_staff, only: [:edit, :show, :update]
+  before_action :user_has_admin_priveleges?, only: :index
   before_action :admin_or_staff_logged_in?, only: [:update, :edit]
-  before_action :check_staff_logged_in, only: :home
+  before_action :staff_logged_in?, only: :home
 
   layout 'admin'
 
@@ -58,6 +58,9 @@ class StaffsController < ApplicationController
   def set_staff
     # TODO: Handle the case if staff is not found.
     @staff = Staff.find_by(id: params[:id])
+    if !@staff
+      redirect_to staff_home_path
+    end
   end
 
   def admin_or_staff_logged_in?
@@ -67,7 +70,7 @@ class StaffsController < ApplicationController
   end
 
   # TODO: Rename this method also. Same as check_admin_logged_in
-  def check_staff_logged_in
+  def staff_logged_in?
     if !current_staff
       redirect_to new_staff_session_path
     end

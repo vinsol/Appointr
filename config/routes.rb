@@ -1,15 +1,13 @@
 Rails.application.routes.draw do
   # TODO: Fix indentation
-    devise_for :admin, skip: :registrations
-    devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' }
-    devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
+  devise_for :admin, skip: :registrations
+  devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' }, skip: :registrations
+  devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
 
-    devise_scope :staff do
-      patch "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
-    end
-    # TODO: Remove these commented routes..
-  # devise_for :users, :skip => [:registrations]
-  # devise_for :staffs, :customers, :admins, controllers: { confirmations: 'users/confirmations' }#, :skip => :sessions
+  devise_scope :staff do
+    patch "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
+  end
+  # TODO: Remove these commented routes..
 
   root 'customers#home'
 
@@ -23,7 +21,7 @@ Rails.application.routes.draw do
     resources :services
   end
 
-  resources :staffs, except: [:new, :create, :index] do
+  resources :staffs, except: [:new, :create, :index], constraints: {id: /[0-9]+/} do
     patch 'update_password' => 'staffs#update_password', on: :member
   end
 
