@@ -27,9 +27,8 @@ class ApplicationController < ActionController::Base
   end
 
   def user_has_admin_priveleges?
-    # TODO: Do not redirect to new_admin_session_path. Redirect to home_path
     if !current_admin
-      redirect_to root_path
+      redirect_to root_path, notice: 'Access Denied'
     end
   end
 

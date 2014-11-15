@@ -19,12 +19,4 @@ class Staff < User
   def should_validate_password?
     encrypted_password.empty? && !new_record?
   end
-  
-  # TODO: This method should not be present. Validations should not be tested in a regular method.
-  def password_match?
-    self.errors[:password] << "can't be blank" if password.blank?
-    self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
-    self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
-    password == password_confirmation && !password.blank?
-  end
 end

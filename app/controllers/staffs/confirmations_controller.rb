@@ -19,10 +19,9 @@ class Staffs::ConfirmationsController < Devise::ConfirmationsController
     self.resource = resource_class.find_by_confirmation_token! digested_token
     resource.assign_attributes(permitted_params) unless params[resource_name].nil?
 
-    if resource.valid? && resource.password_match?
+    if resource.valid?
       self.resource.confirm!
       set_flash_message :notice, :confirmed
-      debugger
       sign_in_and_redirect resource_name, resource
     else
       render :action => 'show'

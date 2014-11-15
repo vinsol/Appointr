@@ -1,7 +1,7 @@
 class Admin::StaffsController < ApplicationController
 
   #callbacks
-  before_action :set_staff, only: [:home, :edit, :show, :update]
+  before_action :set_staff, only: [:edit, :show, :update]
   before_action :user_has_admin_priveleges?, only: [:index, :new, :create]
   before_action :admin_or_staff_logged_in?, only: [:update, :edit]
   before_action :staff_logged_in?, only: :home
@@ -26,9 +26,6 @@ class Admin::StaffsController < ApplicationController
       render action: :new
     end
   end
-
-  # TODO: Do we need this action here? It should only be for staff. Remove this from here as well as routes.
-  # TODO: Also, look for all other actions and check if they are actually needed.
 
   def show
   end

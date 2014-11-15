@@ -56,10 +56,9 @@ class StaffsController < ApplicationController
   end
 
   def set_staff
-    # TODO: Handle the case if staff is not found.
     @staff = Staff.find_by(id: params[:id])
     if !@staff
-      redirect_to staff_home_path
+      redirect_to staff_home_path, notice: 'Staff does not exists.'
     end
   end
 
@@ -69,7 +68,6 @@ class StaffsController < ApplicationController
     end
   end
 
-  # TODO: Rename this method also. Same as check_admin_logged_in
   def staff_logged_in?
     if !current_staff
       redirect_to new_staff_session_path
