@@ -4,9 +4,6 @@ class Admin::StaffsController < ApplicationController
   before_action :set_staff, only: [:edit, :show, :update]
   before_action :user_has_admin_priveleges?, only: [:index, :new, :create]
   before_action :admin_or_staff_logged_in?, only: [:update, :edit]
-
-  # TODO: No need of this as we are doing set_staff in home action.
-  # I have removed set_staff from home due to looping problems.
   before_action :staff_logged_in?, only: :home
 
   layout 'admin'
