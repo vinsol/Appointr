@@ -1,26 +1,27 @@
 Rails.application.routes.draw do
-    devise_for :admins#, controllers: { confirmations: 'admins/confirmations' }
-    devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' , registrations: 'staffs/registrations' }
-    devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
+  devise_for :admin, skip: :registrations
+  devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' }, skip: :registrations
+  devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
 
-    devise_scope :staff do
-      put "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
-    end
-
-  # devise_for :users, :skip => [:registrations]
-  # devise_for :staffs, :customers, :admins, controllers: { confirmations: 'users/confirmations' }#, :skip => :sessions
+  devise_scope :staff do
+    patch "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
+  end
 
   root 'customers#home'
 
-  get 'admin' => 'admins#home'
   get 'staff_home' => 'staffs#home'
 
-  resources :services do
-    get 'search', on: :collection
+  namespace :admin do
+    resources :staffs do
+      patch 'update_password' => 'staffs#update_password', on: :member
+    end
+    resources :services
+    get '/' => 'admin#home'
   end
 
-  resources :staffs do
+  resources :staffs, except: [:new, :create, :index], constraints: {id: /[0-9]+/} do
     patch 'update_password' => 'staffs#update_password', on: :member
   end
 
+  get 'services/search' => 'services#search'
 end
