@@ -4,5 +4,4 @@ class Availability < ActiveRecord::Base
 
   belongs_to :staff
   has_many :services, through: :availability_services
-
 end
