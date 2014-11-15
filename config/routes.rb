@@ -9,7 +9,6 @@ Rails.application.routes.draw do
 
   root 'customers#home'
 
-  get 'admin' => 'admin#home'
   get 'staff_home' => 'staffs#home'
 
   namespace :admin do
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
       patch 'update_password' => 'staffs#update_password', on: :member
     end
     resources :services
+    get '/' => 'admin#home'
   end
 
   resources :staffs, except: [:new, :create, :index], constraints: {id: /[0-9]+/} do
