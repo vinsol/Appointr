@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       patch 'update_password' => 'staffs#update_password', on: :member
     end
     resources :services
+    resources :availabilities
     get '/' => 'admin#home'
   end
 

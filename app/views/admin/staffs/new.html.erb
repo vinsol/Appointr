@@ -3,7 +3,7 @@
 <div class='errors'>
   <% @staff.errors.full_messages.each do |message| %>
     <p> <%= message %> </p>
-    <% end %>
+  <% end %>
 </div>
 <%= form_for([:admin, @staff]) do |f| %>
 

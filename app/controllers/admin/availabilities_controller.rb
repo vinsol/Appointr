@@ -1,7 +1,7 @@
 class Admin::AvailabilitiesController < ApplicationController
 
   #callbacks
-  before_action :set_availability, only [:show, :edit]
+  before_action :set_availability, only: [:show, :edit]
 
   def new
     @availability = Availability.new
@@ -11,10 +11,10 @@ class Admin::AvailabilitiesController < ApplicationController
     @availability = Availability.new(availability_params)
     service_ids = service_param[:services].split(',')
     @availability.services_ids = services_ids
-    if @staff.save
-      redirect_to admin_avalability_path(@staff)
+    if @availability.save
+      redirect_to admin_avalability_path(@availability)
     else
-      render action: :new
+      render action: 'new'
     end
   end
 
@@ -35,7 +35,7 @@ class Admin::AvailabilitiesController < ApplicationController
       redirect_to admin_availability_path(@availability)
     else
       render action: 'edit'
-    en
+    end
   end
 
   private
