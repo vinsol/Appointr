@@ -1,0 +1,39 @@
+<div class='errors'>
+  <% @availability.errors.full_messages.each do |message| %>
+    <p> <%= message %> </p>
+  <% end %>
+</div>
+
+<%= form_for [:admin, @availability] do |f| %>
+  <div class="field">
+    <%= f.label :staff %><br />
+    <%= f.collection_select :staff, Staff.all, :id, :name, prompt: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :services %><br />
+    <%= f.select :services, multiple: true %>
+  </div>
+
+  <div class="field col-md-3">
+    <%= f.label :start_time %><br />
+    <%= f.time_select :start_time %>
+  </div>
+  <div class='field col-md-9'>
+    <%= f.label :end_time %><br />
+    <%= f.time_select :end_time %>
+  </div>
+
+  <div class="field col-md-3">
+    <%= f.label :start_date %><br />
+    <%= f.date_select :start_date %>
+  </div>
+  <div class='field col-md-9'>
+    <%= f.label :end_date %><br />
+    <%= f.date_select :end_date %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>
