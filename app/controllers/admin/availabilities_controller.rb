@@ -3,6 +3,8 @@ class Admin::AvailabilitiesController < ApplicationController
   #callbacks
   before_action :set_availability, only: [:show, :edit]
 
+  layout 'admin'
+
   def new
     @availability = Availability.new
   end

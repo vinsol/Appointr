@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
     resources :services
     resources :availabilities
+    resources :customers, except: [:new, :create]
     get '/' => 'admin#home'
   end
 
