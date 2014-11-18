@@ -28,7 +28,7 @@ class Admin::AvailabilitiesController < ApplicationController
   end
 
   def index
-    @availabilities = Availability.all
+    @availabilities = Availability.joins(:staff).order('users.name')
   end
 
   def update
@@ -63,7 +63,7 @@ class Admin::AvailabilitiesController < ApplicationController
   end
 
   def service_param
-    params.require(:availability).require(:services).reject { |service_id| service_id.empty? }
+    params.require(:availability).require(:service_ids).reject { |service_id| service_id.empty? }
   end
 
   def staff_param

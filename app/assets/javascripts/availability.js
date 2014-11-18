@@ -1,6 +1,6 @@
 function FillSelect() {
   this.parentSelect = $("#availability_staff");
-  this.childSelect = $("#availability_services");
+  this.childSelect = $("#availability_service_ids");
 }
 
 FillSelect.prototype.fillChild = function() {

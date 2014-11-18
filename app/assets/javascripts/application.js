@@ -15,5 +15,5 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require jquery.tokeninput
+//= require jquery.ui.widget
 //= require jquery.multiselect
-//= require_tree .

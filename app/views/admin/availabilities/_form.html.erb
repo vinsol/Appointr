@@ -13,10 +13,14 @@
       <%= f.select :staff, options_for_select(get_staff_options, @availability.staff.id), { prompt: true }, { disabled: true } %> 
     <% end %>
   </div>
-
+  
   <div class="field">
-    <%= f.label :services %><br />
-    <%= f.select :services, @availability.services.collect { |service| [service.name, service.id] }, { prompt: 'select staff' }, { multiple: true } %>
+    <%= f.label :services_ids %><br />
+    <% if !@availability.new_record?%>
+      <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
+    <% else %>
+      <%= f.select :service_ids, @availability.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
+    <% end %>
   </div>
 
   <div class="field col-md-3">
@@ -46,12 +50,3 @@
     <%= f.submit "Create" %>
   </div>
 <% end %>
-
-<%= javascript_include_tag 'availability' %>
-
-<script type="text/javascript">
-  $(function(){
-     $("#availability_services").multiselect(); 
-  });
-</script>
-
