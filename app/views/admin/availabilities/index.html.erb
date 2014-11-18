@@ -1,0 +1,60 @@
+<h1>Listing availabilities</h1>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Staff
+    </th>
+    <th>
+      Services
+    </th>
+    <th>
+      Start Time
+    </th>
+    <th>
+      End Time
+    </th>
+    <th>
+      Start Date
+    </th>
+    <th>
+      End Date
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+  <% @availabilities.each do |availability| %>
+    <tr> 
+      <td>
+        <%= availability.staff.name %>
+      </td>
+      <td>
+        <%= availability.services.map(&:name).join(', ') %>
+      </td>
+      <td>
+        <%= TimeOfDay.get(availability.start_time) %>
+      </td>
+      <td>
+        <%= TimeOfDay.get(availability.end_time) %>
+      </td>
+      <td>
+        <%= availability.start_date %>
+      </td>
+      <td>
+        <%= availability.end_date %>
+      </td>
+      <td>
+        <%= link_to 'Show', admin_availability_path(availability.id) %>
+        |
+        <%= link_to 'Edit', edit_admin_availability_path(availability), method: :get %><br/>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'Create New Availability', new_admin_availability_path %>
+<br />

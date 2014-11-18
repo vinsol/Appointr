@@ -1,0 +1,41 @@
+<h1>Listing customers</h1>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Name
+    </th>
+    <th>
+      Email
+    </th>
+    <th>
+      Enabled
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+  <% @customers.each do |customer| %>
+    <tr> 
+      <td>
+        <%= customer.name %>
+      </td>
+      <td>
+        <%= customer.email %>
+      </td>
+      <td>
+        <%= customer.enabled %>
+      </td>
+      <td>
+        <%= link_to 'Show', admin_customer_path(customer.id) %>
+        |
+        <%= link_to 'Edit', edit_admin_customer_path(customer), method: :get %><br/>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<br />

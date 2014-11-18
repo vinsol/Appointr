@@ -1,0 +1,37 @@
+<p>
+  <strong>Staff:</strong>
+  <%= @availability.staff.name.capitalize %>
+</p>
+
+<p>
+  <strong>Services:</strong>
+  <%= @availability.services.map(&:name).join(', ') %>
+</p>
+
+<p>
+  <strong>Start Time:</strong>
+  <%= TimeOfDay.get(@availability.start_time) %>
+</p>
+
+<p>
+  <strong>End Time:</strong>
+  <%= TimeOfDay.get(@availability.end_time) %>
+</p>
+
+<p>
+  <strong>Start Date:</strong>
+  <%= @availability.start_date %>
+</p>
+
+<p>
+  <strong>End Date:</strong>
+  <%= @availability.end_date %>
+</p>
+
+<p>
+  <strong>Enabled:</strong>
+  <%= @availability.enabled? %>
+</p>
+
+<%= link_to 'Edit', edit_admin_availability_path(@availability) %> |
+<%= link_to 'Back', admin_availabilities_path %>
