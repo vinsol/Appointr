@@ -1,3 +1,7 @@
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
 <div class='container-fluid'>
   <div class='row'>
     <div class='col-md-10'>
@@ -9,6 +13,8 @@
       <%= link_to 'Services', admin_services_path %>
       |
       <%= link_to 'Staff', admin_staffs_path %>
+      |
+      <%= link_to 'Availabilities', admin_availabilities_path %>
     </div>
   </div>
 </div>

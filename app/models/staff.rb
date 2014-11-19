@@ -7,6 +7,8 @@ class Staff < User
   
   has_many :allocations
   has_many :services, through: :allocations
+  has_many :availabilities
+  has_many :available_services, through: :availabilities, source: 'Service', foreign_key: 'service_id'
 
   def only_if_unconfirmed
     pending_any_confirmation {yield}

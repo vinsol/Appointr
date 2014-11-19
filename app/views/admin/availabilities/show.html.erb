@@ -1,0 +1,97 @@
+<div class='col-md-4'>
+</div>
+
+<div class='col-md-2'>
+  <p>
+    <strong>Staff:</strong>
+  </p>
+</div>
+<div class="col-md-6">
+  <p>
+    <%= @availability.staff.name.capitalize %>
+  </p>
+</div>
+<div class='col-md-4'>
+</div>
+
+<div class='col-md-2'>
+  <p>
+    <strong>Services:</strong>
+  </p>
+</div>
+<div class="col-md-6">
+  <p>
+    <%= @availability.services.map(&:name).join(', ') %>
+  </p>
+</div>
+<div class='col-md-4'>
+</div>
+
+<div class='col-md-2'>
+  <p>
+    <strong>Start Time:</strong>
+  </p>
+</div>
+<div class="col-md-6">
+  <p>
+    <%= @availability.start_time %>
+  </p>
+</div>
+<div class='col-md-4'>
+</div>
+
+<div class='col-md-2'>
+  <p>
+    <strong>End Time:</strong>
+  </p>
+</div>
+<div class="col-md-6">
+  <p>
+    <%= @availability.end_time %>
+  </p>
+</div>
+<div class='col-md-4'>
+</div>
+
+<div class='col-md-2'>
+  <p>
+    <strong>Start Date:</strong>
+  </p>
+</div>
+<div class="col-md-6">
+  <p>
+    <%= @availability.start_date %>
+  </p>
+</div>
+<div class='col-md-4'>
+</div>
+
+<div class='col-md-2'>
+  <p>
+    <strong>End Date:</strong>
+  </p>
+</div>
+<div class="col-md-6">
+  <p>
+    <%= @availability.end_date %>
+  </p>
+</div>
+<div class='col-md-4'>
+</div>
+
+<div class='col-md-2'>
+  <p>
+    <strong>Enabled:</strong>
+  </p>
+</div>
+<div class="col-md-6">
+  <p>
+    <%= @availability.enabled? %>
+  </p>
+</div>
+<div class='col-md-5'>
+</div>
+<div class='col-md-7'>
+  <%= link_to 'Edit', edit_admin_availability_path(@availability) %> |
+  <%= link_to 'Back', admin_availabilities_path %>
+</div>
