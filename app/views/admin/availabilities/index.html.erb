@@ -4,6 +4,8 @@
   <p><%= flash[:notice] %></p>
 <% end %>
 
+<%= select_month(14, prompt: 'All') %>
+
 <table class = 'table table-hover table-striped'>
   <tr>
     <th>
@@ -29,7 +31,7 @@
     </th>
   </tr>
   <% @availabilities.each do |availability| %>
-    <tr> 
+    <tr class='availability'> 
       <td>
         <%= availability.staff.name %>
       </td>
@@ -37,15 +39,15 @@
         <%= availability.services.map(&:name).join(', ') %>
       </td>
       <td>
-        <%= TimeOfDay.get(availability.start_time) %>
+        <%= availability.start_time %>
       </td>
       <td>
-        <%= TimeOfDay.get(availability.end_time) %>
+        <%= availability.end_time %>
       </td>
-      <td>
+      <td class='start_date'>
         <%= availability.start_date %>
       </td>
-      <td>
+      <td class='end_date'>
         <%= availability.end_date %>
       </td>
       <td>
@@ -58,3 +60,4 @@
 </table>
 <%= link_to 'Create New Availability', new_admin_availability_path %>
 <br />
+<%= javascript_include_tag 'availability_filter' %>

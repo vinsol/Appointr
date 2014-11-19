@@ -2,6 +2,9 @@ class Admin::AvailabilitiesController < ApplicationController
 
   #callbacks
   before_action :set_availability, only: [:show, :edit, :update]
+  before_action :user_has_admin_priveleges?, only: [:index, :show, :new, :edit, :create, :update]
+
+  layout 'admin'
 
   def new
     @availability = Availability.new
@@ -11,9 +14,6 @@ class Admin::AvailabilitiesController < ApplicationController
     @availability = Availability.new(availability_params)
     @availability.service_ids = service_param
     @availability.staff_id = staff_param[:staff]
-    # @availability.start_time = TimeOfDay.set(time_params['start_time(4i)'].to_i, time_params['start_time(5i)'].to_i)
-    # @availability.end_time = TimeOfDay.set(time_params['end_time(4i)'].to_i, time_params['end_time(5i)'].to_i)
-    set_time
     if @availability.save
       redirect_to admin_availability_path(@availability)
     else
@@ -32,14 +32,7 @@ class Admin::AvailabilitiesController < ApplicationController
   end
 
   def update
-    # service_ids = service_param[:services].split(',')
     @availability.service_ids = service_param
-    # if(staff_param[:staff])
-    #   @availability.staff_id = staff_param[:staff]
-    # end
-    # @availability.start_time = TimeOfDay.set(time_params['start_time(4i)'].to_i, time_params['start_time(5i)'].to_i)
-    # @availability.end_time = TimeOfDay.set(time_params['end_time(4i)'].to_i, time_params['end_time(5i)'].to_i)
-    set_time
     if @availability.update(availability_params)
       redirect_to admin_availability_path(@availability)
     else
@@ -49,13 +42,8 @@ class Admin::AvailabilitiesController < ApplicationController
 
   private
 
-  def set_time
-    @availability.start_time = TimeOfDay.set(time_params['start_time(4i)'].to_i, time_params['start_time(5i)'].to_i)
-    @availability.end_time = TimeOfDay.set(time_params['end_time(4i)'].to_i, time_params['end_time(5i)'].to_i)
-  end
-
   def availability_params
-    params.require(:availability).permit(:start_date, :end_date, :enabled)
+    params.require(:availability).permit(:start_time, :end_time, :start_date, :end_date, :enabled)
   end
 
   def time_params

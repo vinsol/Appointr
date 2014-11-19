@@ -8,45 +8,44 @@
   <div class="field">
     <%= f.label :staff %><br />
     <% if @availability.new_record?%>
-      <%= f.select :staff, options_for_select(get_staff_options), { prompt: true } %> 
+      <%= f.select :staff, options_for_select(get_staff_options), { prompt: true } %>
     <% else %>
-      <%= f.select :staff, options_for_select(get_staff_options, @availability.staff.id), { prompt: true }, { disabled: true } %> 
+      <%= f.select :staff, options_for_select(get_staff_options, @availability.staff.id), { prompt: true }, { disabled: true } %>
     <% end %>
   </div>
-  
-  <div class="field">
+  <div class="field">  
     <%= f.label :services_ids %><br />
-    <% if !@availability.new_record?%>
-      <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
-    <% else %>
+    <% if @availability.new_record?%>
       <%= f.select :service_ids, @availability.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
+    <% else %>
+      <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
     <% end %>
   </div>
 
-  <div class="field col-md-3">
+  <div class="field col-md-4">
     <%= f.label :start_time %><br />
-    <%= f.time_select :start_time %>
+    <%= f.time_select :start_time%>
   </div>
-  <div class='field col-md-9'>
+  <div class='field col-md-8'>
     <%= f.label :end_time %><br />
     <%= f.time_select :end_time %>
   </div>
 
-  <div class="field col-md-3">
+  <div class="field col-md-4">
     <%= f.label :start_date %><br />
-    <%= f.date_select :start_date %>
+    <%= f.date_select :start_date, start_year: Date.today.year %>
   </div>
-  <div class='field col-md-9'>
+  <div class='field col-md-8'>
     <%= f.label :end_date %><br />
-    <%= f.date_select :end_date %>
+    <%= f.date_select :end_date, start_year: Date.today.year %>
   </div>
 
   <div class="field">
-    <%= f.label :enabled %><br>
+    <%= f.label :enabled %>
     <%= f.check_box :enabled %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Create" %>
+    <%= f.submit "Submit" %>
   </div>
 <% end %>
