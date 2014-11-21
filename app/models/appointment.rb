@@ -10,7 +10,7 @@ class Appointment < ActiveRecord::Base
   # Validations
   validates :service, :customer, :start_at, :duration, :date, presence: true
   validates :duration, numericality: { greater_than_or_equal_to: @service_duration || 15}, if: :service
-  validate :appointment_time_not_in_past, :if :start_at
+  validate :appointment_time_not_in_past, if: :start_at
   validate :staff_allotable?, if: :staff
   before_save :assign_staff, unless: :staff
 

@@ -31,7 +31,20 @@ $(document).ready(function() {
     $('#calendar').fullCalendar({
       // put your options and callbacks here
       contentHeight: 400,
-      aspectRatio: 2
+      aspectRatio: 2,
+      overLap: false,
+      eventSources: [
+        {
+          url: '/availabilities',
+          color: 'green',
+          textColor: 'blue'
+        },
+        {
+          url: '/appointments',
+          color: 'red',
+          textColor: 'blue'
+        }
+      ]
     })
 
 });
