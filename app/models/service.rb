@@ -10,6 +10,9 @@ class Service < ActiveRecord::Base
   #associations
   has_many :allocations, dependent: :restrict_with_error
   has_many :staffs, through: :allocations
+  has_many :availabilities
+  has_many :available_staff, through: :availabilities, source: 'Staff', foreign_key: 'staff_id'
+
 
   private
 
