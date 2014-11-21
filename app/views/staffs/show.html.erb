@@ -1,3 +1,9 @@
+<% if :notice %>
+  <div class="row">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
 <p>
   <strong>Name:</strong>
   <%= @staff.name %>

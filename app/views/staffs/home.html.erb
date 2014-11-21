@@ -1,3 +1,7 @@
+<% if :notice %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
 <h1>hey <%= current_staff.name.capitalize %></h1>
 
 <%= link_to 'Sign Out', destroy_staff_session_path, method: :delete %>

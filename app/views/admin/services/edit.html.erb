@@ -1,5 +1,11 @@
 <h1>Editing service</h1>
 
+<% if :notice %>
+  <div class="row">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
 <%= render 'form' %>
 
 <%= link_to 'Show', admin_service_path(@service) %> |
