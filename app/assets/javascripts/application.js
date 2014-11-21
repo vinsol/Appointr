@@ -17,3 +17,6 @@
 //= require jquery.tokeninput
 //= require jquery.ui.widget
 //= require jquery.multiselect
+//= require jquery.min
+//= require moment.min
+//= require fullcalendar
