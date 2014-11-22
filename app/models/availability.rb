@@ -15,6 +15,27 @@ class Availability < ActiveRecord::Base
   has_many :availability_services, class_name: 'AvailabilityService', dependent: :destroy
   has_many :services, through: :availability_services
 
+  attr_accessor :title, :start, :end
+
+
+  def get_full_calendar_json
+    self.title = staff.name
+    start_hour = start_time.localtime.hour
+    start_minute = start_time.localtime.min
+    end_hour = end_time.localtime.hour
+    end_minute = end_time.localtime.min
+
+    self.start = start_date.to_s + 'T' + start_hour.to_s + ':' + start_minute.to_s + ':00'
+    self.end = start_date.to_s + 'T' + end_hour.to_s + ':' + end_minute.to_s + ':00'
+
+    {  
+      title: title,
+      start: start,
+      end: self.end,
+      allDay: false
+    }
+
+  end
 
   protected
 
@@ -29,5 +50,6 @@ class Availability < ActiveRecord::Base
       errors[:start_date] << 'can not be in past'
     end
   end
+
 
 end

@@ -10,6 +10,7 @@
       <% else %>
       <%= link_to 'Sign Out', destroy_customer_session_path, method: :delete %>
       <%= link_to 'Edit Profile', edit_customer_registration_path %>
+      <%= select_tag 'service', options_from_collection_for_select(Service.all, 'id', 'name'), prompt: 'Select Service' %>
       <% end %>
     </div>
   </div>
@@ -33,6 +34,15 @@ $(document).ready(function() {
       contentHeight: 400,
       aspectRatio: 2,
       overLap: false,
+      defaultView: 'agendaWeek',
+      allDaySlot: false,
+      selectable: true,
+      slotMinutes: 15,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'agendaWeek,agendaDay'
+      },
       eventSources: [
         {
           url: '/availabilities',
