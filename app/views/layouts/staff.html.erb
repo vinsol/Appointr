@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "AppointmentManager" %></title>
-    
+    <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
@@ -13,8 +13,6 @@
     <![endif]-->
 
     <%= stylesheet_link_tag "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
-    <%= csrf_meta_tags %>
 
     <!-- For third-generation iPad with high-resolution Retina display: -->
     <!-- Size should be 144 x 144 pixels -->
@@ -36,7 +34,7 @@
     <!-- Size should be 32 x 32 pixels -->
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
-
+    <%= javascript_include_tag "application" %>
   </head>
   <body>
 
@@ -50,11 +48,9 @@
         <p class="navbar-brand">AppointmentManager</p>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to 'Home', admin_path %></li>
-            <li><%= link_to 'Services', admin_services_path %></li>
-            <li><%= link_to 'Staff', admin_staffs_path %></li>
-            <li><%= link_to 'Availabilities', admin_availabilities_path %></li>
-            <li><%= link_to 'Signout', destroy_admin_session_path, method: :delete %></li>
+            <li><%= link_to 'Home', staff_home_path %></li>
+            <li><%= link_to 'Edit Profile', edit_staff_path(current_staff), method: :get %></li>
+            <li><%= link_to 'Sign Out', destroy_staff_session_path, method: :delete %></li>
           </ul>
         </div>
       </div>
@@ -66,12 +62,10 @@
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
-        <div class="col-lg-3">
-        </div><!--/span-->
       </div><!--/row-->
 
       <footer>
-        <p>&copy; Vinsol 2014</p>
+        <p>&copy; Company 2014</p>
       </footer>
 
     </div> <!-- /container -->

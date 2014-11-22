@@ -1,11 +1,15 @@
-<h1>New service</h1>
+<div class='col-md-4'>
+</div>
+<div class='col-md-8'>
+  <h1>New service</h1>
 
-<% if :notice %>
-  <div class="row">
-    <%= flash[:notice] %>
-  </div>
-<% end %>
+  <% if :notice %>
+    <div class="row">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
-<%= link_to 'Back', admin_services_path %>
+  <%= link_to 'Back', admin_services_path %>
+</div>
