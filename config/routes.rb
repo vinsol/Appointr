@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admin, skip: :registrations
   devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' }, skip: :registrations
-  devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
+  devise_for :customers, controllers: { confirmations: 'customers/confirmations', registrations: 'customers/registrations' }
 
   devise_scope :staff do
     patch "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
