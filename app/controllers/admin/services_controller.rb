@@ -44,7 +44,7 @@ class Admin::ServicesController < ApplicationController
   def set_service
     unless @service = Service.find_by(id: params[:id])
       flash[:notice] = 'No service found.'
-      redirect_to services_path
+      redirect_to admin_services_path
     end
   end
 

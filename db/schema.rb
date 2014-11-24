@@ -23,13 +23,13 @@ ActiveRecord::Schema.define(version: 20141117192752) do
 
   create_table "availabilities", force: true do |t|
     t.integer  "staff_id"
-    t.time     "start_time"
-    t.time     "end_time"
     t.date     "start_date"
     t.date     "end_date"
     t.boolean  "enabled"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "start_time"
+    t.time     "end_time"
   end
 
   create_table "availability_services", force: true do |t|

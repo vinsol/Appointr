@@ -15,4 +15,4 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require jquery.tokeninput
-//= require_tree .
+//= require jquery.ui.widget
