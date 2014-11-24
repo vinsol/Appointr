@@ -17,8 +17,9 @@ Rails.application.routes.draw do
     resources :staffs do
       patch 'update_password' => 'staffs#update_password', on: :member
     end
-    resources :services
-    resources :availabilities
+    resources :services, except: :destroy
+    resources :availabilities, except: :destroy
+    resources :customers, except: [:new, :create]
     get '/' => 'admin#home'
   end
 
