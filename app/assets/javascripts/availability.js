@@ -3,19 +3,23 @@ function FillSelect() {
   this.childSelect = $("#availability_service_ids");
 }
 
-FillSelect.prototype.fillChild = function() {
-  var services = $("#availability_staff option:selected").data('services'),
-      _this = this
+FillSelect.prototype.init = function() {
+  this.fillChild();
+  this.bindEvents();
+}
 
-  this.childSelect.html('')
+FillSelect.prototype.fillChild = function() {
+  var service_ids = String($("#availability_staff option:selected").data('service_ids')).split(' '),
+      _this = this;
+  this.childSelect.children().hide()
   if(this.parentSelect.val()) {
-    $.each(services, function(index, service) {
-      $option = $("<option>", { 'value': service['id'], 'text': service['name'] });
-      _this.childSelect.append($option);
+
+    $.each(service_ids, function(index, service) {
+      _this.childSelect.children('option[value = "' + service + '"]').show()
     });
   }
   else {
-    this.childSelect.append($('<option>', { 'value': '', 'text': 'select staff' }))
+    _this.childSelect.children().first().show()
   }
 
 }
@@ -29,6 +33,5 @@ FillSelect.prototype.bindEvents = function() {
 
 $(function() {
   var fillSelect = new FillSelect();
-  fillSelect.fillChild();
-  fillSelect.bindEvents();
+  fillSelect.init();
 })

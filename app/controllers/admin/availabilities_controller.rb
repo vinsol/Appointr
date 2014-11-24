@@ -15,7 +15,7 @@ class Admin::AvailabilitiesController < ApplicationController
     @availability.service_ids = service_param
     @availability.staff_id = staff_param[:staff]
     if @availability.save
-      redirect_to admin_availability_path(@availability)
+      redirect_to admin_availability_path(@availability), notice: 'Availability successfully created.'
     else
       render action: 'new'
     end
@@ -28,13 +28,13 @@ class Admin::AvailabilitiesController < ApplicationController
   end
 
   def index
-    @availabilities = Availability.joins(:staff).order('users.name')
+    @availabilities = Availability.joins(:staff).order('users.name').includes(:services)
   end
 
   def update
     @availability.service_ids = service_param
     if @availability.update(availability_params)
-      redirect_to admin_availability_path(@availability)
+      redirect_to admin_availability_path(@availability), notice: 'Availability successfully updated.'
     else
       render action: 'edit'
     end
@@ -44,10 +44,6 @@ class Admin::AvailabilitiesController < ApplicationController
 
   def availability_params
     params.require(:availability).permit(:start_time, :end_time, :start_date, :end_date, :enabled)
-  end
-
-  def time_params
-    params.require(:availability).permit(:start_time, :end_time)
   end
 
   def service_param

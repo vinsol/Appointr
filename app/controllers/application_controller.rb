@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     elsif resource.type == 'Staff'
       staff_home_path
     else
-      root_path
+      customer_home_path
     end
   end
   

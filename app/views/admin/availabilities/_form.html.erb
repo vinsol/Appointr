@@ -16,7 +16,7 @@
   <div class="field">  
     <%= f.label :services_ids %><br />
     <% if @availability.new_record?%>
-      <%= f.select :service_ids, @availability.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
+      <%= f.select :service_ids, Service.all.collect { |service| [service.name, service.id] }, { prompt: 'select staff' }, { multiple: true } %>
     <% else %>
       <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
     <% end %>

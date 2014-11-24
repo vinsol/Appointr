@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     patch "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
   end
 
-  root 'customers#home'
+  root 'home#welcome'
+
+  get 'customer_home' => 'customers#home'
 
   get 'staff_home' => 'staffs#home'
 

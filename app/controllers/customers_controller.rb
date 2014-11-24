@@ -1,9 +1,6 @@
 class CustomersController < ApplicationController
-
+  layout 'customer'
   
   def home
-  if current_customer
-    render layout: 'customer'
-  end
   end
 end
