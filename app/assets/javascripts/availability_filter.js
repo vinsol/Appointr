@@ -6,9 +6,9 @@ Filter.prototype.show_selected_months = function() {
   var _this = this
   if(this.monthSelect.val()) {
     $('.availability').each(function(index) {
-      var selectedMonth = parseInt(_this.monthSelect.val());
-      startMonth = (new Date($(this).children('.start_date').text())).getMonth() + 1;
-      endMonth = (new Date($(this).children('.end_date').text())).getMonth() + 1;
+      var selectedMonth = parseInt(_this.monthSelect.val()),
+          startMonth = (new Date($(this).children('.start_date').text())).getMonth() + 1,
+          endMonth = (new Date($(this).children('.end_date').text())).getMonth() + 1;
 
       $(this).hide();
       _this.checkAndShowAvailability(startMonth, endMonth, selectedMonth, $(this))
@@ -20,7 +20,7 @@ Filter.prototype.show_selected_months = function() {
 
 }
 
-Filter.prototype.checkAndShowAvailability = function(startMont, endMonth, selectedMonth, $availability) {
+Filter.prototype.checkAndShowAvailability = function(startMonth, endMonth, selectedMonth, $availability) {
   if(startMonth < endMonth) {
     if(startMonth <= selectedMonth && endMonth >= selectedMonth) {
       $availability.show()
