@@ -28,34 +28,43 @@
 $(document).ready(function() {
 
     // page is now ready, initialize the calendar...
+  $('#service').on('change', function() {
+    var value = $(this).val()
+    if(value) {
 
-    $('#calendar').fullCalendar({
-      // put your options and callbacks here
-      contentHeight: 400,
-      aspectRatio: 2,
-      overLap: false,
-      defaultView: 'agendaWeek',
-      allDaySlot: false,
-      selectable: true,
-      slotMinutes: 15,
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'agendaWeek,agendaDay'
-      },
-      eventSources: [
-        {
-          url: '/availabilities',
-          color: 'green',
-          textColor: 'blue'
+      $('#calendar').fullCalendar({
+        // put your options and callbacks here
+        contentHeight: 400,
+        aspectRatio: 2,
+        overLap: false,
+        defaultView: 'agendaWeek',
+        allDaySlot: false,
+        selectable: true,
+        slotDuration: '00:15:00',
+        snapDuration: '00:15:00',
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'agendaWeek,agendaDay'
         },
-        {
-          url: '/appointments',
-          color: 'red',
-          textColor: 'blue'
-        }
-      ]
-    })
+        eventSources: [
+          {
+            url: '/availabilities',
+            color: 'green',
+            textColor: 'blue'
+          },
+          {
+            url: '/appointments',
+            color: 'red',
+            textColor: 'blue'
+          }
+        ]
+      })
+    }
+    else {
+      $('#calendar').html('')
+    }
+  })
 
 });
 </script>
