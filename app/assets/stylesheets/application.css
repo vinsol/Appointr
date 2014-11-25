@@ -13,6 +13,5 @@
  *= require_tree .
  *= require_self
  *= require token-input
- *= require jquery.multiselect
  *= require fullcalendar
  */

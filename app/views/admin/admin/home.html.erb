@@ -1,20 +1,5 @@
-<% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
-<% end %>
-
 <div class='container-fluid'>
   <div class='row'>
-    <div class='col-md-10'>
-      <h1>Hey admin</h1>
-    </div>
-    <div class='col-md-2'>
-      <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete %>
-      |
-      <%= link_to 'Services', admin_services_path %>
-      |
-      <%= link_to 'Staff', admin_staffs_path %>
-      |
-      <%= link_to 'Availabilities', admin_availabilities_path %>
-    </div>
+    <h1>Hey admin</h1>
   </div>
 </div>

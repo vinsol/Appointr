@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
   devise_for :admin, skip: :registrations
   devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' }, skip: :registrations
-  devise_for :customers, controllers: { confirmations: 'customers/confirmations' }
+  devise_for :customers, controllers: { confirmations: 'customers/confirmations', registrations: 'customers/registrations' }
 
   devise_scope :staff do
     patch "/staffs/confirm" => "staffs/confirmations#confirm", :as => :staff_confirm
   end
 
-  root 'customers#home'
+  root 'home#welcome'
+
+  get 'customer_home' => 'customers#home'
 
   get 'staff_home' => 'staffs#home'
 
@@ -21,8 +23,9 @@ Rails.application.routes.draw do
     resources :staffs do
       patch 'update_password' => 'staffs#update_password', on: :member
     end
-    resources :services
-    resources :availabilities
+    resources :services, except: :destroy
+    resources :availabilities, except: :destroy
+    resources :customers, except: [:new, :create]
     get '/' => 'admin#home'
   end
 

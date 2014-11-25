@@ -6,11 +6,9 @@ class StaffsController < ApplicationController
   before_action :admin_or_staff_logged_in?, only: [:update, :edit]
   before_action :staff_logged_in?, only: :home
 
-  layout 'admin'
-
+  layout 'staff'
 
   def home
-    render layout: 'application'
   end
 
   def update_password

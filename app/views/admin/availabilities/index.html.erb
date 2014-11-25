@@ -1,9 +1,5 @@
 <h1>Listing availabilities</h1>
 
-<% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
-<% end %>
-
 <%= select_month(14, prompt: 'All') %>
 
 <table class = 'table table-hover table-striped'>
@@ -39,10 +35,10 @@
         <%= availability.services.map(&:name).join(', ') %>
       </td>
       <td>
-        <%= availability.start_time %>
+        <%= get_local_time(availability.start_time) %>
       </td>
       <td>
-        <%= availability.end_time %>
+        <%= get_local_time(availability.end_time) %>
       </td>
       <td class='start_date'>
         <%= availability.start_date %>

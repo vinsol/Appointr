@@ -45,11 +45,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to 'AppointmentManager', root_path, class: 'navbar-brand' %>
+        <%= link_to 'AppointmentManager', customer_home_path, class: 'navbar-brand' %>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to 'Sign In(Customer)', new_customer_session_path %></li>
-            <li><%= link_to 'Sign In(Staff)', new_staff_session_path %></li>
+            <li><%= link_to 'Edit Profile', edit_customer_registration_path %></li>
+            <li><%= link_to 'Sign Out', destroy_customer_session_path, method: :delete %></li>
           </ul>
         </div>
       </div>
