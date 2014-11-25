@@ -7,9 +7,9 @@ class Availability < ActiveRecord::Base
   validates :services, presence: true
   validates :enabled, inclusion: { in: [true, false] }
   validate :ensure_dates_are_valid
-  validate :ensure_end_time_greater_than_start_time, if: :ensure_dates_are_valid
+  validate :ensure_end_at_greater_than_start_at, if: :ensure_dates_are_valid
   validate :ensure_end_date_greater_than_start_date, if: :ensure_dates_are_valid
-  validate :ensure_start_date_not_in_past, if: :ensure_dates_are_valid
+  validate :ensure_start_date_not_in_past, on: :create, if: :ensure_dates_are_valid
   #associations
   belongs_to :staff
   has_many :availability_services, class_name: 'AvailabilityService', dependent: :restrict_with_error
@@ -33,8 +33,8 @@ class Availability < ActiveRecord::Base
     end
   end
 
-  def ensure_end_time_greater_than_start_time
-  	unless start_time < end_time
+  def ensure_end_at_greater_than_start_at
+  	unless start_at < end_at
       errors[:base] << 'End time should be greater than start time.'
     end
   end

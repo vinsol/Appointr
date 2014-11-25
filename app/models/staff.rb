@@ -26,14 +26,13 @@ class Staff < User
     puts "in is_available"
     availabilities = Availability.where("staff_id = '#{ id }'")
     availabilities.any? do |availability|
-      availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_time.seconds_since_midnight <= start_at.utc.seconds_since_midnight && availability.end_time.seconds_since_midnight >= end_at.utc.seconds_since_midnight
+      availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
     end
-
   end
 
   def is_occupied?(start_at, end_at, date)
     appointments.any? do |appointment|
-        b = appointment.date == date && ((start_at.utc.seconds_since_midnight > appointment.start_at.seconds_since_midnight && start_at.utc.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.utc.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.utc.seconds_since_midnight < appointment.end_at.seconds_since_midnight))
+      appointment.date == date && ((start_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight))
     end
   end
 
@@ -44,5 +43,7 @@ class Staff < User
   end
 
 end
+
+# availabilities[0].service_ids.include?(service.id) && availabilities[0].start_date <= date && availabilities[0].end_date >= date && availabilities[0].start_at.seconds_since_midnight <= start_at.utc.seconds_since_midnight && availabilities[0].end_at.seconds_since_midnight >= end_at.utc.seconds_since_midnight 
 
         # appointment.date == Date.today && ((appointment.start_at > (Time.now - 5.minutes) && appointment.start_at < (Time.now + 10.minutes)) || (appointment.end_at > (Time.now - 5.minutes)) && appointment.end_at < (Time.now + 10.minutes))

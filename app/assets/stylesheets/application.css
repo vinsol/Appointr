@@ -12,6 +12,6 @@
  *
  *= require_tree .
  *= require_self
- *= require token-input
+ *= require token-input 
  *= require fullcalendar
  */
