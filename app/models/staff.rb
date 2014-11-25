@@ -23,10 +23,12 @@ class Staff < User
   end
 
   def is_available?(start_at, end_at, date, service)
+    puts "in is_available"
     availabilities = Availability.where("staff_id = '#{ id }'")
-    aa = availabilities.any? do |availability|
+    availabilities.any? do |availability|
       availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_time.seconds_since_midnight <= start_at.utc.seconds_since_midnight && availability.end_time.seconds_since_midnight >= end_at.utc.seconds_since_midnight
     end
+
   end
 
   def is_occupied?(start_at, end_at, date)

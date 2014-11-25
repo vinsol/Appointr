@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get 'availabilities' => 'availabilities#index'
   get 'appointments' => 'appointments#index'
 
-  resources :appointments, only: :index
+  resources :appointments
 
 
   namespace :admin do

@@ -20,3 +20,4 @@
 //= require jquery.min
 //= require moment.min
 //= require fullcalendar
+//= require bootstrap.min

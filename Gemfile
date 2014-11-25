@@ -30,6 +30,9 @@ gem 'devise', '3.4.1'
 # Use twitter-bootstrap
 gem "twitter-bootstrap-rails", '3.2.0'
 
+# Use serializer
+gem 'active_model_serializers', '0.9.0'
+
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'
