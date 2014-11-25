@@ -5,9 +5,25 @@ class AppointmentsController < ApplicationController
 
   def index
     @appointments = current_customer.appointments
-
     # @appointments = current_customer.appointments.where("date BETWEEN '#{ params[:start] }' AND '#{ params[:end] }'")
     render(json: @appointments, root: false)
+  end
+
+  def new
+    @appointment = Appointment.new
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create
+    @appointment = Appointment.new(appointment_params)
+    if @appointment.save
+      redirect_to root_path, notice: 'Appointment successfully created.'
+    else
+      render :new
+    end
+
   end
 
   def edit
@@ -21,6 +37,7 @@ class AppointmentsController < ApplicationController
     if @appointment.update(appointment_params)
       redirect_to root_path, notice: 'Appointment successfully updated.'
     else
+      debugger
       render :edit
     end
   end
@@ -36,7 +53,7 @@ class AppointmentsController < ApplicationController
   protected
 
   def appointment_params
-    params.require(:appointment).permit(:staff, :service, :start_at, :duration, :date)
+    params.require(:appointment).permit(:staff, :service, :start_at, :duration)
   end
 
   def set_appointment

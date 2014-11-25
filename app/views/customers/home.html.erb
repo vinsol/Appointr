@@ -1,4 +1,4 @@
-<div class="container-fluid">
+  <div class="container-fluid">
   <div class='row'>
     <div class='col-md-10'>
       <h2>Welcome to AMS</h2>
@@ -51,7 +51,6 @@ $(document).ready(function() {
       $('#calendar').fullCalendar({
         contentHeight: 400,
         aspectRatio: 2,
-        overLap: false,
         defaultView: 'agendaWeek',
         allDaySlot: false,
         selectable: true,
@@ -79,6 +78,11 @@ $(document).ready(function() {
         eventClick: function(calEvent, jsEvent, view) {
           $.ajax({
             url: 'appointments/' + calEvent['id'] + '/edit'
+          })
+        },
+        select: function(start, end, jsEvent, view) {
+          $.ajax({
+            url: 'appointments/new'
           })
         }
       })

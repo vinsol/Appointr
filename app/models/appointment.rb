@@ -8,7 +8,7 @@ class Appointment < ActiveRecord::Base
   belongs_to :service
 
   # Validations
-  validates :service, :customer, :start_at, :duration, :date, presence: true
+  validates :service, :customer, :start_at, :duration, presence: true
   validates :duration, numericality: { greater_than_or_equal_to: @service_duration || 15}, if: :service
   validate :appointment_time_not_in_past, if: :start_at
   validate :staff_allotable?, if: :staff
@@ -16,7 +16,7 @@ class Appointment < ActiveRecord::Base
 
 
   # Callbacks
-  before_validation :set_service_duration, if: :duration
+  before_validation :set_service_duration, if: [:duration, :service]
 
 
   def end_at
@@ -26,24 +26,17 @@ class Appointment < ActiveRecord::Base
   protected
 
   def appointment_time_not_in_past
-    if(date == Date.today)
-      if(start_at.seconds_since_midnight < Time.now.seconds_since_midnight)
-        errors[:time] << 'can not be in past'
-      end
-    elsif(date < Date.today)
-      errors[:date] << 'can not be in past'
-      false
+    if(start_at < (DateTime.now - 1.minutes))
+      errors[:time] << 'can not be in past'
     end
   end
 
   def staff_allotable?
     puts 'staff allotable?'
-    if(staff.is_available?(start_at, end_at, date, service))
-      puts 'staff is available'
-      if(staff.is_occupied?(start_at, end_at, date))
+    if(staff.is_available?(start_at, end_at,start_at.to_date, service))
+      if(staff.is_occupied?(start_at, end_at,start_at.to_date))
         errors[:staff] << 'not available for this duration.'
       else
-        puts 'staff is not occupied'
       end
     else
       errors[:base] <<  'No availability for this time duration for this staff.'
@@ -64,7 +57,7 @@ class Appointment < ActiveRecord::Base
   def get_availabilities_for_service
     @availabilities = service.availabilities
     @availabilities = @availabilities.select do |availability|
-      availability.start_date <= date && availability.end_date >= date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
+      availability.start_date <=start_at.to_date && availability.end_date >=start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
     end
   end
 
@@ -72,7 +65,7 @@ class Appointment < ActiveRecord::Base
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
       !staff.appointments.any? do |appointment|
-        appointment.date == date && (appointment.start_at > start_at || appointment.start_at < end_at) && (appointment.end_at > start_at || appointment.end_at < end_at)
+        appointment.date ==start_at.to_date && (appointment.start_at > start_at || appointment.start_at < end_at) && (appointment.end_at > start_at || appointment.end_at < end_at)
       end
     end
     if(!self.staff)
