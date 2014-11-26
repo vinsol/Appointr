@@ -6,8 +6,6 @@ class Admin::AvailabilitiesController < ApplicationController
 
   layout 'admin'
 
-  layout 'admin'
-
   def new
     @availability = Availability.new
   end
