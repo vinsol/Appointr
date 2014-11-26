@@ -11,15 +11,24 @@
     </div>
   <% end %>
   <div class="field">
-    <%= f.label :start_at %><br>
+    <%= f.label :service %>:
+    <%= hidden_field(:appointment, :service) %>
+  </div>
+  <div class="field">
+    <%= hidden_field(:appointment, :staff) %>
+  </div>
+  <div class="field">
+    <%= f.label :start_at %>:
     <%= f.datetime_select :start_at, {minute_step: 15} %>
   </div>
   <div class="field">
-    <%= f.label :duration %><br>
-    <%= f.select :duration, options_for_select([['15', 15], ['30', 30], ['45', 45], ['60', 60]]) %>
+    <%= f.label :duration %>:
+    <%= f.select :duration, options_for_select([['15', 15], ['30', 30], ['45', 45], ['60', 60]], @appointment.duration) %>
   </div>
   <div class='actions'>
     <%= f.submit :save %>
   </div>
 <% end %>
-<%= button_to 'Cancel Appointment', @appointment, method: :delete %>
+<% unless @appointment.new_record? %>
+  <%= button_to 'Cancel Appointment', @appointment, method: :delete %>
+<% end %>

@@ -18,6 +18,9 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(appointment_params)
+    @appointment.service_id = service_param[:service]
+    @appointment.staff_id = staff_param[:staff]
+    @appointment.customer_id = current_customer.id
     if @appointment.save
       redirect_to root_path, notice: 'Appointment successfully created.'
     else
@@ -37,7 +40,6 @@ class AppointmentsController < ApplicationController
     if @appointment.update(appointment_params)
       redirect_to root_path, notice: 'Appointment successfully updated.'
     else
-      debugger
       render :edit
     end
   end
@@ -53,7 +55,15 @@ class AppointmentsController < ApplicationController
   protected
 
   def appointment_params
-    params.require(:appointment).permit(:staff, :service, :start_at, :duration)
+    params.require(:appointment).permit(:start_at, :duration)
+  end
+
+  def service_param
+    params.require(:appointment).permit(:service)
+  end
+
+  def staff_param
+    params.require(:appointment).permit(:staff)
   end
 
   def set_appointment

@@ -1,19 +1,18 @@
 class AvailabilitiesController < ApplicationController
   def index
-    @availabilities = Availability.all
+    @availabilities = Service.find_by(id: params[:service_id]).availabilities
     @per_day_availabilities = []
 
     @availabilities.each do |availability|
-      start_hour = availability.start_time.localtime.hour
-      start_minute = availability.start_time.localtime.min
-      end_hour = availability.end_time.localtime.hour
-      end_minute = availability.end_time.localtime.min
+      daily_start_at = availability.start_at.localtime.to_s.split(' ')[1]
+      daily_end_at = availability.end_at.localtime.to_s.split(' ')[1]
       day_span = (availability.end_date - availability.start_date).to_i
 
       (0..day_span).each do |day_number|
         @per_day_availabilities << { title: availability.staff.name,
-                                    start: ((availability.start_date + day_number.days).to_s + 'T' + start_hour.to_s + ':' + start_minute.to_s + ':00'),
-                                    end: ((availability.start_date + day_number.days).to_s + 'T' + end_hour.to_s + ':' + end_minute.to_s + ':00')
+                                    start: ((availability.start_date + day_number.days).to_s + 'T' + daily_start_at),
+                                    end: ((availability.start_date + day_number.days).to_s + 'T' + daily_end_at),
+                                    rendering: 'background'
                                   }
       end
 

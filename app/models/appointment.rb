@@ -32,7 +32,6 @@ class Appointment < ActiveRecord::Base
   end
 
   def staff_allotable?
-    puts 'staff allotable?'
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
       if(staff.is_occupied?(start_at, end_at,start_at.to_date))
         errors[:staff] << 'not available for this duration.'
@@ -65,7 +64,7 @@ class Appointment < ActiveRecord::Base
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
       !staff.appointments.any? do |appointment|
-        appointment.date ==start_at.to_date && (appointment.start_at > start_at || appointment.start_at < end_at) && (appointment.end_at > start_at || appointment.end_at < end_at)
+        appointment.start_at.to_date == start_at.to_date && (start_at > appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at < appointment.end_at)
       end
     end
     if(!self.staff)

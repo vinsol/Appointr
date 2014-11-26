@@ -1,6 +1,6 @@
   <div class="container-fluid">
   <div class='row'>
-    <div class='col-md-10'>
+    <div class='col-md-8'>
       <h2>Welcome to AMS</h2>
     </div>
     
@@ -10,7 +10,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal-title" id="myModalLabel"></h4>
           </div>
           <div class="modal-body">
           </div>
@@ -20,15 +20,12 @@
       </div>
     </div>
 
-    <div class='col-md-2'>
-      <% if !current_customer %>
-      <%= link_to 'Sign In(Customer)', new_customer_session_path %><br>
-      <%= link_to 'Sign In(Staff)', new_staff_session_path %>
-      <% else %>
-      <%= link_to 'Sign Out', destroy_customer_session_path, method: :delete %>
-      <%= link_to 'Edit Profile', edit_customer_registration_path %>
-      <%= select_tag 'service', options_from_collection_for_select(Service.all, 'id', 'name'), prompt: 'Select Service' %>
-      <% end %>
+    <div class='col-md-4'>
+      <% label_tag 'service' %>
+      <%= select_tag 'service', options_for_select(get_service_options), prompt: 'Select Service' %><br>
+      <% label_tag 'staff' %>
+      <%= select_tag 'staff', options_for_select(Staff.all.collect { |staff| [staff.name, staff.id]}), { prompt: 'Select Service' } %>
+      
     </div>
   </div>
   <div class='row'>
@@ -43,10 +40,19 @@
 
 <script>
 $(document).ready(function() {
+  $('#staff').children().hide()
+  $('#staff').children().first().show()
 
   $('#service').on('change', function() {
-    var value = $(this).val()
+    var value = $(this).val();
+    var staff_ids = String($("#service option:selected").data('staff_ids')).split(' '),
+        _this = this;
+    $('#staff').children().hide()
     if(value) {
+      $.each(staff_ids, function(index, staff) {
+        $('#staff').children('option[value = "' + staff + '"]').show();
+      });
+      $('#calendar').fullCalendar('destroy');
 
       $('#calendar').fullCalendar({
         contentHeight: 400,
@@ -63,11 +69,12 @@ $(document).ready(function() {
           right: 'agendaWeek,agendaDay'
         },
         eventSources: [
-          // {
-          //   url: '/availabilities',
-          //   color: 'green',
-          //   textColor: 'blue'
-          // },
+          {
+            color: 'green',
+            url: '/availabilities',
+            data: { 'service_id': value },
+            textColor: 'blue'
+          },
           {
             url: '/appointments',
             color: 'red',
@@ -84,11 +91,16 @@ $(document).ready(function() {
           $.ajax({
             url: 'appointments/new'
           })
+        },
+        selectOverlap: function(event) {
+          return event.rendering === 'background';
         }
       })
     }
     else {
-      $('#calendar').html('')
+      $('#staff').children().first().show();
+      $('#staff').val('')
+      $('#calendar').fullCalendar('destroy');
     }
   })
 

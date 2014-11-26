@@ -23,7 +23,6 @@ class Staff < User
   end
 
   def is_available?(start_at, end_at, date, service)
-    puts "in is_available"
     availabilities = Availability.where("staff_id = '#{ id }'")
     availabilities.any? do |availability|
       availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
@@ -32,7 +31,7 @@ class Staff < User
 
   def is_occupied?(start_at, end_at, date)
     appointments.any? do |appointment|
-      appointment.start_at.to_date == date && ((start_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight))
+      appointment.start_at.to_date == date && ((start_at.seconds_since_midnight >= appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight <= appointment.end_at.seconds_since_midnight))
     end
   end
 
