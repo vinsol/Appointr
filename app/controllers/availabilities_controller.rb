@@ -1,6 +1,10 @@
 class AvailabilitiesController < ApplicationController
   def index
-    @availabilities = Service.find_by(id: params[:service_id]).availabilities
+    if(params[:staff_id].empty?)
+      @availabilities = Service.find_by(id: params[:service_id]).availabilities
+    else
+      @availabilities = Service.find_by(id: params[:service_id]).availabilities.where(staff_id: params[:staff_id])
+    end
     @per_day_availabilities = []
 
     @availabilities.each do |availability|

@@ -5,12 +5,13 @@ class AppointmentsController < ApplicationController
 
   def index
     @appointments = current_customer.appointments
-    # @appointments = current_customer.appointments.where("date BETWEEN '#{ params[:start] }' AND '#{ params[:end] }'")
     render(json: @appointments, root: false)
   end
 
   def new
     @appointment = Appointment.new
+    @appointment.start_at = ((Time.parse params['start']) - 11.hours)
+    @appointment.duration = (((Time.parse params['end']) - (Time.parse params['start']))/60).to_i
     respond_to do |format|
       format.js
     end
@@ -22,7 +23,9 @@ class AppointmentsController < ApplicationController
     @appointment.staff_id = staff_param[:staff]
     @appointment.customer_id = current_customer.id
     if @appointment.save
-      redirect_to root_path, notice: 'Appointment successfully created.'
+      respond_to do |format|
+        format.js { render :js => "window.location = '/customer_home'" }
+      end
     else
       render :new
     end

@@ -5,7 +5,7 @@ class Admin::CustomersController < ApplicationController
   layout 'admin'
 
   def index
-    @customers = Customer.order(:name)
+    @customers = Customer.order(:name).includes(:appointments)
   end
 
   def edit

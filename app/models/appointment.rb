@@ -33,7 +33,7 @@ class Appointment < ActiveRecord::Base
 
   def staff_allotable?
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
-      if(staff.is_occupied?(start_at, end_at,start_at.to_date))
+      if(staff.is_occupied?(start_at, end_at,start_at.to_date, id))
         errors[:staff] << 'not available for this duration.'
       else
       end

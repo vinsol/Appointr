@@ -24,7 +24,7 @@
       <% label_tag 'service' %>
       <%= select_tag 'service', options_for_select(get_service_options), prompt: 'Select Service' %><br>
       <% label_tag 'staff' %>
-      <%= select_tag 'staff', options_for_select(Staff.all.collect { |staff| [staff.name, staff.id]}), { prompt: 'Select Service' } %>
+      <%= select_tag 'staff', options_for_select(Staff.all.collect { |staff| [staff.name, staff.id]}), { prompt: 'Select Staff' } %>
       
     </div>
   </div>
@@ -38,71 +38,4 @@
   </div>
 </div>
 
-<script>
-$(document).ready(function() {
-  $('#staff').children().hide()
-  $('#staff').children().first().show()
-
-  $('#service').on('change', function() {
-    var value = $(this).val();
-    var staff_ids = String($("#service option:selected").data('staff_ids')).split(' '),
-        _this = this;
-    $('#staff').children().hide()
-    if(value) {
-      $.each(staff_ids, function(index, staff) {
-        $('#staff').children('option[value = "' + staff + '"]').show();
-      });
-      $('#calendar').fullCalendar('destroy');
-
-      $('#calendar').fullCalendar({
-        contentHeight: 400,
-        aspectRatio: 2,
-        defaultView: 'agendaWeek',
-        allDaySlot: false,
-        selectable: true,
-        slotDuration: '00:15:00',
-        snapDuration: '00:15:00',
-        slotEventOverlap: false,
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'agendaWeek,agendaDay'
-        },
-        eventSources: [
-          {
-            color: 'green',
-            url: '/availabilities',
-            data: { 'service_id': value },
-            textColor: 'blue'
-          },
-          {
-            url: '/appointments',
-            color: 'red',
-            textColor: 'blue'
-          }
-
-        ],
-        eventClick: function(calEvent, jsEvent, view) {
-          $.ajax({
-            url: 'appointments/' + calEvent['id'] + '/edit'
-          })
-        },
-        select: function(start, end, jsEvent, view) {
-          $.ajax({
-            url: 'appointments/new'
-          })
-        },
-        selectOverlap: function(event) {
-          return event.rendering === 'background';
-        }
-      })
-    }
-    else {
-      $('#staff').children().first().show();
-      $('#staff').val('')
-      $('#calendar').fullCalendar('destroy');
-    }
-  })
-
-});
-</script>
+<%= javascript_include_tag 'appointment' %>
