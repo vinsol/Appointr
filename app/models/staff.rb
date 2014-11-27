@@ -1,4 +1,5 @@
 class Staff < User
+  validates :name, uniqueness: { case_sensitive: false }
   validates :designation, presence: true
   validates :services, presence: true
   validates :password, presence: :true, if: :should_validate_password?
