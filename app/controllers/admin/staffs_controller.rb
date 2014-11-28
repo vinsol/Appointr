@@ -35,7 +35,9 @@ class Admin::StaffsController < ApplicationController
 
   def update
     service_ids = service_param[:services].split(',')
-    @staff.service_ids = service_ids
+    unless service_ids.empty?
+      @staff.service_ids = service_ids
+    end
     if @staff.update(staff_params)
       redirect_to admin_staff_path(@staff)
     else

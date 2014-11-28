@@ -58,7 +58,7 @@ class Appointment < ActiveRecord::Base
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
       !staff.appointments.any? do |appointment|
-        appointment.start_at.to_date == start_at.to_date && (start_at > appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at < appointment.end_at)
+        appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
       end
     end
     if(!self.staff)
