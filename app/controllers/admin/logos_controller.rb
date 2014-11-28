@@ -9,12 +9,23 @@ class Admin::LogosController < ApplicationController
   def create
     @logo = Logo.new(logo_params)
     if @logo.save
-      if Logo.all.count > 1
-        Logo.first.destroy
-      end
-      redirect_to admin_application_images_path, notice: 'Logo successfully updated.'
+      redirect_to admin_application_images_path, notice: 'Logo successfully created.'
     else
       render :new
+    end
+  end
+
+  def edit
+    @logo = Logo.find_by(id: params[:id])
+    debugger
+  end
+
+  def update
+    @logo = Logo.find_by(id: params[:id])
+    if @logo.update(logo_params)
+      redirect_to admin_application_images_path, notice: 'Logo successfully updated.'
+    else
+      render :edit
     end
   end
 

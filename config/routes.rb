@@ -27,8 +27,8 @@ Rails.application.routes.draw do
     resources :availabilities, except: :destroy
     resources :customers, except: [:new, :create]
     resources :application_images, only: :index
-    resources :logos, only: [:new, :create, :destroy]
-    resources :back_grounds, only: [:new, :create, :destroy]
+    resources :logos, only: [:new, :create, :edit, :update, :destroy]
+    resources :back_grounds, only: [:new, :create, :edit, :update, :destroy]
     get '/' => 'admin#home'
   end
 

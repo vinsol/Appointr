@@ -9,12 +9,22 @@ class Admin::BackGroundsController < ApplicationController
   def create
     @back_ground = BackGround.new(back_ground_params)
     if @back_ground.save
-      if BackGround.all.count > 1
-        BackGround.first.destroy
-      end
-      redirect_to admin_application_images_path, notice: 'Back Ground successfully updated.'
+      redirect_to admin_application_images_path, notice: 'Back Ground successfully createdc.'
     else
       render :new
+    end
+  end
+
+  def edit
+    @back_ground = BackGround.find_by(id: params[:id])
+  end
+
+  def update
+    @back_ground = BackGround.find_by(id: params[:id])
+    if @back_ground.update(back_ground_params)
+      redirect_to admin_application_images_path, notice: 'Back Ground successfully updated.'
+    else
+      render :edit
     end
   end
 

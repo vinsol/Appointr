@@ -4,4 +4,5 @@ class Admin::ApplicationImagesController < ApplicationController
 
   def index
   end
+
 end
