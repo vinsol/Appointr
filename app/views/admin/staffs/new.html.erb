@@ -24,7 +24,7 @@
 
   <div class='field'>
     <%= f.label :services %><br />
-    <%= f.text_field :services, value: '' %>
+    <%= f.text_field :services, value: '', data: { services: Service.select(:id, :name).to_json } %>
   </div>
 
   <div class="actions">
@@ -36,6 +36,6 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    $("#staff_services").tokenInput("/services/search");
+    $("#staff_services").tokenInput($("#staff_services").data('services'));
   });
 </script>
