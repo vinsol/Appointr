@@ -17,7 +17,6 @@ class Admin::LogosController < ApplicationController
 
   def edit
     @logo = Logo.find_by(id: params[:id])
-    debugger
   end
 
   def update
