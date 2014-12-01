@@ -24,7 +24,6 @@ class AppointmentsController < ApplicationController
     @appointment.customer_id = current_customer.id
     if @appointment.save
       flash[:notice] = 'Appointment successfully created.'
-      flash.keep(:notice)
       respond_to do |format|
         format.js { render :js => "window.location = '#{customer_home_path}'" }
       end
@@ -44,7 +43,6 @@ class AppointmentsController < ApplicationController
   def update
     if @appointment.update(appointment_params)
       flash[:notice] = 'Appointment successfully updated.'
-      flash.keep(:notice)
       respond_to do |format|
         format.js { render :js => "window.location = '/customer_home'" }
       end

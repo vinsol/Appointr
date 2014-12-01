@@ -55,7 +55,7 @@ class Appointment < ActiveRecord::Base
 
   def has_no_clashing_appointments?(user)
     !user.appointments.any? do |appointment|
-      appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
+      appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
   end
 
