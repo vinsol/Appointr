@@ -51,9 +51,6 @@ class Appointment < ActiveRecord::Base
     unless has_no_clashing_appointments?(customer)
       errors[:base] << 'You already have an overlapping appointment for this time duration.'
     end
-    # !customer.appointments.any? do |appointment|
-    #   appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
-    # end
   end
 
   def has_no_clashing_appointments?(user)
@@ -72,10 +69,7 @@ class Appointment < ActiveRecord::Base
   def set_staff
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
-      has_no_clashing_appointments(staff)
-      # !staff.appointments.any? do |appointment|
-      #   appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
-      # end
+      has_no_clashing_appointments?(staff)
     end
     if(!self.staff)
       errors[:base] << 'No staff available for this time duration'
