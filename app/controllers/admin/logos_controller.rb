@@ -13,7 +13,9 @@ class Admin::LogosController < ApplicationController
     if @logo.save
       redirect_to admin_application_images_path, notice: 'Logo successfully created.'
     else
+      flash[:notice] = 'Please select an image.'
       render :new
+      flash.clear
     end
   end
 
@@ -21,10 +23,12 @@ class Admin::LogosController < ApplicationController
   end
 
   def update
-    if @logo.update(logo_params)
+    if params[:logo][:image] && @logo.update(logo_params)
       redirect_to admin_application_images_path, notice: 'Logo successfully updated.'
     else
+      flash[:notice] = 'Please select an image.'
       render :edit
+      flash.clear
     end
   end
 
