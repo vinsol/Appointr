@@ -47,6 +47,9 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def show
+  end
+
   def destroy
     if @appointment.destroy
       redirect_to root_path, notice: 'Appointment cancelled'
