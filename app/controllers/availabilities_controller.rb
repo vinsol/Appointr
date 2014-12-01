@@ -6,8 +6,6 @@ class AvailabilitiesController < ApplicationController
       @availabilities = Service.find_by(id: params[:service_id]).availabilities.where(staff_id: params[:staff_id])
     end
     @per_day_availabilities = []
-    debugger
-
     @availabilities.each do |availability|
       daily_start_at = availability.start_at.localtime.to_s.split(' ')[1]
       daily_end_at = availability.end_at.localtime.to_s.split(' ')[1]
