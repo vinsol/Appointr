@@ -2,6 +2,8 @@ class Admin::BackGroundsController < ApplicationController
   
   layout 'admin'
 
+  before_action :set_back_ground, only: [:edit, :update, :destroy]
+
   def new
     @back_ground = BackGround.new
   end
@@ -16,11 +18,9 @@ class Admin::BackGroundsController < ApplicationController
   end
 
   def edit
-    @back_ground = BackGround.find_by(id: params[:id])
   end
 
   def update
-    @back_ground = BackGround.find_by(id: params[:id])
     if @back_ground.update(back_ground_params)
       redirect_to admin_application_images_path, notice: 'Back Ground successfully updated.'
     else
@@ -29,11 +29,20 @@ class Admin::BackGroundsController < ApplicationController
   end
 
   def destroy
-    BackGround.first.destroy
-    redirect_to admin_application_images_path, notice: 'Back Ground successfully removed.'
+    if @back_ground.destroy
+      redirect_to admin_application_images_path, notice: 'Background successfully removed.'
+    else
+      redirect_to admin_application_images_path, notice: 'Could not remove background.'
+    end
   end
 
   protected
+
+  def set_back_ground
+    unless @back_ground = BackGround.find_by(id: params[:id])
+      redirect_to admin_application_images_path, notice: 'No background found.'
+    end
+  end
 
   def back_ground_params
     params.require(:back_ground).permit(:image)
