@@ -2,6 +2,8 @@ class Admin::LogosController < ApplicationController
 
   layout 'admin'
 
+  before_action :set_logo, only: [:edit, :update, :destroy]
+
   def new
     @logo = Logo.new
   end
@@ -16,11 +18,9 @@ class Admin::LogosController < ApplicationController
   end
 
   def edit
-    @logo = Logo.find_by(id: params[:id])
   end
 
   def update
-    @logo = Logo.find_by(id: params[:id])
     if @logo.update(logo_params)
       redirect_to admin_application_images_path, notice: 'Logo successfully updated.'
     else
@@ -29,11 +29,20 @@ class Admin::LogosController < ApplicationController
   end
 
   def destroy
-    Logo.first.destroy
-    redirect_to admin_application_images_path, notice: 'Logo successfully removed.'
+    if @logo.destroy
+      redirect_to admin_application_images_path, notice: 'Logo successfully removed.'
+    else
+      redirect_to admin_application_images_path, notice: 'Could not remove logo.'
+    end
   end
 
   protected
+
+  def set_logo
+    unless @logo = Logo.find_by(id: params[:id])
+      redirect_to admin_application_images_path, notice: 'No logo found.'
+    end
+  end
 
   def logo_params
     params.require(:logo).permit(:image)

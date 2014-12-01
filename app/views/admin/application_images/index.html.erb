@@ -19,7 +19,7 @@
   <h1>BackGround:</h1>
   <% if BackGround.exists? %>
     <%= image_tag BackGround.first.image.url(:thumb) %><br>
-    <%= link_to 'Change', eidt_admin_back_ground_path(BackGround.first) %>
+    <%= link_to 'Change', edit_admin_back_ground_path(BackGround.first) %>
     <%= link_to 'Remove', admin_back_ground_path(BackGround.first), method: :delete %>
   <% else %>
     <%= link_to 'Add', new_admin_back_ground_path %>
