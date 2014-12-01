@@ -10,6 +10,7 @@ class Appointment < ActiveRecord::Base
   # Validations
   validates :service, :customer, :start_at, :duration, presence: true
   validate :ensure_duration_not_less_than_service_duration, if: [:duration, :service]
+  validate :ensure_customer_has_no_prior_appointment_at_same_time, if: :customer
   validate :appointment_time_not_in_past, if: :start_at
   validate :staff_allotable?, if: :staff
   before_save :assign_staff, unless: :staff
@@ -45,7 +46,21 @@ class Appointment < ActiveRecord::Base
       set_staff
     end
   end
+  
+  def ensure_customer_has_no_prior_appointment_at_same_time
+    unless has_no_clashing_appointments?(customer)
+      errors[:base] << 'You already have an overlapping appointment for this time duration.'
+    end
+    # !customer.appointments.any? do |appointment|
+    #   appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
+    # end
+  end
 
+  def has_no_clashing_appointments?(user)
+    !user.appointments.any? do |appointment|
+      appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
+    end
+  end
 
   def get_availabilities_for_service
     @availabilities = service.availabilities
@@ -57,9 +72,10 @@ class Appointment < ActiveRecord::Base
   def set_staff
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
-      !staff.appointments.any? do |appointment|
-        appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
-      end
+      has_no_clashing_appointments(staff)
+      # !staff.appointments.any? do |appointment|
+      #   appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
+      # end
     end
     if(!self.staff)
       errors[:base] << 'No staff available for this time duration'
