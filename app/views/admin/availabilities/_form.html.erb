@@ -12,7 +12,7 @@
     <% else %>
       <%= f.select :staff, options_for_select(get_staff_options, @availability.staff.id), { prompt: true }, { disabled: true } %>
     <% end %>
-  </div>
+  </div><br>
   <div class="field">  
     <%= f.label :services_ids %><br />
     <% if @availability.new_record?%>
@@ -20,32 +20,32 @@
     <% else %>
       <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
     <% end %>
-  </div>
+  </div><br>
 
-  <div class="field col-md-4">
+  <div class="field">
     <%= f.label :start_at %><br />
     <%= f.time_select :start_at%>
-  </div>
-  <div class='field col-md-8'>
+  </div><br>
+  <div class='field'>
     <%= f.label :end_at %><br />
     <%= f.time_select :end_at %>
-  </div>
+  </div><br>
 
-  <div class="field col-md-4">
+  <div class="field">
     <%= f.label :start_date %><br />
     <%= f.date_select :start_date, start_year: Date.today.year %>
-  </div>
-  <div class='field col-md-8'>
+  </div><br>
+  <div class='field'>
     <%= f.label :end_date %><br />
     <%= f.date_select :end_date, start_year: Date.today.year %>
-  </div>
+  </div><br>
 
   <div class="field">
     <%= f.label :enabled %>
     <%= f.check_box :enabled %>
-  </div>
+  </div><br>
 
   <div class="actions">
     <%= f.submit "Submit" %>
-  </div>
+  </div><br>
 <% end %>

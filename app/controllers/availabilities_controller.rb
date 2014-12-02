@@ -1,6 +1,6 @@
 class AvailabilitiesController < ApplicationController
   def index
-    if(params[:staff_id].empty?)
+    if(params[:staff_id] == '')
       @availabilities = Service.find_by(id: params[:service_id]).availabilities
     else
       @availabilities = Service.find_by(id: params[:service_id]).availabilities.where(staff_id: params[:staff_id])

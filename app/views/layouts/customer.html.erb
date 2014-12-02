@@ -36,9 +36,18 @@
 
     <%= javascript_include_tag "application" %>
   </head>
-  <body>
+  <% if BackGround.first %>
+    <body background=<%= BackGround.first.image.url(:medium) %> >
+  <% else %>
+    <body>
+  <% end %>
 
     <div class="navbar navbar-default navbar-static-top">
+      <div class='logo' style='margin:20px; float:left;' >
+        <% if Logo.first %>
+          <%= image_tag Logo.first.image.url(:thumb) %>
+        <% end %>
+      </div>
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
           <span class="icon-bar"></span>

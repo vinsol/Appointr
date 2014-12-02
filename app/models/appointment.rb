@@ -9,15 +9,10 @@ class Appointment < ActiveRecord::Base
 
   # Validations
   validates :service, :customer, :start_at, :duration, presence: true
-  validates :duration, numericality: { greater_than_or_equal_to: @service_duration || 15}, if: :service
+  validate :ensure_duration_not_less_than_service_duration, if: [:duration, :service]
   validate :appointment_time_not_in_past, if: :start_at
   validate :staff_allotable?, if: :staff
   before_save :assign_staff, unless: :staff
-
-
-  # Callbacks
-  before_validation :set_service_duration, if: [:duration, :service]
-
 
   def end_at
     start_at + duration.minutes
@@ -35,7 +30,6 @@ class Appointment < ActiveRecord::Base
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
       if(staff.is_occupied?(start_at, end_at,start_at.to_date, id))
         errors[:staff] << 'not available for this duration.'
-      else
       end
     else
       errors[:base] <<  'No availability for this time duration for this staff.'
@@ -73,8 +67,9 @@ class Appointment < ActiveRecord::Base
     end
   end
 
-  def set_service_duration
-    @service_duration = service.duration
+  def ensure_duration_not_less_than_service_duration
+    unless(duration >= service.duration)
+      errors[:duration] << "must be greater than or equal to #{ service.duration }"
+    end
   end
-
 end
