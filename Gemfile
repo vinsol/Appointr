@@ -15,6 +15,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
+# Use paperclip
+gem "paperclip", "~> 4.2"
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '3.1.2'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -29,6 +32,9 @@ gem 'devise', '3.4.1'
 
 # Use twitter-bootstrap
 gem "twitter-bootstrap-rails", '3.2.0'
+
+# Use serializer
+gem 'active_model_serializers', '0.9.0'
 
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

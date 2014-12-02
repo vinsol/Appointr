@@ -10,10 +10,11 @@ class Service < ActiveRecord::Base
   #associations
   has_many :allocations, dependent: :restrict_with_error
   has_many :staffs, through: :allocations
-  has_many :availabilities
+  has_many :availability_services
+  has_many :availabilities, through: :availability_services
   has_many :available_staff, through: :availabilities, source: 'Staff', foreign_key: 'staff_id'
-
-
-  private
+  has_many :appointments
+  has_many :appointed_staffs, through: :appointments, source: 'Staff', foreign_key: 'staff_id'
+  has_many :appointed_customers, through: :appointments, source: 'Customer', foreign_key: 'customer_id'
 
 end

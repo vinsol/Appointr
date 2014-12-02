@@ -16,3 +16,6 @@
 //= require turbolinks
 //= require jquery.tokeninput
 //= require jquery.ui.widget
+//= require moment.min
+//= require fullcalendar
+//= require bootstrap.min

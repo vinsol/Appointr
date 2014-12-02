@@ -13,6 +13,12 @@ Rails.application.routes.draw do
 
   get 'staff_home' => 'staffs#home'
 
+  get 'availabilities' => 'availabilities#index'
+  get 'appointments' => 'appointments#index'
+
+  resources :appointments
+
+
   namespace :admin do
     resources :staffs do
       patch 'update_password' => 'staffs#update_password', on: :member
@@ -20,6 +26,9 @@ Rails.application.routes.draw do
     resources :services, except: :destroy
     resources :availabilities, except: :destroy
     resources :customers, except: [:new, :create]
+    resources :application_images, only: :index
+    resources :logos, only: [:new, :create, :edit, :update, :destroy]
+    resources :back_grounds, only: [:new, :create, :edit, :update, :destroy]
     get '/' => 'admin#home'
   end
 

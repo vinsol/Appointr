@@ -35,10 +35,10 @@
         <%= availability.services.map(&:name).join(', ') %>
       </td>
       <td>
-        <%= get_local_time(availability.start_time) %>
+        <%= get_local_time(availability.start_at) %>
       </td>
       <td>
-        <%= get_local_time(availability.end_time) %>
+        <%= get_local_time(availability.end_at) %>
       </td>
       <td class='start_date'>
         <%= availability.start_date %>

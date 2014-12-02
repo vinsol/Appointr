@@ -1,0 +1,34 @@
+<%= form_for @appointment, remote: true do |f| %>
+  <% if @appointment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
+
+      <ul>
+      <% @appointment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :service %>:
+    <%= hidden_field(:appointment, :service) %>
+  </div>
+  <div class="field">
+    <%= hidden_field(:appointment, :staff) %>
+  </div>
+  <div class="field">
+    <%= f.label :start_at %>:
+    <%= f.datetime_select :start_at, {minute_step: 15} %>
+  </div>
+  <div class="field">
+    <%= f.label :duration %>:
+    <%= f.select :duration, options_for_select([['15', 15], ['30', 30], ['45', 45], ['60', 60]], @appointment.duration) %>
+  </div>
+  <div class='actions'>
+    <%= f.submit :save %>
+  </div>
+<% end %>
+<% unless @appointment.new_record? %>
+  <%= button_to 'Cancel Appointment', @appointment, method: :delete %>
+<% end %>
