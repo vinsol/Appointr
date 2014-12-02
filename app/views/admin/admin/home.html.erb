@@ -11,7 +11,20 @@
       <div><%= text_field_tag 'search', nil, placeholder: 'Enter search term...' %>
       <div><%= submit_tag 'Save' %></div>
     <% end -%>
+    <div id='dates'>
+      <%= label_tag 'start' %>
+      <%= text_field_tag 'start', nil %>     
+      <%= label_tag 'end' %>
+      <%= text_field_tag 'end', nil %>
+      <a id='clear_dates'><b>Clear Dates</b></a>
+    </div>
   </div>
   <div id='appointments'>
   </div>
 </div>
+
+<%= javascript_include_tag 'appointment_filter' %>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
