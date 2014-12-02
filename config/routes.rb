@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     resources :staffs do
       patch 'update_password' => 'staffs#update_password', on: :member
     end
+    resources :appointments do
+      post 'search' => 'appointments#search', on: :collection
+    end
     resources :services, except: :destroy
     resources :availabilities, except: :destroy
     resources :customers, except: [:new, :create]

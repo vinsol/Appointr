@@ -2,4 +2,16 @@
   <div class='row'>
     <h1>Hey admin</h1>
   </div>
+  <div class='row'>
+    <%= button_to 'List View', admin_appointments_path, remote: true, method: :get, id: 'list_view' %>
+    <%= button_to 'Calendar View', admin_appointments_path, remote: true, method: :get, id: 'calendar_view' ,class: 'hidden' %>
+  </div>
+  <div class='row'>
+    <%= form_tag('/admin/appointments/search', remote: true, class: 'hidden', id: 'search_form') do -%>
+      <div><%= text_field_tag 'search', nil, placeholder: 'Enter search term...' %>
+      <div><%= submit_tag 'Save' %></div>
+    <% end -%>
+  </div>
+  <div id='appointments'>
+  </div>
 </div>

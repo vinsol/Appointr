@@ -1,0 +1,18 @@
+var $listViewButton = $('#list_view'),
+    $calendarViewButton = $('#calendar_view'),
+    $searchForm = $('#search_form'),
+    $searchInput = $('#search'),
+    $listDiv = $('#appointments');
+
+if($listViewButton.attr('class') == 'hidden') {
+  $listViewButton.removeClass('hidden');
+  $searchForm.addClass('hidden');
+  $searchInput.val('')
+  $calendarViewButton.addClass('hidden');
+  $listDiv.html("");
+} else {
+  $listViewButton.addClass('hidden');
+  $searchForm.removeClass('hidden');
+  $calendarViewButton.removeClass('hidden');
+  $listDiv.html("<%= escape_javascript(render 'index') %>");
+}
