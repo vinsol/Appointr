@@ -34,7 +34,7 @@ class Availability < ActiveRecord::Base
   end
 
   def ensure_end_at_greater_than_start_at
-  	unless start_at < end_at
+    unless start_at < end_at
       errors[:base] << 'End time should be greater than start time.'
     end
   end

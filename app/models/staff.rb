@@ -23,7 +23,10 @@ class Staff < User
     super if confirmed?
   end
 
+  # TODO: No need to pass date. Also, `has_availability` would be a better name.
   def is_available?(start_at, end_at, date, service)
+
+    # TODO: Refactor this. All time and date comparisons in the app can be refactored.
     availabilities = Availability.where("staff_id = '#{ id }'")
     availabilities.any? do |availability|
       availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight

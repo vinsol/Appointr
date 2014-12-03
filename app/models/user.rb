@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
       %w(Admin Customer Staff)
   end
 
+  # TODO: Should be a bang? `downcase_email!`
   def downcase_email
      self.email = email.downcase
   end
