@@ -2,14 +2,30 @@
   <div class='row'>
     <h1>Hey admin</h1>
   </div>
-  <div class='row'>
-    <%= button_to 'List View', admin_appointments_path, remote: true, method: :get, id: 'list_view' %>
-    <%= button_to 'Calendar View', admin_appointments_path, remote: true, method: :get, id: 'calendar_view' ,class: 'hidden' %>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel"></h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
   </div>
-  <div class='row'>
-    <%= form_tag('/admin/appointments/search', remote: true, class: 'hidden', id: 'search_form') do -%>
-      <div><%= text_field_tag 'search', nil, placeholder: 'Enter search term...' %>
-      <div><%= submit_tag 'Save' %></div>
+  <div class='row' id='calendar_div'>
+    <%= button_to 'List View', admin_appointments_path, remote: true, method: :get, id: 'list_view' %>
+    <div id='calendar'>
+    </div>
+  </div>
+  <div class='row hidden' id='list'>
+    <%= button_to 'Calendar View', admin_appointments_path, remote: true, method: :get, id: 'calendar_view' %>
+    <%= form_tag('/admin/appointments/search', remote: true, id: 'search_form') do -%>
+      <%= text_field_tag 'search', nil, placeholder: 'Enter search term...' %>
+      <%= submit_tag 'Save' %>
     <% end -%>
     <div id='dates'>
       <%= label_tag 'start' %>
@@ -18,13 +34,17 @@
       <%= text_field_tag 'end', nil %>
       <a id='clear_dates'><b>Clear Dates</b></a>
     </div>
-  </div>
-  <div id='appointments'>
+    <div id='appointments'>
+    </div>
   </div>
 </div>
 
-<%= javascript_include_tag 'appointment_filter' %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<%= javascript_include_tag 'fullcalendar' %>
+<%= javascript_include_tag 'bootstrap.min' %>
+<%= javascript_include_tag 'appointment_filter' %>
+<%= javascript_include_tag 'admin_appointment' %>
+

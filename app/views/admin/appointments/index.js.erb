@@ -2,17 +2,21 @@ var $listViewButton = $('#list_view'),
     $calendarViewButton = $('#calendar_view'),
     $searchForm = $('#search_form'),
     $searchInput = $('#search'),
+    $listBox = $('#list'),
+    $calendarBox = $('#calendar_div'),
+    $calendarDiv = $('#calendar'),
     $listDiv = $('#appointments');
 
-if($listViewButton.attr('class') == 'hidden') {
-  $listViewButton.removeClass('hidden');
-  $searchForm.addClass('hidden');
-  $searchInput.val('')
-  $calendarViewButton.addClass('hidden');
-  $listDiv.html("");
-} else {
-  $listViewButton.addClass('hidden');
-  $searchForm.removeClass('hidden');
-  $calendarViewButton.removeClass('hidden');
+if($listBox.attr('class') == 'row hidden') {
+  $listBox.removeClass('hidden');
+  $calendarBox.addClass('hidden');
+  $calendarDiv.fullCalendar('destroy');
   $listDiv.html("<%= escape_javascript(render 'index') %>");
+} else {
+  var loadCalendar = new LoadCalendar;
+  $listBox.addClass('hidden');
+  $calendarBox.removeClass('hidden');
+  loadCalendar.initialize();
+  $searchInput.val('');
+  $listDiv.html("");
 }

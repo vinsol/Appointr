@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     end
     resources :appointments do
       post 'search' => 'appointments#search', on: :collection
+      get 'appointments_json' => 'appointments#json_index', on: :collection
     end
     resources :services, except: :destroy
     resources :availabilities, except: :destroy
