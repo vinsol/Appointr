@@ -30,8 +30,6 @@ class StaffsController < ApplicationController
   end
 
   def update
-    service_ids = service_param[:services].split(',')
-    @staff.service_ids = service_ids
     if @staff.update(staff_params)
       redirect_to staff_path
     else

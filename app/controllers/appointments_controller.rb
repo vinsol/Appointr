@@ -4,7 +4,7 @@ class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
 
   def index
-    @appointments = current_customer.appointments
+    @appointments = current_customer.appointments.includes(:service, :staff)
     render(json: @appointments, root: false)
   end
 

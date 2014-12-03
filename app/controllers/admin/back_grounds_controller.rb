@@ -13,9 +13,8 @@ class Admin::BackGroundsController < ApplicationController
     if @back_ground.save
       redirect_to admin_application_images_path, notice: 'Back Ground successfully created.'
     else
-      flash[:notice] = 'Please select an image.'
+      flash.now[:notice] = 'Please select an image.'
       render :new
-      flash.clear
     end
   end
 
@@ -26,9 +25,8 @@ class Admin::BackGroundsController < ApplicationController
     if params[:back_ground][:image] && @back_ground.update(back_ground_params)
       redirect_to admin_application_images_path, notice: 'Back Ground successfully updated.'
     else
-      flash[:notice] = 'Please select an image.'
+      flash.now[:notice] = 'Please select an image.'
       render :edit
-      flash.clear
     end
   end
 

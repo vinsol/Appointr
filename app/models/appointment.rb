@@ -30,7 +30,7 @@ class Appointment < ActiveRecord::Base
   def staff_allotable?
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
       if(staff.is_occupied?(start_at, end_at,start_at.to_date, id))
-        errors[:staff] << 'not available for this duration.'
+        errors[:staff] << 'is already booked for this duration.'
       end
     else
       errors[:base] <<  'No availability for this time duration for this staff.'
@@ -48,14 +48,14 @@ class Appointment < ActiveRecord::Base
   end
   
   def ensure_customer_has_no_prior_appointment_at_same_time
-    unless has_no_clashing_appointments?(customer)
+    unless does_not_clash_for?(customer)
       errors[:base] << 'You already have an overlapping appointment for this time duration.'
     end
   end
 
-  def has_no_clashing_appointments?(user)
+  def does_not_clash_for?(user)
     !user.appointments.any? do |appointment|
-      appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
+      appointment.id != id && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
   end
 
@@ -69,7 +69,7 @@ class Appointment < ActiveRecord::Base
   def set_staff
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
-      has_no_clashing_appointments?(staff)
+      does_not_clash_for?(staff)
     end
     if(!self.staff)
       errors[:base] << 'No staff available for this time duration'
