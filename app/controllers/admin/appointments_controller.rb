@@ -4,11 +4,11 @@ class Admin::AppointmentsController < ApplicationController
   before_action :ensure_remark_is_present, only: :destroy
 
   def index
-    @appointments = Appointment.all
+    @appointments = Appointment.all.includes(:staff, :service, :customer)
   end
 
   def json_index
-    @appointments = Appointment.all
+    @appointments = Appointment.all.includes(:staff, :service, :customer)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
         title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
@@ -33,9 +33,9 @@ class Admin::AppointmentsController < ApplicationController
 
   def search
     if params[:search].empty?
-      @appointments = Appointment.all
+      @appointments = Appointment.all.includes(:staff, :service, :customer)
     else
-      @appointments = Appointment.search Riddle::Query.escape(params[:search])
+      @appointments = Appointment.search(Riddle::Query.escape(params[:search])).includes(:staff, :service, :customer)
     end
   end
 

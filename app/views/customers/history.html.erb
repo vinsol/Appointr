@@ -1,0 +1,116 @@
+<h1>Listing Approved Appointments</h1>
+
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Staff
+    </th>
+    <th>
+      Service
+    </th>
+    <th>
+      Start Time
+    </th>
+    <th>
+      Duration
+    </th>
+    <th>
+      Date
+    </th>
+    <th>
+      State
+    </th>
+    <th>
+      Remarks
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+  <% @active_appointments.each do |appointment| %>
+    <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
+      <td>
+        <%= appointment.staff.name %>
+      </td>
+      <td>
+        <%= appointment.service.name %>
+      </td>
+      <td>
+        <%= get_local_time(appointment.start_at) %>
+      </td>
+      <td>
+        <%= appointment.duration %>
+      </td>
+      <td>
+        <%= appointment.start_at.to_date %>
+      </td>
+      <td>
+        <%= appointment.state %>
+      </td>
+      <td>
+        <%= appointment.remarks %>
+      </td>
+      <td>
+        <%= link_to 'Cancel', appointment_path(appointment.id), method: :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<br />
+<br />
+<hr />
+<br />
+<br />
+<h1>Listing Past and Cancelled Appointments</h1>
+
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Staff
+    </th>
+    <th>
+      Service
+    </th>
+    <th>
+      Start Time
+    </th>
+    <th>
+      Duration
+    </th>
+    <th>
+      Date
+    </th>
+    <th>
+      State
+    </th>
+    <th>
+      Remarks
+    </th>
+  </tr>
+  <% @inactive_appointments.each do |appointment| %>
+    <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
+      <td>
+        <%= appointment.staff.name %>
+      </td>
+      <td>
+        <%= appointment.service.name %>
+      </td>
+      <td>
+        <%= get_local_time(appointment.start_at) %>
+      </td>
+      <td>
+        <%= appointment.duration %>
+      </td>
+      <td>
+        <%= appointment.start_at.to_date %>
+      </td>
+      <td>
+        <%= appointment.state %>
+      </td>
+      <td>
+        <%= appointment.remarks %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<br />

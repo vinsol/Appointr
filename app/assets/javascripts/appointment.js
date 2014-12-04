@@ -55,7 +55,7 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
             textColor: 'blue'
           },
           {
-            url: '/inactive_appointments',
+            url: '/past_appointments',
             color: 'red',
             textColor: 'blue'
           }
@@ -83,7 +83,7 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
           }
         },
         selectOverlap: function(event) {
-          return event.rendering === 'background';
+          return(event.rendering === 'background' || event.state !== 'approved');
         }
       })
 }

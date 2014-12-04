@@ -4,12 +4,12 @@ class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
 
   def active_appointments
-    @appointments = current_customer.appointments.where(state: 'approved')
+    @appointments = current_customer.appointments.where(state: 'approved').includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 
-  def inactive_appointments
-    @appointments = current_customer.appointments.where.not(state: 'approved')
+  def past_appointments
+    @appointments = current_customer.appointments.where("start_at <= '#{ Time.now }'").includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 
@@ -63,7 +63,7 @@ class AppointmentsController < ApplicationController
     @appointment.remarks = 'Cancelled by customer.'
     @appointment.cancel
     if @appointment.save
-      redirect_to root_path, notice: 'Appointment cancelled'
+      redirect_to request.referer, notice: 'Appointment cancelled'
     else
       render :edit
     end

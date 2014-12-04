@@ -10,16 +10,15 @@ Rails.application.routes.draw do
   root 'home#welcome'
 
   get 'customer_home' => 'customers#home'
+  get 'history' => 'customers#history'
 
   get 'staff_home' => 'staffs#home'
 
   get 'availabilities' => 'availabilities#index'
   get 'active_appointments' => 'appointments#active_appointments'
-  get 'inactive_appointments' => 'appointments#inactive_appointments'
-
+  get 'past_appointments' => 'appointments#past_appointments'
 
   resources :appointments
-
 
   namespace :admin do
     resources :staffs do

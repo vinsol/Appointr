@@ -2,7 +2,7 @@
 var $modal = $('.modal'),
     $modalBody = $('.modal .modal-body'),
     $modalHeading = $('.modal #myModalLabel');
-$modalHeading.html("Edit Appointment");
+$modalHeading.html("Appointment");
 $modalBody.html("<%= escape_javascript(render 'show') %>");
 $modal.modal({ backdrop: false });
 $('#appointment_service').before("<%= escape_javascript(@appointment.service.name) %>");
