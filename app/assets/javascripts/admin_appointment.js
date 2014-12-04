@@ -1,4 +1,4 @@
-// TODO: LoadCalendar defined twice? Move to a common class. DRY
+// TODO: LoadCalendar defined twice? Move to a common class. DRY.
 function LoadCalendar() {
 }
 
