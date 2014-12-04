@@ -40,9 +40,10 @@
 </div>
 
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+<%= javascript_include_tag 'jquery' %>
+<%= javascript_include_tag 'jquery-ui' %>
+<%= stylesheet_link_tag 'jquery-ui' %>
 <%= javascript_include_tag 'fullcalendar' %>
 <%= javascript_include_tag 'bootstrap.min' %>
 <%= javascript_include_tag 'appointment_filter' %>

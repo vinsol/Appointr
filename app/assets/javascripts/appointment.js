@@ -57,7 +57,8 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
 
         ],
         eventClick: function(calEvent, jsEvent, view) {
-          if(calEvent['start']['_d'] > (new Date)) {
+          var appointmentStartAt = new Date(calEvent['start']['_i']);
+          if(appointmentStartAt > (new Date)) {
             $.ajax({
               url: 'appointments/' + calEvent['id'] + '/edit'
             })
