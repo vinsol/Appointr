@@ -1,4 +1,5 @@
 function FillSelect() {
+  // TODO: Rename to this.$serviceSelect. This is a convention...
   this.staffSelect = $("#availability_staff");
   this.serviceSelect = $("#availability_service_ids");
 }
@@ -9,6 +10,7 @@ FillSelect.prototype.init = function() {
 }
 
 FillSelect.prototype.fillServices = function() {
+  // TODO: What is the need to typecast?
   var service_ids = String($("#availability_staff option:selected").data('service_ids')).split(' '),
       _this = this;
   this.serviceSelect.children().hide()
