@@ -40,6 +40,9 @@ gem 'active_model_serializers', '0.9.0'
 gem 'mysql2', '~> 0.3.17'
 gem 'thinking-sphinx', '~> 3.1.1'
 
+# Use asynchronous state machine
+gem 'aasm'
+
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'

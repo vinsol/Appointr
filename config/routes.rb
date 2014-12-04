@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   get 'staff_home' => 'staffs#home'
 
   get 'availabilities' => 'availabilities#index'
-  get 'appointments' => 'appointments#index'
+  get 'active_appointments' => 'appointments#active_appointments'
+  get 'inactive_appointments' => 'appointments#inactive_appointments'
+
 
   resources :appointments
 

@@ -50,7 +50,12 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
             textColor: 'blue'
           },
           {
-            url: '/appointments',
+            url: '/active_appointments',
+            color: 'yellow',
+            textColor: 'blue'
+          },
+          {
+            url: '/inactive_appointments',
             color: 'red',
             textColor: 'blue'
           }
@@ -58,7 +63,7 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
         ],
         eventClick: function(calEvent, jsEvent, view) {
           var appointmentStartAt = new Date(calEvent['start']['_i']);
-          if(appointmentStartAt > (new Date)) {
+          if(appointmentStartAt > (new Date) && calEvent['state'] == 'approved') {
             $.ajax({
               url: 'appointments/' + calEvent['id'] + '/edit'
             })
