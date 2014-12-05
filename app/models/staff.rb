@@ -22,10 +22,8 @@ class Staff < User
     super if confirmed?
   end
 
-  # TODO: No need to pass date. Also, `has_availability` would be a better name.
   def has_availability?(start_at, end_at, service)
 
-    # TODO: Refactor this. All time and date comparisons in the app can be refactored.
     availabilities.any? do |availability|
       availability.service_ids.include?(service.id) && availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
     end

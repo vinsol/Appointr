@@ -7,7 +7,6 @@ class Appointment < ActiveRecord::Base
 
   # Validations
   validates :service, :customer, :start_at, :duration, presence: true
-  # TODO: Lets discuss this.
   validate :ensure_duration_not_less_than_service_duration, if: [:duration, :service]
   validate :ensure_customer_has_no_prior_appointment_at_same_time, if: :customer
   validate :appointment_time_not_in_past, if: :start_at
@@ -26,7 +25,6 @@ class Appointment < ActiveRecord::Base
     end
   end
 
-  # TODO: Rename. Lets discuss this one.
   def staff_allotable?
     if(staff.has_availability?(start_at, end_at, service))
       if(staff.is_occupied?(start_at, end_at, id))
@@ -60,7 +58,6 @@ class Appointment < ActiveRecord::Base
   end
 
   def get_availabilities_for_service
-    # TODO: Refactor..
     @availabilities = service.availabilities
     @availabilities = @availabilities.select do |availability|
       availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
@@ -70,7 +67,6 @@ class Appointment < ActiveRecord::Base
   def set_staff
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
-      # TODO: Do we need to check again??
       does_not_clash_for?(staff)
     end
     if(!self.staff)
