@@ -10,7 +10,7 @@ class Availability < ActiveRecord::Base
   validate :ensure_start_date_not_in_past, on: :create, if: :ensure_dates_are_valid
   #associations
   belongs_to :staff
-  has_many :availability_services, class_name: 'AvailabilityService', dependent: :restrict_with_error
+  has_many :availability_services, dependent: :restrict_with_error
   has_many :services, through: :availability_services
 
   attr_accessor :title, :start, :end

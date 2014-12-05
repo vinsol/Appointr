@@ -9,7 +9,6 @@ class Staff < User
   has_many :allocations
   has_many :services, through: :allocations
   has_many :availabilities
-  has_many :available_services, through: :availabilities, source: 'Service', foreign_key: 'service_id'
   has_many :appointments
   has_many :appointed_services, through: :appointments, source: 'Service', foreign_key: 'service_id'
   has_many :appointed_customers, through: :appointments, source: 'Customer', foreign_key: 'customer_id'
