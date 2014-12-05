@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   
   #calbacks
-  before_save :downcase_email
+  before_save :downcase_email!
 
   #validations
   validates :name, presence: true
@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   end
 
   # TODO: Should be a bang? `downcase_email!`
-  def downcase_email
+  def downcase_email!
      self.email = email.downcase
   end
 end

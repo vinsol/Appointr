@@ -1,7 +1,5 @@
 class Appointment < ActiveRecord::Base
 
-  include Timeable
-
   # Associations
   belongs_to :customer
   belongs_to :staff
@@ -30,8 +28,8 @@ class Appointment < ActiveRecord::Base
 
   # TODO: Rename. Lets discuss this one.
   def staff_allotable?
-    if(staff.is_available?(start_at, end_at, start_at.to_date, service))
-      if(staff.is_occupied?(start_at, end_at, start_at.to_date, id))
+    if(staff.has_availability?(start_at, end_at, service))
+      if(staff.is_occupied?(start_at, end_at, id))
         errors[:staff] << 'is already booked for this duration.'
       end
     else
@@ -65,7 +63,7 @@ class Appointment < ActiveRecord::Base
     # TODO: Refactor..
     @availabilities = service.availabilities
     @availabilities = @availabilities.select do |availability|
-      availability.start_date <=start_at.to_date && availability.end_date >=start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
+      availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
     end
   end
 

@@ -18,6 +18,10 @@ Rails.application.routes.draw do
 
   resources :appointments
 
+  resources :comments do
+    get 'preview', on: :new
+  end
+
 
   namespace :admin do
     resources :staffs do

@@ -1,7 +1,5 @@
 class Availability < ActiveRecord::Base
 
-  include Timeable
-
   #validations
   validates :staff, presence: true
   validates :services, presence: true
