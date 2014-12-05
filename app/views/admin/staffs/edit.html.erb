@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :services %><br>
-    <%= f.text_field :services %>
+    <%= f.text_field :services, data: { services: Service.select(:id, :name).to_json } %>
   </div>
    <div class="actions">
     <%= f.submit %>
@@ -29,12 +29,12 @@
 <% end %>
 <div>
   <br>
-  <%= link_to 'back', :back %>
+  <%= link_to 'back', admin_staffs_path %>
 </div>
 
 
   <script type="text/javascript">
     $(document).ready(function () {
-      $("#staff_services").tokenInput("/services/search", { prePopulate: <%= raw @staff.services.to_json %> });
+      $("#staff_services").tokenInput($("#staff_services").data('services'), { prePopulate: <%= raw @staff.services.to_json %> });
     });
   </script>

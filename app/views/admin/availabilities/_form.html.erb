@@ -24,11 +24,11 @@
 
   <div class="field">
     <%= f.label :start_at %><br />
-    <%= f.time_select :start_at%>
+    <%= f.time_select :start_at, minute_step: 15 %>
   </div><br>
   <div class='field'>
     <%= f.label :end_at %><br />
-    <%= f.time_select :end_at %>
+    <%= f.time_select :end_at, minute_step: 15 %>
   </div><br>
 
   <div class="field">
