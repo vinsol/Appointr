@@ -1,4 +1,5 @@
 function LoadCalendar() {
+  // TODO: Rename to this.$serviceSelect.
   this.serviceSelect = $("#service");
   this.staffSelect = $("#staff");
 }
@@ -7,13 +8,18 @@ LoadCalendar.prototype.init = function() {
   this.bindEvents();
 }
 
+// TODO: What is obj? Give proper name.
 LoadCalendar.prototype.loadStaffAndCalendar = function(obj) {
   var value = $(obj).val();
+  // TODO: Refactor.
   var staff_ids = String($("#service option:selected").data('staff_ids')).split(' '),
       _this = this;
+  // TODO: Semicolon??? Also, use already created variables. serviceSelect etc.
   $('#staff').children().hide()
   if(value) {
+    // TODO: No indentation.
     $.each(staff_ids, function(index, staff) {
+      // TODO: Bad selector.
     $('#staff').children().first().show();
     $('#staff').val('')
       $('#staff').children('option[value = "' + staff + '"]').show();
@@ -27,6 +33,7 @@ LoadCalendar.prototype.loadStaffAndCalendar = function(obj) {
   }
 }
 
+// TODO: DRY.
 LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
   $('#calendar').fullCalendar({
         contentHeight: 400,
@@ -91,6 +98,7 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
 LoadCalendar.prototype.bindEvents = function() {
   var _this = this;
   this.serviceSelect.on("change", function() {
+    // TODO: No need to pass this
     _this.loadStaffAndCalendar(this);
   })
   this.staffSelect.on("change", function() {

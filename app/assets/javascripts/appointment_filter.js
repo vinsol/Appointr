@@ -1,3 +1,5 @@
+// TODO: Object Oriented JS???
+
 $(function() {
   $( "#start" ).datepicker({ onSelect: function() {
     var $appointmentRows = $('.appointment'),

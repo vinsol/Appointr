@@ -1,3 +1,4 @@
+// TODO: LoadCalendar defined twice? Move to a common class. DRY.
 function LoadCalendar() {
 }
 
@@ -22,6 +23,7 @@ LoadCalendar.prototype.initialize = function() {
         textColor: 'blue'
       }
     ],
+    // TODO: Handle if Ajax fails.
     eventClick: function(calEvent, jsEvent, view) {
       var appointmentStartAt = new Date(calEvent['start']['_i'])
       if(appointmentStartAt > (new Date)) {

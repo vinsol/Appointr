@@ -23,6 +23,7 @@ Filter.prototype.show_selected_months = function() {
 Filter.prototype.checkAndShowAvailability = function(startMonth, endMonth, selectedMonth, $availability) {
   if(startMonth < endMonth) {
     if(startMonth <= selectedMonth && endMonth >= selectedMonth) {
+      // TODO: Semicolons??? Fix everywhere.
       $availability.show()
     }
   }
@@ -40,6 +41,7 @@ Filter.prototype.checkAndShowAvailability = function(startMonth, endMonth, selec
 
 Filter.prototype.bindEvents = function() {
   var _this = this;
+  // TODO: Any other way?
   this.monthSelect.on("change", function() {
     _this.show_selected_months();
   })
