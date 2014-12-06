@@ -45,17 +45,17 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
         eventSources: [
           {
             color: 'green',
-            url: '/availabilities',
+            url: 'customers/availabilities',
             data: { 'service_id': service_id, 'staff_id': staff_id },
             textColor: 'blue'
           },
           {
-            url: '/active_appointments',
+            url: 'customers/active_appointments',
             color: 'yellow',
             textColor: 'blue'
           },
           {
-            url: '/past_appointments',
+            url: 'customers/past_appointments',
             color: 'red',
             textColor: 'blue'
           }
@@ -65,18 +65,18 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
           var appointmentStartAt = new Date(calEvent['start']['_i']);
           if(appointmentStartAt > (new Date) && calEvent['state'] == 'approved') {
             $.ajax({
-              url: 'appointments/' + calEvent['id'] + '/edit'
+              url: 'customers/appointments/' + calEvent['id'] + '/edit'
             })
           } else {
             $.ajax({
-              url: 'appointments/' + calEvent['id']
+              url: 'customers/appointments/' + calEvent['id']
             })
           }
         },
         select: function(start, end, jsEvent, view) {
           if(start['_d'] > (new Date)) {
             $.ajax({
-              url: 'appointments/new?start=' + start['_d'] + '&end=' + end['_d']
+              url: 'customers/appointments/new?start=' + start['_d'] + '&end=' + end['_d']
             })
           } else {
 
@@ -101,5 +101,6 @@ LoadCalendar.prototype.bindEvents = function() {
 
 $(document).ready(function() {
   var loadCalendar = new LoadCalendar;
+  $('#staff').children().hide();
   loadCalendar.init()
 });

@@ -1,17 +1,14 @@
-class Admin::AppointmentsController < Admin::AdminController
+class Staffs::AppointmentsController < ApplicationController
 
   before_action :set_appointment, only: [:destroy, :show]
   before_action :ensure_remark_is_present, only: :destroy
-
-  def index
-    @appointments = Appointment.all.order(:start_at).includes(:customer, :staff, :service)
-  end
+  before_action :user_has_staff_priveleges?
 
   def active_appointments
-    @appointments = Appointment.where(state: 'approved').includes(:customer, :staff, :service)
+    @appointments = current_staff.appointments.where(state: 'approved').includes(:staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
+        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
         start: appointment.start_at,
         end: appointment.end_at
       }
@@ -20,10 +17,10 @@ class Admin::AppointmentsController < Admin::AdminController
   end
 
   def past_appointments
-    @appointments = Appointment.where("start_at <= '#{ Time.now }'").includes(:customer, :staff, :service)
+    @appointments = current_staff.appointments.where("start_at <= '#{ Time.now }'").includes(:staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
+        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
         start: appointment.start_at,
         end: appointment.end_at
       }

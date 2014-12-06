@@ -1,4 +1,7 @@
-class AvailabilitiesController < ApplicationController
+class Customers::AvailabilitiesController < ApplicationController
+
+  before_action :user_has_customer_priveleges?
+
   def index
     if(params[:staff_id] == '')
       @availabilities = Service.find_by(id: params[:service_id]).availabilities

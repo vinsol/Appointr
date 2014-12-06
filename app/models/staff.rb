@@ -47,7 +47,3 @@ class Staff < User
   end
 
 end
-
-# availabilities[0].service_ids.include?(service.id) && availabilities[0].start_date <= date && availabilities[0].end_date >= date && availabilities[0].start_at.seconds_since_midnight <= start_at.utc.seconds_since_midnight && availabilities[0].end_at.seconds_since_midnight >= end_at.utc.seconds_since_midnight 
-
-        # appointment.date == Date.today && ((appointment.start_at > (Time.now - 5.minutes) && appointment.start_at < (Time.now + 10.minutes)) || (appointment.end_at > (Time.now - 5.minutes)) && appointment.end_at < (Time.now + 10.minutes))

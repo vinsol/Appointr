@@ -1,8 +1,7 @@
-class Admin::AvailabilitiesController < ApplicationController
+class Admin::AvailabilitiesController < Admin::AdminController
 
   #callbacks
   before_action :set_availability, only: [:show, :edit, :update]
-  before_action :user_has_admin_priveleges?, only: [:index, :show, :new, :edit, :create, :update]
 
   layout 'admin'
 

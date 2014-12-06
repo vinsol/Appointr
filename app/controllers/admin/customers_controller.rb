@@ -1,4 +1,4 @@
-class Admin::CustomersController < ApplicationController
+class Admin::CustomersController < Admin::AdminController
 
   before_action :set_customer, only: [:edit, :show, :update]
 

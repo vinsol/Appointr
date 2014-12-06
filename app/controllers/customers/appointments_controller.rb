@@ -1,7 +1,8 @@
-class AppointmentsController < ApplicationController
+class Customers::AppointmentsController < ApplicationController
 
   before_action :ensure_dates_are_valid, only: :index
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  before_action :user_has_customer_priveleges?
 
   def active_appointments
     @appointments = current_customer.appointments.where(state: 'approved').includes(:staff, :service)

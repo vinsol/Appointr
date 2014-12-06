@@ -1,5 +1,7 @@
 class CustomersController < ApplicationController
   layout 'customer'
+
+  before_action :user_has_customer_priveleges?, only: :history
   
   def home
   end

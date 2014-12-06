@@ -1,4 +1,4 @@
-class Admin::BackGroundsController < ApplicationController
+class Admin::BackGroundsController < Admin::AdminController
   
   layout 'admin'
 

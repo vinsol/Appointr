@@ -32,5 +32,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def user_has_customer_priveleges?
+    if !current_customer
+      redirect_to new_customer_session_path, notice: 'You need to sign in.'
+    end
+  end
+
+  def user_has_staff_priveleges?
+    if !current_staff
+      redirect_to new_staff_session_path, notice: 'You need to sign in.'
+    end
+  end
+
 
 end
