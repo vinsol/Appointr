@@ -23,23 +23,22 @@
   </div>
   <div class='row hidden' id='list'>
     <%= button_to 'Calendar View', admin_appointments_path, remote: true, method: :get, id: 'calendar_view' %>
-    <%= form_tag('/admin/appointments/search', remote: true, id: 'search_form') do -%>
-      <%= text_field_tag 'search', nil, placeholder: 'Enter search term...' %>
-      <%= submit_tag 'Save' %>
+    <%= form_tag(search_admin_appointments_path, remote: true, id: 'search_form') do -%>
+      <%= text_field_tag :search, nil, placeholder: 'Enter search term...' %>
+      <%= submit_tag :save %>
     <% end -%>
     <div id='dates'>
-      <%= label_tag 'start' %>
-      <%= text_field_tag 'start', nil %>     
-      <%= label_tag 'end' %>
-      <%= text_field_tag 'end', nil %>
+      <%= label_tag :start %>
+      <%= text_field_tag :start, nil %>     
+      <%= label_tag :end %>
+      <%= text_field_tag :end, nil %>
       <a id='clear_dates'><b>Clear Dates</b></a>
     </div>
     <div id='appointments'>
     </div>
   </div>
 </div>
-
-
-<%= javascript_include_tag 'appointment_filter' %>
+<%= javascript_include_tag 'customer_appointment' %>
 <%= javascript_include_tag 'admin_appointment' %>
+<%= javascript_include_tag 'appointment_filter' %>
 

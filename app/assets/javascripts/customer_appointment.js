@@ -1,33 +1,40 @@
 function LoadCalendar() {
-  this.serviceSelect = $("#service");
-  this.staffSelect = $("#staff");
+  // TODO: Rename to this.$serviceSelect.
+  this.$serviceSelect = $("#service");
+  this.$staffSelect = $("#staff");
 }
 
 LoadCalendar.prototype.init = function() {
   this.bindEvents();
 }
 
-LoadCalendar.prototype.loadStaffAndCalendar = function(obj) {
-  var value = $(obj).val();
-  var staff_ids = String($("#service option:selected").data('staff_ids')).split(' '),
+// TODO: What is obj? Give proper name.
+LoadCalendar.prototype.loadStaffAndCalendar = function(dynamicServiceSelect) {
+  var value = $(dynamicServiceSelect).val();
+  // TODO: Refactor.
+  var staff_ids = String(this.$serviceSelect.children(':selected').data('staff_ids')).split(' '),
       _this = this;
-  $('#staff').children().hide()
+  // TODO: Semicolon??? Also, use already created variables. serviceSelect etc.
+  $('#staff').children().hide();
   if(value) {
+    // TODO: No indentation.
     $.each(staff_ids, function(index, staff) {
-    $('#staff').children().first().show();
-    $('#staff').val('')
-      $('#staff').children('option[value = "' + staff + '"]').show();
-    });
+      // TODO: Bad selector.
+      $('#staff :first-child').show();
+      _this.$staffSelect.val('');
+        _this.$staffSelect.children('option[value = "' + staff + '"]').show();
+      });
     $('#calendar').fullCalendar('destroy');
-    _this.initialiseCalendar(value, '')
+    _this.initializeCalendarForCustomer(value, '');
   }
   else {
-    $('#staff').val('')
+    _this.$staffSelect.val('');
     $('#calendar').fullCalendar('destroy');
   }
 }
 
-LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
+// TODO: DRY.
+LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staff_id) {
   $('#calendar').fullCalendar({
         contentHeight: 400,
         aspectRatio: 2,
@@ -65,21 +72,31 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
           var appointmentStartAt = new Date(calEvent['start']['_i']);
           if(appointmentStartAt > (new Date) && calEvent['state'] == 'approved') {
             $.ajax({
-              url: 'customers/appointments/' + calEvent['id'] + '/edit'
+              url: 'customers/appointments/' + calEvent['id'] + '/edit',
+              error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+              }
             })
           } else {
             $.ajax({
-              url: 'customers/appointments/' + calEvent['id']
+              url: 'customers/appointments/' + calEvent['id'],
+              error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+              }
             })
           }
         },
         select: function(start, end, jsEvent, view) {
           if(start['_d'] > (new Date)) {
             $.ajax({
-              url: 'customers/appointments/new?start=' + start['_d'] + '&end=' + end['_d']
+              url: 'customers/appointments/new?start=' + start['_d'] + '&end=' + end['_d'],
+              error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+              }
             })
-          } else {
-
           }
         },
         selectOverlap: function(event) {
@@ -90,12 +107,12 @@ LoadCalendar.prototype.initialiseCalendar = function(service_id, staff_id) {
 
 LoadCalendar.prototype.bindEvents = function() {
   var _this = this;
-  this.serviceSelect.on("change", function() {
+  this.$serviceSelect.on("change", function() {
     _this.loadStaffAndCalendar(this);
   })
-  this.staffSelect.on("change", function() {
+  this.$staffSelect.on("change", function() {
     $('#calendar').fullCalendar('destroy');
-    _this.initialiseCalendar($('#service').val() ,$(this).val());
+    _this.initializeCalendarForCustomer($('#service').val() ,$(this).val());
   })
 }
 

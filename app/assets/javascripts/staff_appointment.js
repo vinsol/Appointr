@@ -1,6 +1,3 @@
-function LoadCalendar() {
-}
-
 LoadCalendar.prototype.initialize = function() {
   $('#calendar').fullCalendar({
     contentHeight: 400,
