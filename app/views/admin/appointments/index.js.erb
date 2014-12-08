@@ -1,7 +1,4 @@
-var $listViewButton = $('#list_view'),
-    $calendarViewButton = $('#calendar_view'),
-    $searchForm = $('#search_form'),
-    $searchInput = $('#search'),
+var $searchInput = $('#search'),
     $listBox = $('#list'),
     $calendarBox = $('#calendar_div'),
     $calendarDiv = $('#calendar'),
@@ -16,7 +13,7 @@ if($listBox.attr('class') == 'row hidden') {
   var loadCalendar = new LoadCalendar;
   $listBox.addClass('hidden');
   $calendarBox.removeClass('hidden');
-  loadCalendar.initialize();
+  loadCalendar.initializeCalendarForAdmin();
   $searchInput.val('');
   $listDiv.html("");
 }

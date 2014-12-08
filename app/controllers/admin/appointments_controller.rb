@@ -4,7 +4,7 @@ class Admin::AppointmentsController < ApplicationController
   before_action :ensure_remark_is_present, only: :destroy
 
   def index
-    @appointments = Appointment.all
+    @appointments = Appointment.all.includes(:customer, :staff, :service)
   end
 
   def json_index
