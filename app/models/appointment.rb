@@ -1,6 +1,35 @@
 class Appointment < ActiveRecord::Base
 
-  include Timeable
+  include AASM
+
+  aasm(no_direct_assignment: false, column: 'state') do
+    state :approved, :initial => true
+    state :cancelled
+    state :attended
+    state :missed
+
+    event :cancel do
+      transitions :from => :approved, :to => :cancelled
+    end
+
+    event :attend do
+      transitions :from => :approved, :to => :attended
+    end
+
+    event :miss do
+      transitions :from => :approved, :to => :missed
+    end
+
+    event :change_from_attended_to_missed do
+      transitions :from => :attended, :to => :missed
+    end
+
+    event :change_from_missed_to_attended do
+      transitions :from => :missed, :to => :attended
+    end
+
+  end
+
 
   # Associations
   belongs_to :customer

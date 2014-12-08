@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   get 'staff_home' => 'staffs#home'
 
   get 'availabilities' => 'availabilities#index'
-  get 'appointments' => 'appointments#index'
+  get 'active_appointments' => 'appointments#active_appointments'
+  get 'inactive_appointments' => 'appointments#inactive_appointments'
+
 
   resources :appointments
 
@@ -22,6 +24,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :staffs do
       patch 'update_password' => 'staffs#update_password', on: :member
+    end
+    resources :appointments do
+      post 'search' => 'appointments#search', on: :collection
+      get 'appointments_json' => 'appointments#json_index', on: :collection
     end
     resources :services, except: :destroy
     resources :availabilities, except: :destroy

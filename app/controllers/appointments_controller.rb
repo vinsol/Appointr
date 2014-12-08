@@ -3,8 +3,13 @@ class AppointmentsController < ApplicationController
   before_action :ensure_dates_are_valid, only: :index
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
 
-  def index
-    @appointments = current_customer.appointments
+  def active_appointments
+    @appointments = current_customer.appointments.where(state: 'approved')
+    render(json: @appointments, root: false)
+  end
+
+  def inactive_appointments
+    @appointments = current_customer.appointments.where.not(state: 'approved')
     render(json: @appointments, root: false)
   end
 
@@ -55,7 +60,9 @@ class AppointmentsController < ApplicationController
   end
 
   def destroy
-    if @appointment.destroy
+    @appointment.remarks = 'Cancelled by customer.'
+    @appointment.cancel
+    if @appointment.save
       redirect_to root_path, notice: 'Appointment cancelled'
     else
       render :edit

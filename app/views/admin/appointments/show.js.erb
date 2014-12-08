@@ -1,0 +1,16 @@
+var $modal = $('.modal'),
+    $modalBody = $('.modal .modal-body'),
+    $modalHeading = $('.modal #myModalLabel');
+$modalHeading.html("Appointment Details");
+$modalBody.html("<%= escape_javascript(render 'show') %>");
+$modal.modal({ backdrop: false });
+$('#appointment_service').before("<%= escape_javascript(@appointment.service.name) %>");
+$('#appointment_staff').before('Staff: ' + "<%= escape_javascript(@appointment.staff.name) %>");
+
+$('#cancellation').on('submit', function() {
+  var remarks = prompt('Remarks:');
+  $("input[name='remarks']").val(remarks);
+  if(remarks == null) {
+    event.preventDefault();
+  }
+});

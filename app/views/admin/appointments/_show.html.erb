@@ -1,0 +1,27 @@
+<p>
+  <strong>Customer:</strong>
+  <%= @appointment.customer.name.capitalize %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @appointment.service.name.capitalize %>
+</p>
+
+<p>
+  <strong>Staff:</strong>
+  <%= @appointment.staff.name.capitalize %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @appointment.start_at %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @appointment.duration %>
+</p>
+<% if params[:cancellable] %>
+  <%= button_to 'Cancel Appointment', admin_appointment_path(@appointment), method: :delete, form: {id: 'cancellation'}, params: [:remarks] %>
+<% end %>
