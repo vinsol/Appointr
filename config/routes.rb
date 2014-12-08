@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :admin, skip: :registrations
-  devise_for :staffs, controllers: { confirmations: 'staffs/confirmations' }, skip: :registrations
+  devise_for :staffs, controllers: { confirmations: 'staffs/confirmations', registrations: 'staffs/registrations' }
   devise_for :customers, controllers: { confirmations: 'customers/confirmations', registrations: 'customers/registrations' }
 
   devise_scope :staff do
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
 
   namespace :staffs do
+    resources :appointments
     get 'active_appointments' => 'appointments#active_appointments'
     get 'past_appointments' => 'appointments#past_appointments'
   end

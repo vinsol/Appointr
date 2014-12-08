@@ -13,21 +13,12 @@ class Appointment < ActiveRecord::Base
     end
 
     event :attend do
-      transitions :from => :approved, :to => :attended
+      transitions :from => [:approved, :missed, :attended], :to => :attended
     end
 
     event :miss do
-      transitions :from => :approved, :to => :missed
+      transitions :from => [:approved, :missed, :attended], :to => :missed
     end
-
-    event :change_from_attended_to_missed do
-      transitions :from => :attended, :to => :missed
-    end
-
-    event :change_from_missed_to_attended do
-      transitions :from => :missed, :to => :attended
-    end
-
   end
 
 

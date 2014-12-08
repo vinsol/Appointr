@@ -1,50 +1,43 @@
 class Staffs::AppointmentsController < ApplicationController
 
-  before_action :set_appointment, only: [:destroy, :show]
+  before_action :set_appointment, only: [:destroy, :show, :edit, :update]
   before_action :ensure_remark_is_present, only: :destroy
   before_action :user_has_staff_priveleges?
 
   def active_appointments
-    @appointments = current_staff.appointments.where(state: 'approved').includes(:staff, :service)
-    appointments_json = @appointments.map do |appointment|
-      { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
-        start: appointment.start_at,
-        end: appointment.end_at
-      }
-    end
+    @appointments = current_staff.appointments.where(state: 'approved').includes(:customer, :service)
+    appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end
 
   def past_appointments
-    @appointments = current_staff.appointments.where("start_at <= '#{ Time.now }'").includes(:staff, :service)
-    appointments_json = @appointments.map do |appointment|
-      { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
-        start: appointment.start_at,
-        end: appointment.end_at
-      }
-    end
+    @appointments = current_staff.appointments.where.not(state: 'approved').where("start_at <= '#{ Time.now }'").includes(:customer, :service)
+    appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end
 
   def show
   end
 
-  def destroy
-    @appointment.cancel
-    if @appointment.save
-      redirect_to root_path, notice: 'Appointment cancelled'
-    else
-      render :show
-    end
+  def edit
   end
 
-  def search
-    if params[:search].empty?
-      @appointments = Appointment.all.includes(:staff, :service, :customer)
+  def update
+    if appointment_params[:state] == 'attended'
+      @appointment.attend
+    elsif appointment_params[:state] == 'missed'
+      @appointment.miss
+    end
+
+    @appointment.remarks = appointment_params[:remarks]
+
+    if @appointment.save(validate: false)
+      flash[:notice] = 'Appointment successfully updated.'
+      respond_to do |format|
+        format.js { render :js => "window.location = '/staff_home'" }
+      end
     else
-      @appointments = Appointment.search(Riddle::Query.escape(params[:search]))
+      render :show
     end
   end
 
@@ -56,12 +49,18 @@ class Staffs::AppointmentsController < ApplicationController
     end
   end
 
-  def ensure_remark_is_present
-    unless params[:remarks].empty?
-      @appointment.remarks = params[:remarks]
-    end
-    if @appointment.remarks.nil?
-      redirect_to admin_path, notice: 'Please provide a remark to cancel the appointment.'
+  def appointment_params
+    params.require('appointment').permit(:state, :remarks)
+  end
+
+  def get_appointments_json
+    @appointments.map do |appointment|
+      { id: appointment.id,
+        state: appointment.state,
+        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
+        start: appointment.start_at,
+        end: appointment.end_at
+      }
     end
   end
 
