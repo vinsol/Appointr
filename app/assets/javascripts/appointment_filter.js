@@ -1,12 +1,15 @@
 // TODO: Object Oriented JS???
+function AppointmentsFilter() {
 
-$(function() {
-  $( "#start" ).datepicker({ onSelect: function() {
+}
+
+AppointmentsFilter.prototype.set = function(start, end) {
+  start.datepicker({ onSelect: function() {
     var $appointmentRows = $('.appointment'),
         startDate = (new Date($(this).val())),
         _this = this;
     $appointmentRows.hide();
-    if($('#end').val() == '') {
+    if(end.val() == '') {
       $appointmentRows.each( function(index) {
         var appointmentDate = new Date((new Date($(this).data('date'))).toDateString());
         if(appointmentDate.toDateString() == startDate.toDateString()) {
@@ -16,36 +19,20 @@ $(function() {
     } else {
       $appointmentRows.each( function(index) {
         var appointmentDate = new Date((new Date($(this).data('date'))).toDateString());
-        if((appointmentDate >= startDate) && (appointmentDate <= (new Date($('#end').val())))) {
+        if((appointmentDate >= (new Date($('#start').val()))) && (appointmentDate <= (new Date($('#end').val())))) {
           $(this).show()
         }
       })
     }
   } });
+}
 
 
-  $( "#end" ).datepicker({ onSelect: function() {
-    var $appointmentRows = $('.appointment'),
-        endDate = (new Date($(this).val())),
-        _this = this;
-    $appointmentRows.hide();
-    if($('#start').val() == '') {
-      $appointmentRows.each( function(index) {
-        var appointmentDate = new Date((new Date($(this).data('date'))).toDateString());
-        if(appointmentDate.toDateString() == endDate.toDateString()) {
-          $(this).show()
-        }
-      })
-    } else {
-      $appointmentRows.each( function(index) {
-        var appointmentDate = new Date((new Date($(this).data('date'))).toDateString());
-        if((appointmentDate <= endDate) && (appointmentDate >= (new Date($('#start').val())))) {
-          $(this).show()
-        }
-      })
-    }
-  } });
-  
+$(function() {
+  var appointmentsFilter = new AppointmentsFilter();
+  appointmentsFilter.set($('#start'), $('#end'));
+  appointmentsFilter.set($('#end'), $('#start'));
+
   $( '#clear_dates' ).on('click', function() {
     $('.appointment').show();
     $('#start').val('');

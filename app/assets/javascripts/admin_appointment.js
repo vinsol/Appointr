@@ -1,8 +1,6 @@
 // TODO: LoadCalendar defined twice? Move to a common class. DRY.
-function LoadCalendar() {
-}
 
-LoadCalendar.prototype.initialize = function() {
+LoadCalendar.prototype.initializeCalendarForAdmin = function() {
   $('#calendar').fullCalendar({
     contentHeight: 400,
     aspectRatio: 2,
@@ -28,11 +26,19 @@ LoadCalendar.prototype.initialize = function() {
       var appointmentStartAt = new Date(calEvent['start']['_i'])
       if(appointmentStartAt > (new Date)) {
         $.ajax({
-          url: 'admin/appointments/' + calEvent['id'] + '?cancellable=true'
+          url: 'admin/appointments/' + calEvent['id'] + '?cancellable=true',
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+          }
         })
       } else {
         $.ajax({
-          url: 'admin/appointments/' + calEvent['id']
+          url: 'admin/appointments/' + calEvent['id'],
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+          }
         })
       }
     },
@@ -44,5 +50,5 @@ LoadCalendar.prototype.initialize = function() {
 
 $(document).ready(function() {
   var loadCalendar = new LoadCalendar;
-  loadCalendar.initialize()
+  loadCalendar.initializeCalendarForAdmin()
 });

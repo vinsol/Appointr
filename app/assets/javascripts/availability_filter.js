@@ -3,7 +3,7 @@ function Filter() {
 }
 
 Filter.prototype.show_selected_months = function() {
-  var _this = this
+  var _this = this;
   if(this.monthSelect.val()) {
     $('.availability').each(function(index) {
       var selectedMonth = parseInt(_this.monthSelect.val()),
@@ -11,11 +11,11 @@ Filter.prototype.show_selected_months = function() {
           endMonth = (new Date($(this).children('.end_date').text())).getMonth() + 1;
 
       $(this).hide();
-      _this.checkAndShowAvailability(startMonth, endMonth, selectedMonth, $(this))
+      _this.checkAndShowAvailability(startMonth, endMonth, selectedMonth, $(this));
     });
   }
   else {
-    $('.availability').show()
+    $('.availability').show();
   }
 
 }
@@ -24,17 +24,17 @@ Filter.prototype.checkAndShowAvailability = function(startMonth, endMonth, selec
   if(startMonth < endMonth) {
     if(startMonth <= selectedMonth && endMonth >= selectedMonth) {
       // TODO: Semicolons??? Fix everywhere.
-      $availability.show()
+      $availability.show();
     }
   }
   else if(startMonth == endMonth) {
     if(selectedMonth == startMonth) {
-      $availability.show()
+      $availability.show();
     }
   }
   else {
     if((startMonth <= selectedMonth || endMonth >= selectedMonth)) {
-      $availability.show()
+      $availability.show();
     }
   }
 }
