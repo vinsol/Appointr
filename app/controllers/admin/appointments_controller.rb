@@ -4,7 +4,7 @@ class Admin::AppointmentsController < Admin::AdminController
   before_action :ensure_remark_is_present, only: :destroy
 
   def index
-    @appointments = Appointment.all.order(:start_at).includes(:customer, :staff, :service)
+    @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service)
   end
 
   def active_appointments
