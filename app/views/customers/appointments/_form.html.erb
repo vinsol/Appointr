@@ -30,5 +30,5 @@
   </div>
 <% end %>
 <% unless @appointment.new_record? %>
-  <%= button_to 'Cancel Appointment', customers_appointments_path(@appointment.id), method: :delete %>
+  <%= button_to 'Cancel Appointment', customers_appointment_path(@appointment.id), method: :delete %>
 <% end %>
