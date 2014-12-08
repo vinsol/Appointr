@@ -1,7 +1,4 @@
-function LoadCalendar() {
-}
-
-LoadCalendar.prototype.initialize = function() {
+LoadCalendar.prototype.initializeCalendarForStaff = function() {
   $('#calendar').fullCalendar({
     contentHeight: 400,
     aspectRatio: 2,
@@ -44,5 +41,5 @@ LoadCalendar.prototype.initialize = function() {
 
 $(document).ready(function() {
   var loadCalendar = new LoadCalendar;
-  loadCalendar.initialize()
+  loadCalendar.initializeCalendarForStaff();
 });

@@ -1,9 +1,6 @@
 <h1>hey <%= current_staff.name.capitalize %></h1>
 <div id='calendar'>
 </div>
-
-<%= javascript_include_tag 'staff_appointment' %>
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -18,3 +15,5 @@
     </div>
   </div>
 </div>
+<%= javascript_include_tag 'customer_appointment' %>
+<%= javascript_include_tag 'staff_appointment' %>
