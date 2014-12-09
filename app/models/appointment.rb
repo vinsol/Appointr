@@ -43,7 +43,7 @@ class Appointment < ActiveRecord::Base
   after_create :send_new_appointment_mail_to_customer_and_staff
     
 
-  after_update :send_edit_appointment_mail_to_customer_and_staff, unless: :check_if_cancelled
+  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :check_if_approved
     
 
   def end_at
@@ -61,8 +61,8 @@ class Appointment < ActiveRecord::Base
     CustomerMailer.edit_appointment_notifier(self).deliver
     StaffMailer.edit_appointment_notifier(self).deliver
   end
-  def check_if_cancelled
-    state == 'cancelled'
+  def check_if_approved
+    state == 'approved'
   end
 
   def appointment_time_not_in_past
