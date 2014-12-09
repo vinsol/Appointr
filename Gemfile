@@ -51,8 +51,12 @@ end
 group :development, :test do
   # Use debugger
   gem 'byebug', '3.4.1'
+end
+
+group :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'shoulda-matchers', require: false
+  gem "codeclimate-test-reporter"
 end
 
 group :production do

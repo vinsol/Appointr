@@ -43,7 +43,7 @@ class Appointment < ActiveRecord::Base
   after_create :send_new_appointment_mail_to_customer_and_staff
     
 
-  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :check_if_approved
+  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :check_if_approved?
     
 
   def end_at
@@ -61,12 +61,12 @@ class Appointment < ActiveRecord::Base
     CustomerMailer.edit_appointment_notifier(self).deliver
     StaffMailer.edit_appointment_notifier(self).deliver
   end
-  def check_if_approved
+  def check_if_approved?
     state == 'approved'
   end
 
   def appointment_time_not_in_past
-    if(start_at < (DateTime.now - 1.minutes))
+    if(start_at < (DateTime.current - 1.minutes))
       errors[:time] << 'can not be in past'
     end
   end
