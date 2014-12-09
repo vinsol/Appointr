@@ -37,7 +37,7 @@ class Admin::AppointmentsController < Admin::BaseController
   def destroy
     @appointment.cancel
     if @appointment.save
-      redirect_to root_path, notice: 'Appointment cancelled'
+      redirect_to admin_path, notice: 'Appointment cancelled'
     else
       render :show
     end

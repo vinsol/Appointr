@@ -32,6 +32,8 @@ class Appointment < ActiveRecord::Base
 
   #scopes
   scope :past, -> { where("start_at <= '#{ Time.current }'") }
+  scope :future, -> { where("start_at >= '#{ Time.current }'") }
+  scope :past_or_cancelled, -> { where("state = 'cancelled' OR start_at <= '#{ Time.current }'") }
 
   # Associations
   belongs_to :customer
