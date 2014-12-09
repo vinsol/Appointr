@@ -1,10 +1,7 @@
-class Admin::StaffsController < Admin::AdminController
+class Admin::StaffsController < Admin::BaseController
 
   #callbacks
   before_action :set_staff, only: [:edit, :show, :update]
-  before_action :staff_logged_in?, only: :home
-
-  layout 'admin'
 
   def index
     @staffs = Staff.order(:name).includes(:services)

@@ -1,4 +1,4 @@
-class Admin::AppointmentsController < Admin::AdminController
+class Admin::AppointmentsController < Admin::BaseController
 
   before_action :set_appointment, only: [:cancel, :show]
   before_action :ensure_remark_is_present, only: :cancel
@@ -8,26 +8,14 @@ class Admin::AppointmentsController < Admin::AdminController
   end
 
   def active_appointments
-    @appointments = Appointment.where(state: 'approved').includes(:customer, :staff, :service)
-    appointments_json = @appointments.map do |appointment|
-      { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
-        start: appointment.start_at,
-        end: appointment.end_at
-      }
-    end
+    @appointments = Appointment.approved.includes(:customer, :staff, :service)
+    appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end
 
   def past_appointments
-    @appointments = Appointment.where("start_at <= '#{ Time.now }'").includes(:customer, :staff, :service)
-    appointments_json = @appointments.map do |appointment|
-      { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
-        start: appointment.start_at,
-        end: appointment.end_at
-      }
-    end
+    @appointments = Appointment.past_and_not_cancelled.includes(:customer, :staff, :service)
+    appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end
 
@@ -56,6 +44,16 @@ class Admin::AppointmentsController < Admin::AdminController
   def set_appointment
     unless @appointment = Appointment.find_by(id: params[:id])
       redirect_to admin_path, notice: 'No appointment found.'
+    end
+  end
+
+  def get_appointments_json
+    @appointments.map do |appointment|
+      { id: appointment.id,
+        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
+        start: appointment.start_at,
+        end: appointment.end_at
+      }
     end
   end
 

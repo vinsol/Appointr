@@ -1,8 +1,6 @@
-class Admin::ServicesController < Admin::AdminController
+class Admin::ServicesController < Admin::BaseController
 
   before_action :set_service, only: [:show, :edit, :update]
-
-  layout 'admin'
 
   def index
     @services = Service.order("LOWER(name)")

@@ -1,16 +1,15 @@
-class Customers::AppointmentsController < ApplicationController
+class Customers::AppointmentsController < Customers::BaseController
 
   before_action :ensure_dates_are_valid, only: :index
   before_action :set_appointment, only: [:show, :edit, :update, :cancel]
-  before_action :user_has_customer_priveleges?
 
   def active_appointments
-    @appointments = current_customer.appointments.where(state: 'approved').includes(:staff, :service)
+    @appointments = current_customer.appointments.approved.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 
   def past_appointments
-    @appointments = current_customer.appointments.where("start_at <= '#{ Time.now }'").includes(:staff, :service)
+    @appointments = current_customer.appointments.past_and_not_cancelled.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 

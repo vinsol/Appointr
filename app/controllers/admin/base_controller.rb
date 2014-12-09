@@ -1,4 +1,4 @@
-class Admin::AdminController < ApplicationController
+class Admin::BaseController < ApplicationController
 
   before_action :user_has_admin_priveleges?
   

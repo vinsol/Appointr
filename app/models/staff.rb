@@ -5,11 +5,11 @@ class Staff < User
   validates :password, presence: :true, if: :should_validate_password?
   validates :password, format: { with: PASSWORD_VALIDATOR_REGEX, message: 'can not include spaces.' }, if: :encrypted_password_changed?
   
-  has_many :allocations
+  has_many :allocations, dependent: :restrict_with_error
   has_many :services, through: :allocations
-  has_many :availabilities
+  has_many :availabilities, dependent: :restrict_with_error
   has_many :available_services, through: :availabilities, source: 'Service', foreign_key: 'service_id'
-  has_many :appointments
+  has_many :appointments, dependent: :restrict_with_error
   has_many :appointed_services, through: :appointments, source: 'Service', foreign_key: 'service_id'
   has_many :appointed_customers, through: :appointments, source: 'Customer', foreign_key: 'customer_id'
 

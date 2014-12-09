@@ -1,8 +1,6 @@
-class Admin::CustomersController < Admin::AdminController
+class Admin::CustomersController < Admin::BaseController
 
   before_action :set_customer, only: [:edit, :show, :update]
-
-  layout 'admin'
 
   def index
     @customers = Customer.order(:name).includes(:appointments)
