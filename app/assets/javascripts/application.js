@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require twitter/bootstrap
-//= require jquery-ui
 //= require turbolinks
 //= require jquery.tokeninput
 //= require jquery.ui.widget

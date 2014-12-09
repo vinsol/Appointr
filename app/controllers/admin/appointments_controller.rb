@@ -1,7 +1,7 @@
 class Admin::AppointmentsController < Admin::AdminController
 
-  before_action :set_appointment, only: [:destroy, :show]
-  before_action :ensure_remark_is_present, only: :destroy
+  before_action :set_appointment, only: [:cancel, :show]
+  before_action :ensure_remark_is_present, only: :cancel
 
   def index
     @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service)
@@ -34,7 +34,7 @@ class Admin::AppointmentsController < Admin::AdminController
   def show
   end
 
-  def destroy
+  def cancel
     @appointment.cancel
     if @appointment.save
       redirect_to admin_path, notice: 'Appointment cancelled'

@@ -10,6 +10,10 @@ class Appointment < ActiveRecord::Base
 
     event :cancel do
       transitions :from => :approved, :to => :cancelled
+      after do
+        CustomerMailer.cancel_appointment_notifier(self).deliver
+        StaffMailer.cancel_appointment_notifier(self).deliver
+      end
     end
 
     event :attend do
@@ -35,11 +39,31 @@ class Appointment < ActiveRecord::Base
   validate :staff_allotable?, if: :staff
   before_save :assign_staff, unless: :staff
 
+  # Callbacks
+  after_create :send_new_appointment_mail_to_customer_and_staff
+    
+
+  after_update :send_edit_appointment_mail_to_customer_and_staff, unless: :check_if_cancelled
+    
+
   def end_at
     start_at + duration.minutes
   end
 
   protected
+
+  def send_new_appointment_mail_to_customer_and_staff
+    CustomerMailer.new_appointment_notifier(self).deliver
+    StaffMailer.new_appointment_notifier(self).deliver
+  end
+
+  def send_edit_appointment_mail_to_customer_and_staff
+    CustomerMailer.edit_appointment_notifier(self).deliver
+    StaffMailer.edit_appointment_notifier(self).deliver
+  end
+  def check_if_cancelled
+    state == 'cancelled'
+  end
 
   def appointment_time_not_in_past
     if(start_at < (DateTime.now - 1.minutes))

@@ -18,7 +18,9 @@ Rails.application.routes.draw do
     get 'availabilities' => 'availabilities#index'
     get 'active_appointments' => 'appointments#active_appointments'
     get 'past_appointments' => 'appointments#past_appointments'
-    resources :appointments
+    resources :appointments do
+      patch 'cancel' => 'appointments#cancel', on: :member
+    end
   end
 
 
@@ -34,6 +36,7 @@ Rails.application.routes.draw do
     end
     resources :appointments do
       post 'search' => 'appointments#search', on: :collection
+      patch 'cancel' => 'appointments#cancel', on: :member
     end
     get 'active_appointments' => 'appointments#active_appointments'
     get 'past_appointments' => 'appointments#past_appointments'

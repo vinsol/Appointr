@@ -29,6 +29,9 @@ class Admin::StaffsController < Admin::AdminController
   end
 
   def edit
+    unless(@staff.confirmed_at)
+      redirect_to admin_staffs_path, notice: 'This staff has not comfirmed his email yet.'
+    end
   end
 
   def update

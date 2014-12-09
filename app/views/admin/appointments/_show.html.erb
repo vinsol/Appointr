@@ -23,5 +23,5 @@
   <%= @appointment.duration %>
 </p>
 <% if params[:cancellable] %>
-  <%= button_to 'Cancel Appointment', admin_appointment_path(@appointment), method: :delete, form: {id: 'cancellation'}, params: [:remarks] %>
+  <%= button_to 'Cancel Appointment', cancel_admin_appointment_path(@appointment), method: :patch, form: {id: 'cancellation'}, params: [:remarks] %>
 <% end %>

@@ -1,7 +1,7 @@
 class Customers::AppointmentsController < ApplicationController
 
   before_action :ensure_dates_are_valid, only: :index
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  before_action :set_appointment, only: [:show, :edit, :update, :cancel]
   before_action :user_has_customer_priveleges?
 
   def active_appointments
@@ -60,7 +60,7 @@ class Customers::AppointmentsController < ApplicationController
   def show
   end
 
-  def destroy
+  def cancel
     @appointment.remarks = 'Cancelled by customer.'
     @appointment.cancel
     if @appointment.save

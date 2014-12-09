@@ -34,10 +34,9 @@
       </td>
       <td>
         <%= link_to 'Show', admin_staff_path(staff.id) %>
-        <% if(staff.confirmed_at) %>
-          |
-          <%= link_to 'Edit', edit_admin_staff_path(staff), method: :get %><br/>
-        <% else %>
+        |
+        <%= link_to 'Edit', edit_admin_staff_path(staff), method: :get %><br/>
+        <% unless(staff.confirmed_at) %>
           <p>Not yet confirmed</p>
         <% end %>
       </td>

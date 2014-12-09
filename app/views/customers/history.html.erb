@@ -51,7 +51,7 @@
         <%= appointment.remarks %>
       </td>
       <td>
-        <%= link_to 'Cancel', customers_appointment_path(appointment.id), method: :delete %>
+        <%= link_to 'Cancel', cancel_customers_appointment_path(appointment), method: :patch %>
       </td>
     </tr>
   <% end %>
