@@ -2,7 +2,7 @@ class Appointment < ActiveRecord::Base
 
   include AASM
 
-  aasm(no_direct_assignment: false, column: 'state') do
+  aasm(no_direct_assignment: false, column: 'state', whiny_transitions: false) do
     state :approved, :initial => true
     state :cancelled
     state :attended
@@ -30,6 +30,8 @@ class Appointment < ActiveRecord::Base
 
   end
 
+  #scopes
+  scope :past, -> { where("start_at <= '#{ Time.current }'") }
 
   # Associations
   belongs_to :customer

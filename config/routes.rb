@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     resources :application_images, only: :index
     resources :logos, only: [:new, :create, :edit, :update, :destroy]
     resources :back_grounds, only: [:new, :create, :edit, :update, :destroy]
-    get '/' => 'admin#home'
+    get '/' => 'base#home'
   end
 
   resources :staffs, except: [:new, :create, :index], constraints: {id: /[0-9]+/} do

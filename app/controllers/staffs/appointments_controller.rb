@@ -5,7 +5,7 @@ class Staffs::AppointmentsController < ApplicationController
   before_action :user_has_staff_priveleges?
 
   def active_appointments
-    @appointments = current_staff.appointments.where(state: 'approved').includes(:staff, :service)
+    @appointments = current_staff.appointments.approved.includes(:staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
         title: "#{ appointment.customer.name }, #{ appointment.service.name }",
@@ -17,7 +17,7 @@ class Staffs::AppointmentsController < ApplicationController
   end
 
   def past_appointments
-    @appointments = current_staff.appointments.where("start_at <= '#{ Time.now }'").includes(:staff, :service)
+    @appointments = current_staff.appointments.past.includes(:staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
         title: "#{ appointment.customer.name }, #{ appointment.service.name }",

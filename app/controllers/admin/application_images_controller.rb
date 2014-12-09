@@ -1,6 +1,4 @@
-class Admin::ApplicationImagesController < Admin::AdminController
-
-  layout 'admin'
+class Admin::ApplicationImagesController < Admin::BaseController
 
   def index
   end

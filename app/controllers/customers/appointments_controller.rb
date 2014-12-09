@@ -5,12 +5,12 @@ class Customers::AppointmentsController < ApplicationController
   before_action :user_has_customer_priveleges?
 
   def active_appointments
-    @appointments = current_customer.appointments.where(state: 'approved').includes(:staff, :service)
+    @appointments = current_customer.appointments.approved.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 
   def past_appointments
-    @appointments = current_customer.appointments.where("start_at <= '#{ Time.now }'").includes(:staff, :service)
+    @appointments = current_customer.appointments.past.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 

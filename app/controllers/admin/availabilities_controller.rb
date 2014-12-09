@@ -1,9 +1,7 @@
-class Admin::AvailabilitiesController < Admin::AdminController
+class Admin::AvailabilitiesController < Admin::BaseController
 
   #callbacks
   before_action :set_availability, only: [:show, :edit, :update]
-
-  layout 'admin'
 
   def new
     @availability = Availability.new

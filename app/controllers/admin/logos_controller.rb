@@ -1,6 +1,4 @@
-class Admin::LogosController < Admin::AdminController
-
-  layout 'admin'
+class Admin::LogosController < Admin::BaseController
 
   before_action :set_logo, only: [:edit, :update, :destroy]
 

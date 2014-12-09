@@ -7,7 +7,7 @@ class CustomersController < ApplicationController
   end
 
   def history
-    @active_appointments = current_customer.appointments.where(state: 'approved').where("start_at > '#{ Time.now }'").order(:start_at).includes(:staff, :service)
-    @inactive_appointments = current_customer.appointments.where("state != 'approved' OR start_at <= '#{ Time.now }'").order(:start_at).includes(:staff, :service)
+    @active_appointments = current_customer.appointments.where(state: 'approved').where("start_at > '#{ Time.current }'").order(:start_at).includes(:staff, :service)
+    @inactive_appointments = current_customer.appointments.where("state != 'approved' OR start_at <= '#{ Time.current }'").order(:start_at).includes(:staff, :service)
   end
 end
