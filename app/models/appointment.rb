@@ -46,10 +46,7 @@ class Appointment < ActiveRecord::Base
 
   # Callbacks
   after_create :send_new_appointment_mail_to_customer_and_staff
-    
-
   after_update :send_edit_appointment_mail_to_customer_and_staff, if: :check_if_approved?
-    
 
   def end_at
     start_at + duration.minutes
@@ -103,7 +100,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def has_no_clashing_appointments?(user)
-    !user.appointments.where(state: 'approved').any? do |appointment|
+    !user.appointments.approved.any? do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
   end
