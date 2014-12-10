@@ -16,8 +16,13 @@ LoadCalendar.prototype.initializeCalendarForAdmin = function() {
     },
     eventSources: [
       {
-        url: '/admin/appointments/appointments_json',
+        url: '/admin/past_appointments',
         color: 'red',
+        textColor: 'blue'
+      },
+      {
+        url: '/admin/active_appointments',
+        color: 'yellow',
         textColor: 'blue'
       }
     ],

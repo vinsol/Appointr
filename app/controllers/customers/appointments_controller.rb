@@ -1,15 +1,16 @@
-class AppointmentsController < ApplicationController
+class Customers::AppointmentsController < ApplicationController
 
   before_action :ensure_dates_are_valid, only: :index
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  before_action :user_has_customer_priveleges?
 
   def active_appointments
-    @appointments = current_customer.appointments.where(state: 'approved')
+    @appointments = current_customer.appointments.approved.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 
-  def inactive_appointments
-    @appointments = current_customer.appointments.where.not(state: 'approved')
+  def past_appointments
+    @appointments = current_customer.appointments.past.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 
@@ -63,7 +64,7 @@ class AppointmentsController < ApplicationController
     @appointment.remarks = 'Cancelled by customer.'
     @appointment.cancel
     if @appointment.save
-      redirect_to root_path, notice: 'Appointment cancelled'
+      redirect_to request.referer, notice: 'Appointment cancelled'
     else
       render :edit
     end

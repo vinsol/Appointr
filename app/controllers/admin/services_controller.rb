@@ -1,10 +1,6 @@
-class Admin::ServicesController < ApplicationController
+class Admin::ServicesController < Admin::BaseController
 
   before_action :set_service, only: [:show, :edit, :update]
-
-  before_action :user_has_admin_priveleges?, only: [:index, :show, :new, :edit, :create, :update]
-
-  layout 'admin'
 
   def index
     @services = Service.order("LOWER(name)")

@@ -1,6 +1,4 @@
-class Admin::BackGroundsController < ApplicationController
-  
-  layout 'admin'
+class Admin::BackGroundsController < Admin::BaseController
 
   before_action :set_back_ground, only: [:edit, :update, :destroy]
 

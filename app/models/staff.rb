@@ -31,7 +31,7 @@ class Staff < User
   end
 
   def is_occupied?(start_at, end_at, date, new_appointment_id)
-    appointments.any? do |appointment|
+    appointments.where(state: 'approved').any? do |appointment|
       if new_appointment_id
         appointment.id != new_appointment_id && appointment.start_at.to_date == date && ((start_at.seconds_since_midnight >= appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight <= appointment.end_at.seconds_since_midnight))
       else
@@ -47,7 +47,3 @@ class Staff < User
   end
 
 end
-
-# availabilities[0].service_ids.include?(service.id) && availabilities[0].start_date <= date && availabilities[0].end_date >= date && availabilities[0].start_at.seconds_since_midnight <= start_at.utc.seconds_since_midnight && availabilities[0].end_at.seconds_since_midnight >= end_at.utc.seconds_since_midnight 
-
-        # appointment.date == Date.today && ((appointment.start_at > (Time.now - 5.minutes) && appointment.start_at < (Time.now + 10.minutes)) || (appointment.end_at > (Time.now - 5.minutes)) && appointment.end_at < (Time.now + 10.minutes))

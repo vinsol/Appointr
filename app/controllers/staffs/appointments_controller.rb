@@ -1,17 +1,14 @@
-class Admin::AppointmentsController < Admin::BaseController
+class Staffs::AppointmentsController < ApplicationController
 
   before_action :set_appointment, only: [:destroy, :show]
   before_action :ensure_remark_is_present, only: :destroy
-
-  def index
-    @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service)
-  end
+  before_action :user_has_staff_priveleges?
 
   def active_appointments
-    @appointments = Appointment.approved.includes(:customer, :staff, :service)
+    @appointments = current_staff.appointments.approved.includes(:staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
+        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
         start: appointment.start_at,
         end: appointment.end_at
       }
@@ -20,10 +17,10 @@ class Admin::AppointmentsController < Admin::BaseController
   end
 
   def past_appointments
-    @appointments = Appointment.past.includes(:customer, :staff, :service)
+    @appointments = current_staff.appointments.past.includes(:staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
+        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
         start: appointment.start_at,
         end: appointment.end_at
       }
@@ -37,7 +34,7 @@ class Admin::AppointmentsController < Admin::BaseController
   def destroy
     @appointment.cancel
     if @appointment.save
-      redirect_to admin_path, notice: 'Appointment cancelled'
+      redirect_to root_path, notice: 'Appointment cancelled'
     else
       render :show
     end

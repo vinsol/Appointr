@@ -52,17 +52,17 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
         eventSources: [
           {
             color: 'green',
-            url: '/availabilities',
+            url: 'customers/availabilities',
             data: { 'service_id': service_id, 'staff_id': staff_id },
             textColor: 'blue'
           },
           {
-            url: '/active_appointments',
+            url: 'customers/active_appointments',
             color: 'yellow',
             textColor: 'blue'
           },
           {
-            url: '/inactive_appointments',
+            url: 'customers/past_appointments',
             color: 'red',
             textColor: 'blue'
           }
@@ -72,7 +72,7 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
           var appointmentStartAt = new Date(calEvent['start']['_i']);
           if(appointmentStartAt > (new Date) && calEvent['state'] == 'approved') {
             $.ajax({
-              url: 'appointments/' + calEvent['id'] + '/edit',
+              url: 'customers/appointments/' + calEvent['id'] + '/edit',
               error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
                 alert(thrownError);
@@ -80,7 +80,7 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
             })
           } else {
             $.ajax({
-              url: 'appointments/' + calEvent['id'],
+              url: 'customers/appointments/' + calEvent['id'],
               error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
                 alert(thrownError);
@@ -91,7 +91,7 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
         select: function(start, end, jsEvent, view) {
           if(start['_d'] > (new Date)) {
             $.ajax({
-              url: 'appointments/new?start=' + start['_d'] + '&end=' + end['_d'],
+              url: 'customers/appointments/new?start=' + start['_d'] + '&end=' + end['_d'],
               error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
                 alert(thrownError);
@@ -100,7 +100,7 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
           }
         },
         selectOverlap: function(event) {
-          return event.rendering === 'background';
+          return(event.rendering === 'background' || event.state !== 'approved');
         }
       })
 }
@@ -108,7 +108,6 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
 LoadCalendar.prototype.bindEvents = function() {
   var _this = this;
   this.$serviceSelect.on("change", function() {
-    // TODO: No need to pass this
     _this.loadStaffAndCalendar(this);
   })
   this.$staffSelect.on("change", function() {
@@ -119,5 +118,6 @@ LoadCalendar.prototype.bindEvents = function() {
 
 $(document).ready(function() {
   var loadCalendar = new LoadCalendar;
+  $('#staff').children().hide();
   loadCalendar.init()
 });

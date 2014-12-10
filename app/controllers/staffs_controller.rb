@@ -2,9 +2,7 @@ class StaffsController < ApplicationController
 
   #callbacks
   before_action :set_staff, only: [:edit, :show, :update]
-  before_action :user_has_admin_priveleges?, only: :index
-  before_action :admin_or_staff_logged_in?, only: [:update, :edit]
-  before_action :staff_logged_in?, only: :home
+  before_action :user_has_staff_priveleges?, only: [:home, :edit, :update, :show]
 
   layout 'staff'
 
@@ -14,7 +12,7 @@ class StaffsController < ApplicationController
   def update_password
     @staff = Staff.find_by(id: params[:staff][:id])
     @staff.confirmation_token = nil
-    @staff.confirmed_at = Time.now
+    @staff.confirmed_at = Time.current
     if @staff.update(password_update_params)
       redirect_to staff_home_path
     else
@@ -60,15 +58,4 @@ class StaffsController < ApplicationController
     end
   end
 
-  def admin_or_staff_logged_in?
-    unless current_admin || current_staff
-      redirect_to new_admin_session_path
-    end
-  end
-
-  def staff_logged_in?
-    if !current_staff
-      redirect_to new_staff_session_path
-    end
-  end
 end

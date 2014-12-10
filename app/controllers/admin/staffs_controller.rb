@@ -1,12 +1,8 @@
-class Admin::StaffsController < ApplicationController
+class Admin::StaffsController < Admin::BaseController
 
   #callbacks
   before_action :set_staff, only: [:edit, :show, :update]
-  before_action :user_has_admin_priveleges?, only: [:index, :new, :create]
-  before_action :admin_or_staff_logged_in?, only: [:update, :edit]
   before_action :staff_logged_in?, only: :home
-
-  layout 'admin'
 
   def index
     @staffs = Staff.order(:name).includes(:services)
@@ -59,15 +55,4 @@ class Admin::StaffsController < ApplicationController
     @staff = Staff.find_by(id: params[:id])
   end
 
-  def admin_or_staff_logged_in?
-    unless current_admin || current_staff
-      redirect_to new_admin_session_path
-    end
-  end
-
-  def staff_logged_in?
-    if !current_staff
-      redirect_to new_staff_session_path
-    end
-  end
 end

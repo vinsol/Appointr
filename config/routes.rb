@@ -13,13 +13,19 @@ Rails.application.routes.draw do
 
   get 'staff_home' => 'staffs#home'
 
-  get 'availabilities' => 'availabilities#index'
-  get 'active_appointments' => 'appointments#active_appointments'
-  get 'inactive_appointments' => 'appointments#inactive_appointments'
+  namespace :customers do
+    get 'availabilities' => 'availabilities#index'
+    get 'active_appointments' => 'appointments#active_appointments'
+    get 'appointment_history' => 'base#appointment_history'
+    get 'past_appointments' => 'appointments#past_appointments'
+    resources :appointments
+  end
 
 
-  resources :appointments
-
+  namespace :staffs do
+    get 'active_appointments' => 'appointments#active_appointments'
+    get 'past_appointments' => 'appointments#past_appointments'
+  end
 
   namespace :admin do
     resources :staffs do
@@ -27,15 +33,16 @@ Rails.application.routes.draw do
     end
     resources :appointments do
       post 'search' => 'appointments#search', on: :collection
-      get 'appointments_json' => 'appointments#json_index', on: :collection
     end
+    get 'active_appointments' => 'appointments#active_appointments'
+    get 'past_appointments' => 'appointments#past_appointments'
     resources :services, except: :destroy
     resources :availabilities, except: :destroy
     resources :customers, except: [:new, :create]
     resources :application_images, only: :index
     resources :logos, only: [:new, :create, :edit, :update, :destroy]
     resources :back_grounds, only: [:new, :create, :edit, :update, :destroy]
-    get '/' => 'admin#home'
+    get '/' => 'base#home'
   end
 
   resources :staffs, except: [:new, :create, :index], constraints: {id: /[0-9]+/} do
