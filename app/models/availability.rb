@@ -7,10 +7,11 @@ class Availability < ActiveRecord::Base
   validate :ensure_dates_are_valid
   validate :ensure_end_at_greater_than_start_at, if: :ensure_dates_are_valid
   validate :ensure_end_date_greater_than_start_date, if: :ensure_dates_are_valid
-  validate :ensure_start_date_not_in_past, on: :create, if: :ensure_dates_are_valid
+  validates :start_date, future: true,on: :create, if: :ensure_dates_are_valid
+
   #associations
   belongs_to :staff
-  has_many :availability_services, class_name: 'AvailabilityService', dependent: :restrict_with_error
+  has_many :availability_services, dependent: :restrict_with_error
   has_many :services, through: :availability_services
 
   attr_accessor :title, :start, :end
@@ -40,12 +41,6 @@ class Availability < ActiveRecord::Base
   def ensure_end_date_greater_than_start_date
     unless start_date <= end_date
       errors[:base] << 'End date should be greater than start date.'
-    end
-  end
-
-  def ensure_start_date_not_in_past
-    unless start_date >= Date.today
-      errors[:start_date] << 'can not be in past'
     end
   end
 
