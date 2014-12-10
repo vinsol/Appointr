@@ -19,7 +19,7 @@
 set :stage, :production
 set :rails_env, :production
 
-server '106.185.48.38', user: 'appointer', port: 22, roles: %w{web app db}#, my_property: :my_value
+server '54.149.24.175', user: 'ubuntu', port: 22, roles: %w{web app db}#, my_property: :my_value
 
 
 # Custom SSH Options
