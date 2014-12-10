@@ -1,4 +1,4 @@
-class Admin::AppointmentsController < Admin::AdminController
+class Admin::AppointmentsController < Admin::BaseController
 
   before_action :set_appointment, only: [:destroy, :show]
   before_action :ensure_remark_is_present, only: :destroy
@@ -8,7 +8,7 @@ class Admin::AppointmentsController < Admin::AdminController
   end
 
   def active_appointments
-    @appointments = Appointment.where(state: 'approved').includes(:customer, :staff, :service)
+    @appointments = Appointment.approved.includes(:customer, :staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
         title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
@@ -20,7 +20,7 @@ class Admin::AppointmentsController < Admin::AdminController
   end
 
   def past_appointments
-    @appointments = Appointment.where("start_at <= '#{ Time.now }'").includes(:customer, :staff, :service)
+    @appointments = Appointment.past.includes(:customer, :staff, :service)
     appointments_json = @appointments.map do |appointment|
       { id: appointment.id,
         title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",

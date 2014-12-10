@@ -12,7 +12,7 @@ class StaffsController < ApplicationController
   def update_password
     @staff = Staff.find_by(id: params[:staff][:id])
     @staff.confirmation_token = nil
-    @staff.confirmed_at = Time.now
+    @staff.confirmed_at = Time.current
     if @staff.update(password_update_params)
       redirect_to staff_home_path
     else
