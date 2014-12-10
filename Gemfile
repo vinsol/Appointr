@@ -46,6 +46,9 @@ gem 'aasm', '~> 4.0.3'
 # Use delayed job
 gem 'delayed_job_active_record', '~> 4.0.2'
 
+# Use capistrano
+gem 'capistrano', '~> 3.3.0'
+
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'
