@@ -38,9 +38,9 @@ class Appointment < ActiveRecord::Base
 
   # Validations
   validates :service, :customer, :start_at, :duration, presence: true
+  validates :start_at, future: true, if: :start_at
   validate :ensure_duration_not_less_than_service_duration, if: [:duration, :service]
   validate :ensure_customer_has_no_prior_appointment_at_same_time, if: :customer
-  validate :appointment_time_not_in_past, if: :start_at
   validate :staff_allotable?, if: :staff
   before_save :assign_staff, unless: :staff
 
@@ -65,12 +65,6 @@ class Appointment < ActiveRecord::Base
   end
   def check_if_approved?
     state == 'approved'
-  end
-
-  def appointment_time_not_in_past
-    if(start_at < (DateTime.current - 1.minutes))
-      errors[:time] << 'can not be in past'
-    end
   end
 
   def staff_allotable?

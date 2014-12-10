@@ -89,7 +89,7 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
           }
         },
         select: function(start, end, jsEvent, view) {
-          if(start['_d'] > (new Date)) {
+          if((new Date(start['_d'].getTime() - 19800000)) > (new Date)) {
             $.ajax({
               url: 'customers/appointments/new?start=' + start['_d'] + '&end=' + end['_d'],
               error: function (xhr, ajaxOptions, thrownError) {
