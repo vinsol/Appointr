@@ -11,7 +11,7 @@ class Staffs::AppointmentsController < ApplicationController
   end
 
   def past_appointments
-    @appointments = current_staff.appointments.where.not(state: 'approved').where("start_at <= '#{ Time.now }'").includes(:customer, :service)
+    @appointments = current_staff.appointments.past_and_not_cancelled.includes(:customer, :service)
     appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end

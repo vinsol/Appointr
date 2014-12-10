@@ -5,11 +5,11 @@ class Staff < User
   validates :password, presence: :true, if: :should_validate_password?
   validates :password, format: { with: PASSWORD_VALIDATOR_REGEX, message: 'can not include spaces.' }, if: :encrypted_password_changed?
   
-  has_many :allocations
+  has_many :allocations, dependent: :restrict_with_error
   has_many :services, through: :allocations
-  has_many :availabilities
+  has_many :availabilities, dependent: :restrict_with_error
   has_many :available_services, through: :availabilities, source: 'Service', foreign_key: 'service_id'
-  has_many :appointments
+  has_many :appointments, dependent: :restrict_with_error
   has_many :appointed_services, through: :appointments, source: 'Service', foreign_key: 'service_id'
   has_many :appointed_customers, through: :appointments, source: 'Customer', foreign_key: 'customer_id'
 
@@ -30,7 +30,7 @@ class Staff < User
   end
 
   def is_occupied?(start_at, end_at, date, new_appointment_id)
-    appointments.where(state: 'approved').any? do |appointment|
+    appointments.approved.any? do |appointment|
       if new_appointment_id
         appointment.id != new_appointment_id && appointment.start_at.to_date == date && ((start_at.seconds_since_midnight >= appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight <= appointment.end_at.seconds_since_midnight))
       else

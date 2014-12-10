@@ -10,6 +10,10 @@ class Appointment < ActiveRecord::Base
 
     event :cancel do
       transitions :from => :approved, :to => :cancelled
+      after do
+        CustomerMailer.cancel_appointment_notifier(self).deliver
+        StaffMailer.cancel_appointment_notifier(self).deliver
+      end
     end
 
     event :attend do
@@ -25,6 +29,7 @@ class Appointment < ActiveRecord::Base
   scope :past, -> { where("start_at <= '#{ Time.current }'") }
   scope :future, -> { where("start_at >= '#{ Time.current }'") }
   scope :past_or_cancelled, -> { where("state = 'cancelled' OR start_at <= '#{ Time.current }'") }
+  scope :past_and_not_cancelled, -> { where.not("state = 'cancelled' OR state = 'approved'").past }
 
   # Associations
   belongs_to :customer
@@ -39,14 +44,31 @@ class Appointment < ActiveRecord::Base
   validate :staff_allotable?, if: :staff
   before_save :assign_staff, unless: :staff
 
+  # Callbacks
+  after_create :send_new_appointment_mail_to_customer_and_staff
+  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :check_if_approved?
+
   def end_at
     start_at + duration.minutes
   end
 
   protected
 
+  def send_new_appointment_mail_to_customer_and_staff
+    CustomerMailer.new_appointment_notifier(self).deliver
+    StaffMailer.new_appointment_notifier(self).deliver
+  end
+
+  def send_edit_appointment_mail_to_customer_and_staff
+    CustomerMailer.edit_appointment_notifier(self).deliver
+    StaffMailer.edit_appointment_notifier(self).deliver
+  end
+  def check_if_approved?
+    state == 'approved'
+  end
+
   def appointment_time_not_in_past
-    if(start_at < (DateTime.now - 1.minutes))
+    if(start_at < (DateTime.current - 1.minutes))
       errors[:time] << 'can not be in past'
     end
   end
@@ -78,7 +100,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def has_no_clashing_appointments?(user)
-    !user.appointments.where(state: 'approved').any? do |appointment|
+    !user.appointments.approved.any? do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
   end

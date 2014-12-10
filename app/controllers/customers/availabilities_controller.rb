@@ -1,6 +1,4 @@
-class Customers::AvailabilitiesController < ApplicationController
-
-  before_action :user_has_customer_priveleges?
+class Customers::AvailabilitiesController < Customers::BaseController
 
   def index
     if(params[:staff_id] == '')

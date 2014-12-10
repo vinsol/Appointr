@@ -1,8 +1,7 @@
-class Customers::AppointmentsController < ApplicationController
+class Customers::AppointmentsController < Customers::BaseController
 
   before_action :ensure_dates_are_valid, only: :index
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy]
-  before_action :user_has_customer_priveleges?
+  before_action :set_appointment, only: [:show, :edit, :update, :cancel]
 
   def active_appointments
     @appointments = current_customer.appointments.approved.includes(:staff, :service)
@@ -10,7 +9,7 @@ class Customers::AppointmentsController < ApplicationController
   end
 
   def past_appointments
-    @appointments = current_customer.appointments.past.includes(:staff, :service)
+    @appointments = current_customer.appointments.past_and_not_cancelled.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 
@@ -60,7 +59,7 @@ class Customers::AppointmentsController < ApplicationController
   def show
   end
 
-  def destroy
+  def cancel
     @appointment.remarks = 'Cancelled by customer.'
     @appointment.cancel
     if @appointment.save

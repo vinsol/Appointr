@@ -1,7 +1,7 @@
 class Admin::AppointmentsController < Admin::BaseController
 
-  before_action :set_appointment, only: [:destroy, :show]
-  before_action :ensure_remark_is_present, only: :destroy
+  before_action :set_appointment, only: [:cancel, :show]
+  before_action :ensure_remark_is_present, only: :cancel
 
   def index
     @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service)
@@ -9,32 +9,20 @@ class Admin::AppointmentsController < Admin::BaseController
 
   def active_appointments
     @appointments = Appointment.approved.includes(:customer, :staff, :service)
-    appointments_json = @appointments.map do |appointment|
-      { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
-        start: appointment.start_at,
-        end: appointment.end_at
-      }
-    end
+    appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end
 
   def past_appointments
-    @appointments = Appointment.past.includes(:customer, :staff, :service)
-    appointments_json = @appointments.map do |appointment|
-      { id: appointment.id,
-        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
-        start: appointment.start_at,
-        end: appointment.end_at
-      }
-    end
+    @appointments = Appointment.past_and_not_cancelled.includes(:customer, :staff, :service)
+    appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end
 
   def show
   end
 
-  def destroy
+  def cancel
     @appointment.cancel
     if @appointment.save
       redirect_to admin_path, notice: 'Appointment cancelled'
@@ -56,6 +44,16 @@ class Admin::AppointmentsController < Admin::BaseController
   def set_appointment
     unless @appointment = Appointment.find_by(id: params[:id])
       redirect_to admin_path, notice: 'No appointment found.'
+    end
+  end
+
+  def get_appointments_json
+    @appointments.map do |appointment|
+      { id: appointment.id,
+        title: "#{ appointment.customer.name }, #{ appointment.staff.name }, #{ appointment.service.name }",
+        start: appointment.start_at,
+        end: appointment.end_at
+      }
     end
   end
 

@@ -41,7 +41,10 @@ gem 'mysql2', '~> 0.3.17'
 gem 'thinking-sphinx', '~> 3.1.1'
 
 # Use asynchronous state machine
-gem 'aasm'
+gem 'aasm', '~> 4.0.3'
+
+# Use delayed job
+gem 'delayed_job_active_record', '~> 4.0.2'
 
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -51,8 +54,12 @@ end
 group :development, :test do
   # Use debugger
   gem 'byebug', '3.4.1'
+end
+
+group :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'shoulda-matchers', require: false
+  gem "codeclimate-test-reporter"
 end
 
 group :production do

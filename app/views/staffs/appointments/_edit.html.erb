@@ -18,6 +18,11 @@
   <%= @appointment.duration %>
 </p>
 
+<p>
+  <strong>State:</strong>
+  <%= @appointment.state %>
+</p>
+
 <%= form_for [:staffs, @appointment], remote: true do |f| %>
   <% if @appointment.errors.any? %>
     <div id="error_explanation">
@@ -31,13 +36,8 @@
     </div>
   <% end %>
   <div class='field'>
-    <%= f.label :state %><br />
-    <% if @appointment.state == 'approved' %>
-      <%= f.label :state, "Approved", :value => "approved" %>
-      <%= f.radio_button :state, "approved" %><br />
-    <% end %>
     <%= f.label :state, "Attended", :value => "attended"  %>
-    <%= f.radio_button :state, 'attended' %><br />
+    <%= f.radio_button :state, 'attended', checked: true %><br />
     <%= f.label :state, "Missed", :value => "missed"  %>
     <%= f.radio_button :state, 'missed' %><br />
   </div>

@@ -2,7 +2,6 @@ class Admin::StaffsController < Admin::BaseController
 
   #callbacks
   before_action :set_staff, only: [:edit, :show, :update]
-  before_action :staff_logged_in?, only: :home
 
   def index
     @staffs = Staff.order(:name).includes(:services)
@@ -27,6 +26,9 @@ class Admin::StaffsController < Admin::BaseController
   end
 
   def edit
+    unless(@staff.confirmed_at)
+      redirect_to admin_staffs_path, notice: 'This staff has not comfirmed his email yet.'
+    end
   end
 
   def update
