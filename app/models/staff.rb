@@ -3,7 +3,6 @@ class Staff < User
   validates :designation, presence: true
   validates :services, presence: true
   validates :password, presence: :true, if: :should_validate_password?
-  validates :password, confirmation: true, if: :encrypted_password_changed?
   validates :password, format: { with: PASSWORD_VALIDATOR_REGEX, message: 'can not include spaces.' }, if: :encrypted_password_changed?
   
   has_many :allocations

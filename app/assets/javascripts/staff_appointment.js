@@ -1,4 +1,4 @@
-LoadCalendar.prototype.initialize = function() {
+LoadCalendar.prototype.initializeCalendarForStaff = function() {
   $('#calendar').fullCalendar({
     contentHeight: 400,
     aspectRatio: 2,
@@ -24,25 +24,22 @@ LoadCalendar.prototype.initialize = function() {
         textColor: 'blue'
       }
     ],
-    // eventClick: function(calEvent, jsEvent, view) {
-    //   var appointmentStartAt = new Date(calEvent['start']['_i'])
-    //   if(appointmentStartAt > (new Date)) {
-    //     $.ajax({
-    //       url: 'admin/appointments/' + calEvent['id'] + '?cancellable=true'
-    //     })
-    //   } else {
-    //     $.ajax({
-    //       url: 'admin/appointments/' + calEvent['id']
-    //     })
-    //   }
-    // },
-    // selectOverlap: function(event) {
-    //   return event.rendering === 'background';
-    // }
+    eventClick: function(calEvent, jsEvent, view) {
+      var appointmentStartAt = new Date(calEvent['end']['_i'])
+      if(appointmentStartAt < (new Date)) {
+        $.ajax({
+          url: 'staffs/appointments/' + calEvent['id'] + '/edit'
+        })
+      } else {
+        $.ajax({
+          url: 'staffs/appointments/' + calEvent['id']
+        })
+      }
+    }
   })
 }
 
 $(document).ready(function() {
   var loadCalendar = new LoadCalendar;
-  loadCalendar.initialize()
+  loadCalendar.initializeCalendarForStaff();
 });

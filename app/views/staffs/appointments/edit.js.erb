@@ -1,0 +1,6 @@
+var $modal = $('.modal'),
+    $modalBody = $('.modal .modal-body'),
+    $modalHeading = $('.modal #myModalLabel');
+$modalHeading.html("Edit Appointment");
+$modalBody.html("<%= escape_javascript(render 'edit') %>");
+$modal.modal({ backdrop: false });
