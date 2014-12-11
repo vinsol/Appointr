@@ -36,7 +36,7 @@ set :linked_files, %w{config/database.yml tmp/restart.txt}
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-set :deploy_via, :remote_cache
+# set :deploy_via, :remote_cache
 
 namespace :deploy do
 
@@ -50,14 +50,5 @@ namespace :deploy do
 
   after :finishing, :cleanup
   after :publishing, :restart
-
-  # after :restart, :clear_cache do
-  #   on roles(:web), in: :groups, limit: 3, wait: 10 do
-  #     # Here we can do anything such as:
-  #     # within release_path do
-  #     #   execute :rake, 'cache:clear'
-  #     # end
-  #   end
-  # end
 
 end
