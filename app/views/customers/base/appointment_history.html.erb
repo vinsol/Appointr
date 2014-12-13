@@ -12,7 +12,7 @@
       Start Time
     </th>
     <th>
-      Duration
+      Duration(Minutes)
     </th>
     <th>
       Date
@@ -36,13 +36,13 @@
         <%= appointment.service.name %>
       </td>
       <td>
-        <%= get_local_time(appointment.start_at) %>
+        <%= appointment.start_at.strftime("%I:%M %p") %>
       </td>
       <td>
         <%= appointment.duration %>
       </td>
       <td>
-        <%= appointment.start_at.to_date %>
+        <%= appointment.start_at.strftime("%d %b %Y") %>
       </td>
       <td>
         <%= appointment.state %>
@@ -56,6 +56,8 @@
     </tr>
   <% end %>
 </table>
+<%= paginate @active_appointments %>
+
 <br />
 <br />
 <hr />
@@ -75,7 +77,7 @@
       Start Time
     </th>
     <th>
-      Duration
+      Duration(Minutes)
     </th>
     <th>
       Date
@@ -96,13 +98,13 @@
         <%= appointment.service.name %>
       </td>
       <td>
-        <%= get_local_time(appointment.start_at) %>
+        <%= appointment.start_at.strftime("%I:%M %p") %>
       </td>
       <td>
         <%= appointment.duration %>
       </td>
       <td>
-        <%= appointment.start_at.to_date %>
+        <%= appointment.start_at.strftime("%d %b %Y") %>
       </td>
       <td>
         <%= appointment.state %>
@@ -113,4 +115,6 @@
     </tr>
   <% end %>
 </table>
+<%= paginate @inactive_appointments %>
+
 <br />

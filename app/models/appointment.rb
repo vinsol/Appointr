@@ -89,13 +89,18 @@ class Appointment < ActiveRecord::Base
   
   def ensure_customer_has_no_prior_appointment_at_same_time
     unless has_no_clashing_appointments?(customer)
-      errors[:base] << 'You already have an overlapping appointment for this time duration.'
+      errors[:base] << "You already have an overlapping appointment from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
     end
   end
 
   def has_no_clashing_appointments?(user)
-    !user.appointments.approved.any? do |appointment|
+    @clashing_appointment = user.appointments.approved.detect do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
+    end
+    if(@clashing_appointment)
+      false
+    else
+      true
     end
   end
 

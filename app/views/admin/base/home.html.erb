@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class='row hidden' id='list'>
-    <%= button_to 'Calendar View', admin_appointments_path, remote: true, method: :get, id: 'calendar_view', class: 'btn btn-primary' %>
+    <%= button_to 'Calendar View', (admin_appointments_path + '?view=calendar'), remote: true, method: :get, id: 'calendar_view', class: 'btn btn-primary' %>
     <%= form_tag(search_admin_appointments_path, remote: true, id: 'search_form') do -%>
       <%= text_field_tag :search, nil, placeholder: 'Enter search term...' %>
       <%= submit_tag :search, class: 'btn btn-primary' %>

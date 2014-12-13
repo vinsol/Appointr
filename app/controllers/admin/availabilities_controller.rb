@@ -25,7 +25,7 @@ class Admin::AvailabilitiesController < Admin::BaseController
   end
 
   def index
-    @availabilities = Availability.joins(:staff).order('users.name').includes(:services)
+    @availabilities = Availability.joins(:staff).order('users.name').includes(:services).page(params[:page]).per(15)
   end
 
   def update

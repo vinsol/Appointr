@@ -34,7 +34,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= get_local_time(@availability.start_at) %>
+    <%= @availability.start_at.strftime("%I:%M %p") %>
   </p>
 </div>
 <div class='col-md-4'>
@@ -47,7 +47,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= get_local_time(@availability.end_at) %>
+    <%= @availability.end_at.strftime("%I:%M %p") %>
   </p>
 </div>
 <div class='col-md-4'>
@@ -60,7 +60,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= @availability.start_date %>
+    <%= @availability.start_date.strftime("%d %b %Y") %>
   </p>
 </div>
 <div class='col-md-4'>
@@ -73,7 +73,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= @availability.end_date %>
+    <%= @availability.end_date.strftime("%d %b %Y") %>
   </p>
 </div>
 <div class='col-md-4'>

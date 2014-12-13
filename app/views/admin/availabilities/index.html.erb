@@ -1,7 +1,10 @@
 <h1>Listing availabilities</h1>
 
 <%= select_month(14, prompt: 'All') %>
+<br />
 
+<%= link_to 'Create New Availability', new_admin_availability_path %>
+<br />
 <table class = 'table table-hover table-striped'>
   <tr>
     <th>
@@ -35,16 +38,16 @@
         <%= availability.services.map(&:name).join(', ') %>
       </td>
       <td>
-        <%= get_local_time(availability.start_at) %>
+        <%= availability.start_at.strftime("%I:%M %p") %>
       </td>
       <td>
-        <%= get_local_time(availability.end_at) %>
+        <%= availability.end_at.strftime("%I:%M %p") %>
       </td>
       <td class='start_date'>
-        <%= availability.start_date %>
+        <%= availability.start_date.strftime("%d %b %Y") %>
       </td>
       <td class='end_date'>
-        <%= availability.end_date %>
+        <%= availability.end_date.strftime("%d %b %Y") %>
       </td>
       <td>
         <%= link_to 'Show', admin_availability_path(availability.id) %>
@@ -56,4 +59,6 @@
 </table>
 <%= link_to 'Create New Availability', new_admin_availability_path %>
 <br />
+<%= paginate @availabilities %>
+
 <%= javascript_include_tag 'availability_filter' %>

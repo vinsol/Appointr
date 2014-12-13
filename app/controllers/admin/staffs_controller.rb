@@ -4,7 +4,7 @@ class Admin::StaffsController < Admin::BaseController
   before_action :set_staff, only: [:edit, :show, :update]
 
   def index
-    @staffs = Staff.order(:name).includes(:services)
+    @staffs = Staff.order(:name).includes(:services).page(params[:page]).per(15)
   end
 
   def new

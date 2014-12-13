@@ -4,7 +4,7 @@ class Admin::AppointmentsController < Admin::BaseController
   before_action :ensure_remark_is_present, only: :cancel
 
   def index
-    @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service)
+    @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
   end
 
   def active_appointments

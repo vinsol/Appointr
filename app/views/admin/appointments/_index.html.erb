@@ -12,13 +12,13 @@
       Service
     </th>
     <th>
-      Start Time
+      Date
+    </th>
+    <th>
+      Time
     </th>
     <th>
       Duration
-    </th>
-    <th>
-      Date
     </th>
     <th>
       State
@@ -39,13 +39,13 @@
         <%= appointment.service.name %>
       </td>
       <td>
-        <%= get_local_time(appointment.start_at) %>
+        <%= appointment.start_at.strftime("%d %b %Y") %>
+      </td>
+      <td>
+        <%= appointment.start_at.strftime("%I:%M %p") %>
       </td>
       <td>
         <%= appointment.duration %>
-      </td>
-      <td>
-        <%= appointment.start_at.to_date %>
       </td>
       <td>
         <%= appointment.state %>
@@ -56,4 +56,5 @@
     </tr>
   <% end %>
 </table>
+<%= paginate @appointments, remote: true %>
 <br />
