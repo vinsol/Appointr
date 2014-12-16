@@ -90,25 +90,4 @@ RSpec.describe Availability do
       end
     end
   end
-
-  describe '#ensure_start_date_not_in_past' do
-    context 'when valid' do
-      before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today, start_at: Time.now, end_at: (Time.now + 5.minutes))
-      end
-      it ' should not add error message' do
-        @availability.send(:ensure_start_date_not_in_past)
-        expect(@availability.errors[:start_date]).to eql []
-      end
-    end
-    context 'when invalid' do
-      before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today - 2.days, end_date: Date.today, start_at: Time.now, end_at: (Time.now + 5.minutes))
-      end
-      it 'should add error message' do
-        @availability.send(:ensure_start_date_not_in_past)
-        expect(@availability.errors[:start_date]).to include('can not be in past')
-      end
-    end
-  end
 end
