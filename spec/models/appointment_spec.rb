@@ -1,15 +1,16 @@
 require 'rails_helper'
 
 describe Appointment do
+  let(:service) { FactoryGirl.create(:service) }
+  let(:staff) { FactoryGirl.create(:staff, services: [service]) }
+  let(:availability) { FactoryGirl.create(:availability, services: [service], staff: staff) }
+  let(:customer) { FactoryGirl.create(:customer) }
+
   describe 'Associations' do
     it { should belong_to(:customer)}
     it { should belong_to(:service)}
     it { should belong_to(:staff)}
   end
-  let(:service) { FactoryGirl.create(:service) }
-  let(:staff) { FactoryGirl.create(:staff, services: [service]) }
-  let(:availability) { FactoryGirl.create(:availability, services: [service], staff: staff) }
-  let(:customer) { FactoryGirl.create(:customer) }
 
   describe 'Validations' do
     it { should validate_presence_of(:service) }
@@ -155,7 +156,7 @@ describe Appointment do
       end
     end
 
-    context 'when miss' do
+    context 'when missed' do
       before do
         FactoryGirl.create(:availability, services: [service], staff: staff)
         @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
@@ -193,12 +194,182 @@ describe Appointment do
 
     context 'when availabilities are not present' do
       before do
-        # @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
         @appointment = FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer)    
       end
       it do
         expect(@appointment.send(:assign_staff)).to eq false
         expect(@appointment.errors[:base]).to include('No availability for this time duration.')
+      end
+    end
+  end
+
+  describe '#set_staff' do
+    let(:valid_appointment) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, start_at: (Time.current + 1.day + 20.minutes)) }
+    let(:appointment_for_staff_occupied) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, duration: 15) }
+
+    context 'when staff booked' do
+      before do
+        @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        appointment_for_staff_occupied.send :get_availabilities_for_service
+      end
+
+      it do
+        appointment_for_staff_occupied.send(:set_staff)
+        expect(appointment_for_staff_occupied.errors[:base]).to include('No staff available for this time duration')
+      end
+      it do
+        expect(appointment_for_staff_occupied.send(:set_staff)).to eq(false)
+      end
+    end
+
+    context 'when staff available' do
+      before do
+        @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer)
+        valid_appointment.send :get_availabilities_for_service
+      end
+
+      it do
+        valid_appointment.send(:set_staff)
+        expect(valid_appointment.staff).to eq(staff)
+      end
+      it do
+        expect(valid_appointment.send(:set_staff)).to eq(nil)
+      end
+    end
+  end
+
+  describe '#has_no_clashing_appointments?' do
+    let(:valid_appointment) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, start_at: (Time.current + 1.day + 20.minutes)) }
+    let(:invalid_appointment) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, duration: 15) }
+    
+    context 'for customer' do
+      context 'when no appointment clashes' do
+        before do
+          @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+          @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        end
+
+        it do
+          expect(valid_appointment.send(:has_no_clashing_appointments?, customer)).to eq(true)
+        end
+      end
+      context 'when clashing appointment present' do
+        before do
+          @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+          @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        end
+
+        it do
+          expect(invalid_appointment.send(:has_no_clashing_appointments?, customer)).to eq(false)
+        end
+      end
+    end
+    context 'for staff' do
+      context 'when no appointment clashes' do
+        before do
+          @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+          @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        end
+
+        it do
+          expect(valid_appointment.send(:has_no_clashing_appointments?, staff)).to eq(true)
+        end
+      end
+      context 'when clashing appointment present' do
+        before do
+          @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+          @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        end
+
+        it do
+          expect(invalid_appointment.send(:has_no_clashing_appointments?, staff)).to eq(false)
+        end
+      end
+    end
+  end
+
+  describe 'Mailers' do
+    describe 'on appointment creation' do
+      before do
+        @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+      end
+
+      it do
+        expect(ActionMailer::Base.deliveries.last.to).to eq(['bar@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last.from).to eq(['test.vinsol.ams@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last.subject).to eq('Appointment Created')
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.to).to eq(['foo@gamil.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.from).to eq(['test.vinsol.ams@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.subject).to eq('Appointment Created')
+      end
+    end
+
+    describe 'on appointment updation' do
+      before do
+        @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        @appointment = Appointment.first
+        @appointment.update(duration:45)
+      end
+
+      it do
+        expect(ActionMailer::Base.deliveries.last.to).to eq(['bar@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last.from).to eq(['test.vinsol.ams@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last.subject).to eq('Appointment Edited')
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.to).to eq(['foo@gamil.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.from).to eq(['test.vinsol.ams@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.subject).to eq('Appointment Edited')
+      end
+    end
+
+    describe 'on appointment cancelation' do
+      before do
+        @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        @appointment = Appointment.first
+        @appointment.cancel
+      end
+
+      it do
+        expect(ActionMailer::Base.deliveries.last.to).to eq(['bar@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last.from).to eq(['test.vinsol.ams@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last.subject).to eq('Appointment Cancelled')
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.to).to eq(['foo@gamil.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.from).to eq(['test.vinsol.ams@gmail.com'])
+      end
+      it do
+        expect(ActionMailer::Base.deliveries.last(2).first.subject).to eq('Appointment Cancelled')
       end
     end
   end

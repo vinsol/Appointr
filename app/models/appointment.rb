@@ -78,7 +78,7 @@ class Appointment < ActiveRecord::Base
     end
   end
 
-  def assign_staff#
+  def assign_staff
     get_availabilities_for_service
     if(@availabilities.empty?)
       errors[:base] <<  'No availability for this time duration.'
@@ -94,7 +94,7 @@ class Appointment < ActiveRecord::Base
     end
   end
 
-  def has_no_clashing_appointments?(user)#
+  def has_no_clashing_appointments?(user)
     @clashing_appointment = user.appointments.approved.detect do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
@@ -112,7 +112,7 @@ class Appointment < ActiveRecord::Base
     end
   end
 
-  def set_staff#
+  def set_staff
     @staffs = @availabilities.map(&:staff)
     self.staff = @staffs.detect do |staff|
       has_no_clashing_appointments?(staff)

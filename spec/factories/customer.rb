@@ -3,7 +3,8 @@ FactoryGirl.define do
   name 'foo'
   password '11111111'
   password_confirmation { |u| u.password }
-  sequence(:email) { |n| "foo#{ n }@gamil.com" }
+  # sequence(:email) { |n| "foo#{ n }@gamil.com" }
+  email 'foo@gamil.com'
   enabled true
   end
 end

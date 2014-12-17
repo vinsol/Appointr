@@ -4,7 +4,7 @@ FactoryGirl.define do
   designation 'asdf'
   password '11111111'
   password_confirmation { |u| u.password }
-  sequence(:email) { |n| "bar#{ n }@gamil.com" }
+  email 'bar@gmail.com'
   enabled true
   association :services, factory: :service
   end
