@@ -4,6 +4,6 @@ FactoryGirl.define do
     association :customer
     association :service
     duration 30
-    start_at DateTime.now + 20.minutes
+    start_at DateTime.current + 20.minutes
   end
 end

@@ -21,7 +21,7 @@ RSpec.describe Availability do
   describe '#ensure_dates_are_valid' do
     context 'when valid' do
       before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today, start_at: Time.now, end_at: (Time.now + 5.minutes))
+        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today, start_at: Time.current, end_at: (Time.current + 5.minutes))
       end
       it ' should not add error message' do
         @availability.send(:ensure_dates_are_valid)
@@ -31,7 +31,7 @@ RSpec.describe Availability do
     end
     context 'when start_date is invalid' do
       before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: 'asdfc', end_date: Date.today, start_at: Time.now, end_at: (Time.now - 5.minutes))
+        @availability = Availability.create(staff_id: 2, enabled: true, start_date: 'asdfc', end_date: Date.today, start_at: Time.current, end_at: (Time.current - 5.minutes))
       end
       it 'should add error message to start_date' do
         @availability.send(:ensure_dates_are_valid)
@@ -40,7 +40,7 @@ RSpec.describe Availability do
     end
     context 'when end_date is invalid' do
       before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: 'asdd', start_at: Time.now, end_at: (Time.now - 5.minutes))
+        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: 'asdd', start_at: Time.current, end_at: (Time.current - 5.minutes))
       end
       it 'should add error message to end_date' do
         @availability.send(:ensure_dates_are_valid)
@@ -52,7 +52,7 @@ RSpec.describe Availability do
   describe '#ensure_end_at_greater_than_start_at' do
     context 'when valid' do
       before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today, start_at: Time.now, end_at: (Time.now + 5.minutes))
+        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today, start_at: Time.current, end_at: (Time.current + 5.minutes))
       end
       it ' should not add error message' do
         @availability.send(:ensure_end_at_greater_than_start_at)
@@ -61,7 +61,7 @@ RSpec.describe Availability do
     end
     context 'when invalid' do
       before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today, start_at: Time.now, end_at: (Time.now - 5.minutes))
+        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today, start_at: Time.current, end_at: (Time.current - 5.minutes))
       end
       it 'should add error message' do
         @availability.send(:ensure_end_at_greater_than_start_at)
@@ -73,7 +73,7 @@ RSpec.describe Availability do
   describe '#ensure_end_date_greater_than_start_date' do
     context 'when valid' do
       before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today + 2.days, start_at: Time.now, end_at: (Time.now + 5.minutes))
+        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today + 2.days, start_at: Time.current, end_at: (Time.current + 5.minutes))
       end
       it ' should not add error message' do
         @availability.send(:ensure_end_date_greater_than_start_date)
@@ -82,7 +82,7 @@ RSpec.describe Availability do
     end
     context 'when invalid' do
       before do
-        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today - 2.days, start_at: Time.now, end_at: (Time.now + 5.minutes))
+        @availability = Availability.create(staff_id: 2, enabled: true, start_date: Date.today, end_date: Date.today - 2.days, start_at: Time.current, end_at: (Time.current + 5.minutes))
       end
       it 'should add error message' do
         @availability.send(:ensure_end_date_greater_than_start_date)

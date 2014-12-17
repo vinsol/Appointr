@@ -53,9 +53,10 @@ describe Appointment do
 
   describe '#ensure_customer_has_no_prior_appointment_at_same_time' do
 
-    let(:valid_appointment) { FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer, start_at: (Time.now + 1.day + 20.minutes)) }
-    let(:invalid_appointment) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, duration: 15) }
-
+    let(:valid_appointment) { FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer, start_at: (Time.current + 1.day + 20.minutes)) }
+    let(:invalid_appointment_one) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer) }
+    let(:invalid_appointment_two) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, start_at: (Time.current + 10.minutes)) }
+    
 
     context 'when invalid' do
       before do
@@ -63,8 +64,10 @@ describe Appointment do
         @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
       end
       it do
-        invalid_appointment.send(:ensure_customer_has_no_prior_appointment_at_same_time)
-        expect(invalid_appointment.errors[:base]).to include("You already have an overlapping appointment from #{ @appointment.start_at.strftime("%H:%M") } to #{ @appointment.end_at.strftime("%H:%M") }")
+        invalid_appointment_one.send(:ensure_customer_has_no_prior_appointment_at_same_time)
+        invalid_appointment_two.send(:ensure_customer_has_no_prior_appointment_at_same_time)
+        expect(invalid_appointment_one.errors[:base]).to include("You already have an overlapping appointment from #{ @appointment.start_at.strftime("%H:%M") } to #{ @appointment.end_at.strftime("%H:%M") }")
+        expect(invalid_appointment_two.errors[:base]).to include("You already have an overlapping appointment from #{ @appointment.start_at.strftime("%H:%M") } to #{ @appointment.end_at.strftime("%H:%M") }")
       end
     end
     context 'when valid' do
@@ -81,8 +84,8 @@ describe Appointment do
 
   describe '#staff_allotable?' do
 
-    let(:valid_appointment) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, start_at: (Time.now + 1.day + 20.minutes)) }
-    let(:appointment_for_staff_not_available) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, duration: 15, start_at: (Time.now + 6.days + 20.minutes)) }
+    let(:valid_appointment) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, start_at: (Time.current + 1.day + 20.minutes)) }
+    let(:appointment_for_staff_not_available) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, duration: 15, start_at: (Time.current + 6.days + 20.minutes)) }
     let(:appointment_for_staff_occupied) { FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer, duration: 15) }
     
     context 'when staff not available' do
@@ -115,4 +118,89 @@ describe Appointment do
       end
     end
   end
+
+  describe '#check_if_approved?' do
+    context 'when approved' do
+      before do
+        FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+      end
+
+      it do
+        expect(@appointment.send(:check_if_approved?)).to eq(true)
+      end
+    end
+
+    context 'when cancelled' do
+      before do
+        FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        @appointment.cancel
+      end
+
+      it do
+        expect(@appointment.send(:check_if_approved?)).to eq(false)
+      end
+    end
+
+    context 'when attended' do
+      before do
+        FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        @appointment.attend
+      end
+
+      it do
+        expect(@appointment.send(:check_if_approved?)).to eq(false)
+      end
+    end
+
+    context 'when miss' do
+      before do
+        FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.create(:appointment, service: service, staff: staff, customer: customer)
+        @appointment.miss
+      end
+
+      it do
+        expect(@appointment.send(:check_if_approved?)).to eq(false)
+      end
+    end
+  end
+
+  describe '#get_availabilities_for_service' do
+    before do
+      @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+      @appointment  = FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer)  
+    end
+
+    it do
+      expect(@appointment.send(:get_availabilities_for_service)).to eq([@availability])
+    end
+  end
+
+  describe '#assign_staff' do
+    context 'when availabilities are present' do
+      before do
+        @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer)    
+      end
+      it do
+        expect(@appointment).to receive(:set_staff)
+        @appointment.send(:assign_staff)
+      end
+    end
+
+    context 'when availabilities are not present' do
+      before do
+        # @availability = FactoryGirl.create(:availability, services: [service], staff: staff)
+        @appointment = FactoryGirl.build(:appointment, service: service, staff: staff, customer: customer)    
+      end
+      it do
+        expect(@appointment.send(:assign_staff)).to eq false
+        expect(@appointment.errors[:base]).to include('No availability for this time duration.')
+      end
+    end
+  end
+
 end
