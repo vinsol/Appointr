@@ -34,11 +34,17 @@
       <%= text_field_tag :end, nil %>
       <a id='clear_dates'><b>Clear Dates</b></a>
     </div>
+    <div id='state_filter'>
+      <%= label_tag 'filter' %>
+      <%= select_tag 'filter', options_for_select([['Approved', 'approved'], ['Cancelled', 'cancelled'], ['Attended', 'attended'], ['Missed', 'missed']]), prompt: 'All' %><br>
+
+    </div>
     <div id='appointments'>
     </div>
   </div>
 </div>
-<%= javascript_include_tag 'customer_appointment' %>
 <%= javascript_include_tag 'admin_appointment' %>
 <%= javascript_include_tag 'appointment_filter' %>
+<%= javascript_include_tag 'state_filter' %>
+
 

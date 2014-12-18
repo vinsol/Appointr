@@ -8,7 +8,10 @@
       Name
     </th>
     <th>
-      Duration(Minutes)
+      Duration
+    </th>
+    <th>
+      Enabled
     </th>
     <th>
       Actions
@@ -20,7 +23,10 @@
         <%= service.name.capitalize %>
       </td>
       <td>
-        <%= service.duration %>
+        <%= "#{ service.duration } minutes" %>
+      </td>
+      <td>
+        <%= service.enabled %>
       </td>
       <td>
         <%= link_to 'Show', admin_service_path(service) %>

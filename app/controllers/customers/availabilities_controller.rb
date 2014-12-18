@@ -1,10 +1,12 @@
 class Customers::AvailabilitiesController < Customers::BaseController
 
   def index
-    if(params[:staff_id] == '')
+    if(params[:staff_id] != '' && params[:service_id] != '')
+      @availabilities = Service.find_by(id: params[:service_id]).availabilities.where(staff_id: params[:staff_id])
+    elsif(params[:service_id] != '')
       @availabilities = Service.find_by(id: params[:service_id]).availabilities
     else
-      @availabilities = Service.find_by(id: params[:service_id]).availabilities.where(staff_id: params[:staff_id])
+      @availabilities = []
     end
     @per_day_availabilities = []
     @availabilities.each do |availability|
@@ -21,7 +23,6 @@ class Customers::AvailabilitiesController < Customers::BaseController
                                     }
         end
       end
-
     end
     render(json: @per_day_availabilities, root: false)
   end

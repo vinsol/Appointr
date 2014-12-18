@@ -1,3 +1,6 @@
+function LoadCalendar() {
+}
+
 LoadCalendar.prototype.initializeCalendarForStaff = function() {
   $('#calendar').fullCalendar({
     contentHeight: 400,

@@ -5,6 +5,7 @@ function LoadCalendar() {
 }
 
 LoadCalendar.prototype.init = function() {
+  this.initializeCalendarForCustomer('', '', false)
   this.bindEvents();
 }
 
@@ -25,22 +26,23 @@ LoadCalendar.prototype.loadStaffAndCalendar = function(dynamicServiceSelect) {
         _this.$staffSelect.children('option[value = "' + staff + '"]').show();
       });
     $('#calendar').fullCalendar('destroy');
-    _this.initializeCalendarForCustomer(value, '');
+    _this.initializeCalendarForCustomer(value, '', true);
   }
   else {
     _this.$staffSelect.val('');
     $('#calendar').fullCalendar('destroy');
+    _this.initializeCalendarForCustomer('', '', false);
   }
 }
 
 // TODO: DRY.
-LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staff_id) {
+LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staff_id, selectable) {
   $('#calendar').fullCalendar({
         contentHeight: 400,
         aspectRatio: 2,
         defaultView: 'agendaWeek',
         allDaySlot: false,
-        selectable: true,
+        selectable: selectable,
         slotDuration: '00:15:00',
         snapDuration: '00:15:00',
         slotEventOverlap: false,
@@ -112,7 +114,7 @@ LoadCalendar.prototype.bindEvents = function() {
   })
   this.$staffSelect.on("change", function() {
     $('#calendar').fullCalendar('destroy');
-    _this.initializeCalendarForCustomer($('#service').val() ,$(this).val());
+    _this.initializeCalendarForCustomer($('#service').val() ,$(this).val(), true);
   })
 }
 

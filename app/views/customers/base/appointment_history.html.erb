@@ -12,7 +12,7 @@
       Start Time
     </th>
     <th>
-      Duration(Minutes)
+      Duration
     </th>
     <th>
       Date
@@ -30,16 +30,16 @@
   <% @active_appointments.each do |appointment| %>
     <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
       <td>
-        <%= appointment.staff.name %>
+        <%= appointment.staff.name.humanize %>
       </td>
       <td>
-        <%= appointment.service.name %>
+        <%= appointment.service.name.humanize %>
       </td>
       <td>
         <%= appointment.start_at.strftime("%I:%M %p") %>
       </td>
       <td>
-        <%= appointment.duration %>
+        <%= "#{ appointment.duration } minutes" %>
       </td>
       <td>
         <%= appointment.start_at.strftime("%d %b %Y") %>
@@ -77,7 +77,7 @@
       Start Time
     </th>
     <th>
-      Duration(Minutes)
+      Duration
     </th>
     <th>
       Date
@@ -92,16 +92,16 @@
   <% @inactive_appointments.each do |appointment| %>
     <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
       <td>
-        <%= appointment.staff.name %>
+        <%= appointment.staff.name.humanize %>
       </td>
       <td>
-        <%= appointment.service.name %>
+        <%= appointment.service.name.humanize %>
       </td>
       <td>
         <%= appointment.start_at.strftime("%I:%M %p") %>
       </td>
       <td>
-        <%= appointment.duration %>
+        <%= "#{ appointment.duration } minutes" %>
       </td>
       <td>
         <%= appointment.start_at.strftime("%d %b %Y") %>

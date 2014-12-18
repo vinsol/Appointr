@@ -17,6 +17,9 @@
       Services
     </th>
     <th>
+      Enabled
+    </th>
+    <th>
       Actions
     </th>
   </tr>
@@ -33,6 +36,9 @@
       </td>
       <td>
         <%= staff.services.map(&:name).join(', ') %>
+      </td>
+      <td>
+        <%= staff.enabled %>
       </td>
       <td>
         <%= link_to 'Show', admin_staff_path(staff.id) %>

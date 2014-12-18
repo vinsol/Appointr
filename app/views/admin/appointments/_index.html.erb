@@ -12,13 +12,13 @@
       Service
     </th>
     <th>
-      Date
-    </th>
-    <th>
       Time
     </th>
     <th>
       Duration
+    </th>
+    <th>
+      Date
     </th>
     <th>
       State
@@ -28,7 +28,7 @@
     </th>
   </tr>
   <% @appointments.each do |appointment| %>
-    <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
+    <tr class='appointment <%= appointment.state %>' data-date='<%= appointment.start_at.to_date %>'> 
       <td>
         <%= appointment.customer.name %>
       </td>
@@ -39,13 +39,13 @@
         <%= appointment.service.name %>
       </td>
       <td>
-        <%= appointment.start_at.strftime("%d %b %Y") %>
-      </td>
-      <td>
         <%= appointment.start_at.strftime("%I:%M %p") %>
       </td>
       <td>
-        <%= appointment.duration %>
+        <%= "#{ appointment.duration } minutes" %>
+      </td>
+      <td>
+        <%= appointment.start_at.strftime("%d %b %Y") %>
       </td>
       <td>
         <%= appointment.state %>
