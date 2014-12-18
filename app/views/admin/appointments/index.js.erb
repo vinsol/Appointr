@@ -1,0 +1,19 @@
+var $searchInput = $('#search'),
+    $listBox = $('#list'),
+    $calendarBox = $('#calendar_div'),
+    $calendarDiv = $('#calendar'),
+    $listDiv = $('#appointments');
+
+<% if params[:view] == 'calendar' %> 
+  var loadCalendar = new LoadCalendar;
+  $listBox.addClass('hidden');
+  $calendarBox.removeClass('hidden');
+  loadCalendar.initializeCalendarForAdmin();
+  $searchInput.val('');
+  $listDiv.html("");
+<% else %> 
+  $listBox.removeClass('hidden');
+  $calendarBox.addClass('hidden');
+  $calendarDiv.fullCalendar('destroy');
+  $listDiv.html("<%= escape_javascript(render 'index') %>");
+<% end %>

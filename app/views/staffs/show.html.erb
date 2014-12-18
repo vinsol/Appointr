@@ -1,0 +1,17 @@
+<p>
+  <strong>Name:</strong>
+  <%= @staff.name %>
+</p>
+
+<p>
+  <strong>Designation:</strong>
+  <%= @staff.designation %>
+</p>
+
+<p>
+  <strong>Services</strong>
+  <%= @staff.services.map(&:name).join(', ') %>
+</p>
+
+<%= link_to 'Change Password', edit_staff_registration_path %> |
+<%= link_to 'Back', staff_home_path %>

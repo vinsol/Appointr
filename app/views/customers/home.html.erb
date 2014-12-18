@@ -1,0 +1,40 @@
+  <div class="container-fluid">
+  <div class='row'>
+    <div class='col-md-8'>
+      <h2>Welcome to AMS</h2>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel"></h4>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='col-md-4'>
+      <% label_tag 'service' %>
+      <%= select_tag 'service', options_for_select(get_service_options), prompt: 'Select Service' %><br>
+      <% label_tag 'staff' %>
+      <%= select_tag 'staff', options_for_select(Staff.all.collect { |staff| [staff.name, staff.id]}), { prompt: 'Select Staff' } %>
+      
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-3's>
+    </div>
+    <div id='calendar' style='width:700px;' class='col-md-6'>
+    </div>
+    <div class='col-md-3'>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag 'customer_appointment' %>

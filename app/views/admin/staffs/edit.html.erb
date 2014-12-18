@@ -1,0 +1,46 @@
+<%= form_for([:admin, @staff]) do |f| %>
+  <% if @staff.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@staff.errors.count, "error") %> prohibited this staff from being saved:</h2>
+
+      <ul>
+      <% @staff.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class='control-group'>
+    <%= f.label :name %><br>
+    <div class='control'>
+      <%= f.text_field :name %>
+    </div>
+  </div>
+  <div class='control-group'>
+    <%= f.label :designation %><br>
+    <div class='control'>
+      <%= f.text_field :designation%>
+    </div>
+  </div>
+  <div class='control-group'>
+    <%= f.label :services %><br>
+    <div class='control'>
+      <%= f.text_field :services, data: { services: Service.select(:id, :name).to_json } %>
+    </div>
+  </div>
+   <div class="actions">
+    <%= f.submit nil, class: 'btn btn-primary'%>
+  </div>
+<% end %>
+<div>
+  <br>
+  <%= link_to 'back', admin_staffs_path %>
+</div>
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#staff_services").tokenInput($("#staff_services").data('services'), { prePopulate: <%= raw @staff.services.to_json %> });
+    });
+  </script>
