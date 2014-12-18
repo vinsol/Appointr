@@ -30,7 +30,7 @@ class Staff < User
   end
 
   def is_occupied?(start_at, end_at, date, new_appointment_id)
-    appointments.approved.any? do |appointment|
+    clashing_appointment = appointments.approved.detect do |appointment|
       if new_appointment_id
         appointment.id != new_appointment_id && appointment.start_at.to_date == date && ((start_at.seconds_since_midnight >= appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight <= appointment.end_at.seconds_since_midnight))
       else

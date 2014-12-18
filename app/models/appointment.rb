@@ -69,8 +69,9 @@ class Appointment < ActiveRecord::Base
 
   def staff_allotable?
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
-      if(staff.is_occupied?(start_at, end_at,start_at.to_date, id))
-        errors[:staff] << 'not available for this duration.'
+      @clashing_appointment = staff.is_occupied?(start_at, end_at,start_at.to_date, id)
+      if(@clashing_appointment)
+        errors[:staff] << "is occupied from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
       end
     else
       errors[:base] <<  'No availability for this time duration for this staff.'
