@@ -1,6 +1,11 @@
 <h1>Listing availabilities</h1>
-
+<%= label_tag 'month', nil, for: 'date_month' %>
 <%= select_month(14, prompt: 'All') %>
+<br />
+<div id='enabled_filter'>
+  <%= label_tag 'filter' %>
+  <%= select_tag 'filter', options_for_select([['Enabled', 'enabled'], ['Disabled', 'disabled']]), prompt: 'All' %><br>
+</div>
 <br />
 
 <%= link_to 'Create New Availability', new_admin_availability_path %>
@@ -33,7 +38,7 @@
     </th>
   </tr>
   <% @availabilities.each do |availability| %>
-    <tr class='availability'> 
+    <tr class="availability filter_row <%= availability.enabled ? 'enabled' : 'disabled' %>"> 
       <td>
         <%= availability.staff.name %>
       </td>
@@ -68,3 +73,5 @@
 <%= paginate @availabilities %>
 
 <%= javascript_include_tag 'availability_filter' %>
+<%= javascript_include_tag 'enabled_filter' %>
+

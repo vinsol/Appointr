@@ -50,7 +50,7 @@ class Admin::StaffsController < Admin::BaseController
   end
 
   def staff_params
-    params.require(:staff).permit(:name, :designation, :email)
+    params.require(:staff).permit(:name, :designation, :email, :enabled)
   end
 
   def set_staff

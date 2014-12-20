@@ -29,6 +29,12 @@
       <%= f.text_field :services, data: { services: Service.select(:id, :name).to_json } %>
     </div>
   </div>
+  <div class="control-group">
+    <%= f.label :enabled, :class => 'control-label' %>
+    <div class="control">
+      <%= f.check_box :enabled, :class => 'form-control' %>
+    </div>
+  </div>
    <div class="actions">
     <%= f.submit nil, class: 'btn btn-primary'%>
   </div>
