@@ -10,10 +10,11 @@ var $searchInput = $('#search'),
   $calendarBox.removeClass('hidden');
   loadCalendar.initializeCalendarForAdmin();
   $searchInput.val('');
-  $listDiv.html("");
 <% else %> 
   $listBox.removeClass('hidden');
   $calendarBox.addClass('hidden');
   $calendarDiv.fullCalendar('destroy');
+  $searchInput.val('');
+  $( '#clear_dates' ).click();
   $listDiv.html("<%= escape_javascript(render 'index') %>");
 <% end %>

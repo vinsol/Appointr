@@ -5,6 +5,7 @@ class Admin::AppointmentsController < Admin::BaseController
 
   def index
     @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    debugger
   end
 
   def active_appointments
@@ -33,7 +34,7 @@ class Admin::AppointmentsController < Admin::BaseController
 
   def search
     if params[:search].empty?
-      @appointments = Appointment.all.includes(:staff, :service, :customer)
+      @appointments = ThinkingSphinx::Search.new()
     else
       @appointments = Appointment.search(Riddle::Query.escape(params[:search]))
     end
