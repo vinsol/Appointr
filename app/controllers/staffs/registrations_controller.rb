@@ -1,5 +1,5 @@
 class Staffs::RegistrationsController < Devise::RegistrationsController
-  layout 'staff', only: :edit
+  layout 'staff'
   
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)

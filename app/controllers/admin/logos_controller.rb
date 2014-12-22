@@ -34,7 +34,7 @@ class Admin::LogosController < Admin::BaseController
     if @logo.destroy
       redirect_to admin_application_images_path, notice: 'Logo successfully removed.'
     else
-      redirect_to admin_application_images_path, notice: 'Could not remove logo.'
+      redirect_to admin_application_images_path, alert: 'Could not remove logo.'
     end
   end
 
@@ -42,7 +42,7 @@ class Admin::LogosController < Admin::BaseController
 
   def set_logo
     unless @logo = Logo.find_by(id: params[:id])
-      redirect_to admin_application_images_path, notice: 'No logo found.'
+      redirect_to admin_application_images_path, alert: 'No logo found.'
     end
   end
 

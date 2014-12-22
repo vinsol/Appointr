@@ -28,19 +28,19 @@ class ApplicationController < ActionController::Base
 
   def user_has_admin_priveleges?
     if !current_admin
-      redirect_to root_path, notice: 'Access Denied'
+      redirect_to root_path, alert: 'Access Denied'
     end
   end
 
   def user_has_customer_priveleges?
     if !current_customer
-      redirect_to new_customer_session_path, notice: 'You need to sign in.'
+      redirect_to new_customer_session_path, alert: 'You need to sign in.'
     end
   end
 
   def user_has_staff_priveleges?
     if !current_staff
-      redirect_to new_staff_session_path, notice: 'You need to sign in.'
+      redirect_to new_staff_session_path, alert: 'You need to sign in.'
     end
   end
 

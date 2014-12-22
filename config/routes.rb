@@ -31,9 +31,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :staffs do
-      patch 'update_password' => 'staffs#update_password', on: :member
-    end
+    resources :staffs
     resources :appointments do
       get 'search' => 'appointments#search', on: :collection
       patch 'cancel' => 'appointments#cancel', on: :member

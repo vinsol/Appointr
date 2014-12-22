@@ -16,7 +16,7 @@ class Admin::StaffsController < Admin::BaseController
     service_ids = service_param[:services].split(',')
     @staff.service_ids = service_ids
     if @staff.save
-      redirect_to admin_staff_path(@staff)
+      redirect_to admin_staff_path(@staff), notice: 'Staff succesfully created.'
     else
       render action: :new
     end
@@ -27,7 +27,7 @@ class Admin::StaffsController < Admin::BaseController
 
   def edit
     unless(@staff.confirmed_at)
-      redirect_to admin_staffs_path, notice: 'This staff has not comfirmed his email yet.'
+      redirect_to admin_staffs_path, alert: 'This staff has not comfirmed his email yet.'
     end
   end
 
@@ -37,7 +37,7 @@ class Admin::StaffsController < Admin::BaseController
       @staff.service_ids = service_ids
     end
     if @staff.update(staff_params)
-      redirect_to admin_staff_path(@staff)
+      redirect_to admin_staff_path(@staff), notice: 'Staff succesfully updated.'
     else
       render action: 'edit'
     end
@@ -54,7 +54,9 @@ class Admin::StaffsController < Admin::BaseController
   end
 
   def set_staff
-    @staff = Staff.find_by(id: params[:id])
+    unless @service = Service.find_by(id: params[:id])
+      redirect_to admin_services_path, alert: 'No staff found.'
+    end
   end
 
 end

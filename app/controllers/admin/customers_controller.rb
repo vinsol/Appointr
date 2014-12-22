@@ -23,7 +23,7 @@ class Admin::CustomersController < Admin::BaseController
   private
   def set_customer
     unless @customer = Customer.find_by(id: params[:id])
-      redirect_to admin_cunstomers_path, notice: 'No such customer.'
+      redirect_to admin_cunstomers_path, alert: 'No customer found.'
     end
   end
 
