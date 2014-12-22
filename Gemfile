@@ -36,9 +36,8 @@ gem "twitter-bootstrap-rails", '3.2.0'
 # Use serializer
 gem 'active_model_serializers', '0.9.0'
 
-# Use thinking sphinx
-gem 'mysql2', '~> 0.3.17'
-gem 'thinking-sphinx', '~> 3.1.1'
+# Use postgres full text search
+gem 'pg_search'
 
 # Use asynchronous state machine
 gem 'aasm', '~> 4.0.3'

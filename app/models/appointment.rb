@@ -1,5 +1,6 @@
 class Appointment < ActiveRecord::Base
-
+  
+  include PgSearch
   include AASM
 
   aasm(no_direct_assignment: false, column: 'state', whiny_transitions: false) do
@@ -30,6 +31,11 @@ class Appointment < ActiveRecord::Base
   scope :future, -> { where("start_at >= '#{ Time.current }'") }
   scope :past_or_cancelled, -> { where("state = 'cancelled' OR start_at <= '#{ Time.current }'") }
   scope :past_and_not_cancelled, -> { where.not("state = 'cancelled' OR state = 'approved'").past }
+  pg_search_scope :search_for_admin, :associated_against => {
+    :customer => [:name, :email],
+    :staff => [:name, :email],
+    :service => [:name]
+  }
 
   # Associations
   belongs_to :customer

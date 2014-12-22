@@ -1,10 +1,6 @@
 <h1>Listing Staff</h1>
 
-<div id='enabled_filter'>
-  <%= label_tag 'filter' %>
-  <%= select_tag 'filter', options_for_select([['Enabled', 'enabled'], ['Disabled', 'disabled']]), prompt: 'All' %><br>
-</div>
-<br />
+<%= render '/admin/shared/enabled_filter' %>
 
 <%= link_to 'New staff', new_admin_staff_path %>
 <br />

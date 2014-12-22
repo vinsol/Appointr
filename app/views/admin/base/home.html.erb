@@ -23,7 +23,7 @@
   </div>
   <div class='row hidden' id='list'>
     <%= button_to 'Calendar View', (admin_appointments_path + '?view=calendar'), remote: true, method: :get, id: 'calendar_view', class: 'btn btn-primary' %>
-    <%= form_tag(search_admin_appointments_path, remote: true, id: 'search_form') do -%>
+    <%= form_tag(search_admin_appointments_path, remote: true, id: 'search_form', method: :get) do -%>
       <%= text_field_tag :search, nil, placeholder: 'Enter search term...' %>
       <%= submit_tag :search, class: 'btn btn-primary' %>
     <% end -%>
@@ -35,8 +35,8 @@
       <a id='clear_dates'><b>Clear Dates</b></a>
     </div>
     <div id='state_filter'>
-      <%= label_tag 'filter' %>
-      <%= select_tag 'filter', options_for_select([['Approved', 'approved'], ['Cancelled', 'cancelled'], ['Attended', 'attended'], ['Missed', 'missed']]), prompt: 'All' %><br>
+      <%= label_tag 'state' %>
+      <%= select_tag 'state', options_for_select([['Approved', 'approved'], ['Cancelled', 'cancelled'], ['Attended', 'attended'], ['Missed', 'missed']]), prompt: 'All' %><br>
     </div>
     <div id='appointments'>
     </div>

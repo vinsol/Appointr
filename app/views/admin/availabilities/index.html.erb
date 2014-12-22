@@ -2,11 +2,8 @@
 <%= label_tag 'month', nil, for: 'date_month' %>
 <%= select_month(14, prompt: 'All') %>
 <br />
-<div id='enabled_filter'>
-  <%= label_tag 'filter' %>
-  <%= select_tag 'filter', options_for_select([['Enabled', 'enabled'], ['Disabled', 'disabled']]), prompt: 'All' %><br>
-</div>
-<br />
+
+<%= render '/admin/shared/enabled_filter' %>
 
 <%= link_to 'Create New Availability', new_admin_availability_path %>
 <br />

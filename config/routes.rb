@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       patch 'update_password' => 'staffs#update_password', on: :member
     end
     resources :appointments do
-      post 'search' => 'appointments#search', on: :collection
+      get 'search' => 'appointments#search', on: :collection
       patch 'cancel' => 'appointments#cancel', on: :member
     end
     get 'active_appointments' => 'appointments#active_appointments'
