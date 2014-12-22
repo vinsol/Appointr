@@ -33,10 +33,7 @@ class Admin::StaffsController < Admin::BaseController
 
   def update
     service_ids = service_param[:services].split(',')
-    unless service_ids.empty?
-      @staff.service_ids = service_ids
-    end
-    if @staff.update(staff_params)
+    if @staff.update(staff_params.merge({ service_ids: service_ids }))
       redirect_to admin_staff_path(@staff), notice: 'Staff succesfully updated.'
     else
       render action: 'edit'
