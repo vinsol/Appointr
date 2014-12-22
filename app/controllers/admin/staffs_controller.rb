@@ -54,8 +54,8 @@ class Admin::StaffsController < Admin::BaseController
   end
 
   def set_staff
-    unless @service = Service.find_by(id: params[:id])
-      redirect_to admin_services_path, alert: 'No staff found.'
+    unless @staff = Staff.find_by(id: params[:id])
+      redirect_to admin_staffs_path, alert: 'No staff found.'
     end
   end
 
