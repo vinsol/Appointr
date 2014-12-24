@@ -64,15 +64,23 @@ class Appointment < ActiveRecord::Base
     CustomerMailer.delay.new_appointment_notifier(self)
     StaffMailer.delay.new_appointment_notifier(self)
     update_column(:reminder_job_id, (CustomerMailer.delay(run_at: reminder_time).reminder(self).id))
-    debugger
   end
 
   def send_edit_appointment_mail_to_customer_and_staff
     CustomerMailer.delay.edit_appointment_notifier(self)
     StaffMailer.delay.edit_appointment_notifier(self)
-    debugger
     Delayed::Job.find_by(id: reminder_job_id).update_attribute(:run_at, reminder_time)
   end
+
+  # def send_new_appointment_mail_to_customer_and_staff
+  #   CustomerMailer.delay.new_appointment_notifier(self)
+  #   StaffMailer.delay.new_appointment_notifier(self)
+  # end
+
+  # def send_edit_appointment_mail_to_customer_and_staff
+  #   CustomerMailer.delay.edit_appointment_notifier(self)
+  #   StaffMailer.delay.edit_appointment_notifier(self)
+  # end
 
   def reminder_time
     start_at - customer.reminder_time_lapse.minutes
