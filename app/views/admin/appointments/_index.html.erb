@@ -1,0 +1,60 @@
+<h1>Listing Appointments</h1>
+
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Customer
+    </th>
+    <th>
+      Staff
+    </th>
+    <th>
+      Service
+    </th>
+    <th>
+      Time
+    </th>
+    <th>
+      Duration
+    </th>
+    <th>
+      Date
+    </th>
+    <th>
+      State
+    </th>
+    <th>
+      Remarks
+    </th>
+  </tr>
+  <% @appointments.each do |appointment| %>
+    <tr class='appointment <%= appointment.state %>' data-date='<%= appointment.start_at.to_date %>'> 
+      <td>
+        <%= appointment.customer.name %>
+      </td>
+      <td>
+        <%= appointment.staff.name %>
+      </td>
+      <td>
+        <%= appointment.service.name %>
+      </td>
+      <td>
+        <%= appointment.start_at.strftime("%I:%M %p") %>
+      </td>
+      <td>
+        <%= "#{ appointment.duration } minutes" %>
+      </td>
+      <td>
+        <%= appointment.start_at.strftime("%d %b %Y") %>
+      </td>
+      <td>
+        <%= appointment.state %>
+      </td>
+      <td>
+        <%= appointment.remarks %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= paginate @appointments, remote: true %>
+<br />

@@ -1,0 +1,56 @@
+<h2>Create New Staff</h2>
+
+<div class='errors'>
+  <% @staff.errors.full_messages.each do |message| %>
+    <p> <%= message %> </p>
+  <% end %>
+</div>
+<%= form_for([:admin, @staff]) do |f| %>
+
+  <div class='control-group'>
+    <%= f.label :name %><br />
+    <div class='control'>
+      <%= f.text_field :name, autofocus: true %>
+    </div>
+  </div>
+
+  <div class='control-group'>
+    <%= f.label :designation %><br />
+    <div class='control'>
+      <%= f.text_field :designation %>
+    </div>
+  </div>
+
+  <div class='control-group'>
+    <%= f.label :email %><br />
+    <div class='control'>
+      <%= f.email_field :email %>
+    </div>
+  </div>
+
+  <div class='control-group'>
+    <%= f.label :services %><br />
+    <div class='control'>
+      <%= f.text_field :services, value: '', data: { services: Service.select(:id, :name).to_json } %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :enabled, :class => 'control-label' %>
+    <div class="control">
+      <%= f.check_box :enabled, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= link_to 'back', admin_staffs_path %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#staff_services").tokenInput($("#staff_services").data('services'));
+  });
+</script>

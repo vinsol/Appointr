@@ -1,0 +1,74 @@
+<h1>Listing availabilities</h1>
+<%= label_tag 'month', nil, for: 'date_month' %>
+<%= select_month(14, prompt: 'All') %>
+<br />
+
+<%= render '/admin/shared/enabled_filter' %>
+
+<%= link_to 'Create New Availability', new_admin_availability_path %>
+<br />
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Staff
+    </th>
+    <th>
+      Services
+    </th>
+    <th>
+      Start Time
+    </th>
+    <th>
+      End Time
+    </th>
+    <th>
+      Start Date
+    </th>
+    <th>
+      End Date
+    </th>
+    <th>
+      Enabled
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+  <% @availabilities.each do |availability| %>
+    <tr class="availability filter_row <%= availability.enabled ? 'enabled' : 'disabled' %>"> 
+      <td>
+        <%= availability.staff.name %>
+      </td>
+      <td>
+        <%= availability.services.map(&:name).join(', ') %>
+      </td>
+      <td>
+        <%= availability.start_at.strftime("%I:%M %p") %>
+      </td>
+      <td>
+        <%= availability.end_at.strftime("%I:%M %p") %>
+      </td>
+      <td class='start_date'>
+        <%= availability.start_date.strftime("%d %b %Y") %>
+      </td>
+      <td class='end_date'>
+        <%= availability.end_date.strftime("%d %b %Y") %>
+      </td>
+      <td>
+        <%= availability.enabled %>
+      </td>
+      <td>
+        <%= link_to 'Show', admin_availability_path(availability.id) %>
+        |
+        <%= link_to 'Edit', edit_admin_availability_path(availability), method: :get %><br/>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'Create New Availability', new_admin_availability_path %>
+<br />
+<%= paginate @availabilities %>
+
+<%= javascript_include_tag 'availability_filter' %>
+<%= javascript_include_tag 'enabled_filter' %>
+
