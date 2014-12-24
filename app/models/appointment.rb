@@ -12,8 +12,8 @@ class Appointment < ActiveRecord::Base
     event :cancel do
       transitions :from => :approved, :to => :cancelled
       after do
-        CustomerMailer.cancel_appointment_notifier(self).deliver
-        StaffMailer.cancel_appointment_notifier(self).deliver
+        CustomerMailer.delay.cancel_appointment_notifier(self)
+        StaffMailer.delay.cancel_appointment_notifier(self)
       end
     end
 
@@ -61,14 +61,23 @@ class Appointment < ActiveRecord::Base
   protected
 
   def send_new_appointment_mail_to_customer_and_staff
-    CustomerMailer.new_appointment_notifier(self).deliver
-    StaffMailer.new_appointment_notifier(self).deliver
+    CustomerMailer.delay.new_appointment_notifier(self)
+    StaffMailer.delay.new_appointment_notifier(self)
+    update_column(:reminder_job_id, (CustomerMailer.delay(run_at: reminder_time).reminder(self).id))
+    debugger
   end
 
   def send_edit_appointment_mail_to_customer_and_staff
-    CustomerMailer.edit_appointment_notifier(self).deliver
-    StaffMailer.edit_appointment_notifier(self).deliver
+    CustomerMailer.delay.edit_appointment_notifier(self)
+    StaffMailer.delay.edit_appointment_notifier(self)
+    debugger
+    Delayed::Job.find_by(id: reminder_job_id).update_attribute(:run_at, reminder_time)
   end
+
+  def reminder_time
+    start_at - customer.reminder_time_lapse.minutes
+  end
+
   def check_if_approved?
     state == 'approved'
   end

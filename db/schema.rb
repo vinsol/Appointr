@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141223093801) do
+ActiveRecord::Schema.define(version: 20141224080126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20141223093801) do
     t.datetime "start_at"
     t.text     "remarks"
     t.string   "state"
+    t.integer  "reminder_job_id"
   end
 
   create_table "availabilities", force: true do |t|
