@@ -23,4 +23,16 @@ class Customer < User
     reminder_time_lapse / 1440
   end
 
+  def change_appointments_reminder_time(old_reminder_time_lapse, new_reminder_time_lapse)
+    appointments.each do |appointment|
+      if appointment.start_at > Time.current
+        if(old_reminder_time_lapse > new_reminder_time_lapse)
+          appointment.increase_reminder_time
+        elsif(new_reminder_time_lapse > old_reminder_time_lapse)
+          appointment.decrease_reminder_time
+        end
+      end
+    end
+  end
+
 end

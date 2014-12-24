@@ -1,7 +1,7 @@
 <h1>Reminder Settings</h1>
 <br />
 <h4>This is to change how much time before your appointment you want to receive a reminder mail.</h4>
-<p>Currently it is => <%= distance_of_time_in_words(Time.now,Time.now + @customer.reminder_time_lapse.minutes) %></p>
+<p>Currently it is => <%= distance_of_time_in_words(Time.current,Time.current + @customer.reminder_time_lapse.minutes) %></p>
 <%= form_for @customer, html: { class: "form-horizontal" } do |f| %>
   <div class="control-group">
     <%= f.label :days, class: 'control-label' %>
