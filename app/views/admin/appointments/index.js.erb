@@ -4,16 +4,16 @@ var $searchInput = $('#search'),
     $calendarDiv = $('#calendar'),
     $listDiv = $('#appointments');
 
-if($listBox.attr('class') == 'row hidden') {
-  $listBox.removeClass('hidden');
-  $calendarBox.addClass('hidden');
-  $calendarDiv.fullCalendar('destroy');
-  $listDiv.html("<%= escape_javascript(render 'index') %>");
-} else {
+<% if params[:view] == 'calendar' %> 
   var loadCalendar = new LoadCalendar;
   $listBox.addClass('hidden');
   $calendarBox.removeClass('hidden');
   loadCalendar.initializeCalendarForAdmin();
   $searchInput.val('');
   $listDiv.html("");
-}
+<% else %> 
+  $listBox.removeClass('hidden');
+  $calendarBox.addClass('hidden');
+  $calendarDiv.fullCalendar('destroy');
+  $listDiv.html("<%= escape_javascript(render 'index') %>");
+<% end %>

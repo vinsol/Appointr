@@ -10,7 +10,7 @@
 
 <p>
   <strong>Time:</strong>
-  <%= @appointment.start_at %>
+  <%= @appointment.start_at.strftime("%I:%M %p") %>
 </p>
 
 <p>
@@ -19,6 +19,11 @@
 </p>
 
 <p>
+  <strong>Date:</strong>
+  <%= @appointment.start_at.strftime("%d %b %Y") %>
+</p>
+
+<p>
   <strong>State:</strong>
-  <%= @appointment.state %>
+  <%= @appointment.state.humanize %>
 </p>

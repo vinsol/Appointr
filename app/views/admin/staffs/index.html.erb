@@ -1,5 +1,7 @@
 <h1>Listing Staff</h1>
 
+<%= link_to 'New staff', new_admin_staff_path %>
+<br />
 <table class = 'table table-hover table-striped'>
   <tr>
     <th>
@@ -13,6 +15,9 @@
     </th>
     <th>
       Services
+    </th>
+    <th>
+      Enabled
     </th>
     <th>
       Actions
@@ -33,6 +38,9 @@
         <%= staff.services.map(&:name).join(', ') %>
       </td>
       <td>
+        <%= staff.enabled %>
+      </td>
+      <td>
         <%= link_to 'Show', admin_staff_path(staff.id) %>
         |
         <%= link_to 'Edit', edit_admin_staff_path(staff), method: :get %><br/>
@@ -43,5 +51,7 @@
     </tr>
   <% end %>
 </table>
+<%= paginate @staffs %>
+
 <br />
 <%= link_to 'New staff', new_admin_staff_path %>

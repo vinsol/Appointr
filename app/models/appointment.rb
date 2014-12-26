@@ -38,9 +38,9 @@ class Appointment < ActiveRecord::Base
 
   # Validations
   validates :service, :customer, :start_at, :duration, presence: true
+  validates :start_at, future: true, if: :start_at
   validate :ensure_duration_not_less_than_service_duration, if: [:duration, :service]
   validate :ensure_customer_has_no_prior_appointment_at_same_time, if: :customer
-  validate :appointment_time_not_in_past, if: :start_at
   validate :staff_allotable?, if: :staff
   before_save :assign_staff, unless: :staff
 
@@ -67,12 +67,6 @@ class Appointment < ActiveRecord::Base
     state == 'approved'
   end
 
-  def appointment_time_not_in_past
-    if(start_at < (DateTime.current - 1.minutes))
-      errors[:time] << 'can not be in past'
-    end
-  end
-
   def staff_allotable?
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
       if(staff.is_occupied?(start_at, end_at,start_at.to_date, id))
@@ -95,14 +89,15 @@ class Appointment < ActiveRecord::Base
   
   def ensure_customer_has_no_prior_appointment_at_same_time
     unless has_no_clashing_appointments?(customer)
-      errors[:base] << 'You already have an overlapping appointment for this time duration.'
+      errors[:base] << "You already have an overlapping appointment from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
     end
   end
 
   def has_no_clashing_appointments?(user)
-    !user.appointments.approved.any? do |appointment|
+    @clashing_appointment = user.appointments.approved.detect do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
+    @clashing_appointment == nil
   end
 
   def get_availabilities_for_service

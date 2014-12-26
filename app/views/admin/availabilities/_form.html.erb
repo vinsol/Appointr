@@ -5,47 +5,61 @@
 </div>
 
 <%= form_for [:admin, @availability] do |f| %>
-  <div class="field">
+  <div class='control-group'>
     <%= f.label :staff %><br />
-    <% if @availability.new_record?%>
+    <div class='control'>
+      <% if @availability.new_record?%>
+    </div>
       <%= f.select :staff, options_for_select(get_staff_options), { prompt: true } %>
     <% else %>
       <%= f.select :staff, options_for_select(get_staff_options, @availability.staff.id), { prompt: true }, { disabled: true } %>
     <% end %>
   </div><br>
-  <div class="field">  
+  <div class='control-group'>  
     <%= f.label :services_ids %><br />
-    <% if @availability.new_record?%>
+    <div class='control'>
+      <% if @availability.new_record?%>
+    </div>
       <%= f.select :service_ids, Service.all.collect { |service| [service.name, service.id] }, { prompt: 'select staff' }, { multiple: true } %>
     <% else %>
       <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
     <% end %>
   </div><br>
 
-  <div class="field">
+  <div class='control-group'>
     <%= f.label :start_at %><br />
-    <%= f.time_select :start_at, minute_step: 15 %>
+    <div class='control'>
+      <%= f.time_select :start_at, minute_step: 15 %>
+    </div>
   </div><br>
-  <div class='field'>
+  <div class='control-group'>
     <%= f.label :end_at %><br />
-    <%= f.time_select :end_at, minute_step: 15 %>
+    <div class='control'>
+      <%= f.time_select :end_at, minute_step: 15 %>
+    </div>
   </div><br>
 
-  <div class="field">
+  <div class='control-group'>
     <%= f.label :start_date %><br />
-    <%= f.date_select :start_date, start_year: Date.today.year %>
+    <div class='control'>
+      <%= f.date_select :start_date, start_year: Date.today.year %>
+    </div>
   </div><br>
-  <div class='field'>
+  <div class='control-group'>
     <%= f.label :end_date %><br />
-    <%= f.date_select :end_date, start_year: Date.today.year %>
+    <div class='control'>
+      <%= f.date_select :end_date, start_year: Date.today.year %>
+    </div>
   </div><br>
 
-  <div class="field">
+  <div class='control-group'>
     <%= f.label :enabled %>
-    <%= f.check_box :enabled %>
+    <span class='control'>
+      <%= f.check_box :enabled %>
+    </span>
   </div><br>
 
   <div class="actions">
-    <%= f.submit "Submit" %>
+    <%= f.submit "Submit", class: 'btn btn-primary' %>
   </div><br>
 <% end %>

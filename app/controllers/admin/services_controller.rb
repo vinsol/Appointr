@@ -3,7 +3,7 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :edit, :update]
 
   def index
-    @services = Service.order("LOWER(name)")
+    @services = Service.order("LOWER(name)").page(params[:page]).per(15)
   end
 
   def show

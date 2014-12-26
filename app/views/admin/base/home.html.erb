@@ -17,15 +17,15 @@
     </div>
   </div>
   <div class='row' id='calendar_div'>
-    <%= button_to 'List View', admin_appointments_path, remote: true, method: :get, id: 'list_view' %>
+    <%= button_to 'List View', admin_appointments_path, remote: true, method: :get, id: 'list_view', class: 'btn btn-primary' %>
     <div id='calendar'>
     </div>
   </div>
   <div class='row hidden' id='list'>
-    <%= button_to 'Calendar View', admin_appointments_path, remote: true, method: :get, id: 'calendar_view' %>
+    <%= button_to 'Calendar View', (admin_appointments_path + '?view=calendar'), remote: true, method: :get, id: 'calendar_view', class: 'btn btn-primary' %>
     <%= form_tag(search_admin_appointments_path, remote: true, id: 'search_form') do -%>
       <%= text_field_tag :search, nil, placeholder: 'Enter search term...' %>
-      <%= submit_tag :save %>
+      <%= submit_tag :search, class: 'btn btn-primary' %>
     <% end -%>
     <div id='dates'>
       <%= label_tag :start %>
@@ -34,11 +34,17 @@
       <%= text_field_tag :end, nil %>
       <a id='clear_dates'><b>Clear Dates</b></a>
     </div>
+    <div id='state_filter'>
+      <%= label_tag 'filter' %>
+      <%= select_tag 'filter', options_for_select([['Approved', 'approved'], ['Cancelled', 'cancelled'], ['Attended', 'attended'], ['Missed', 'missed']]), prompt: 'All' %><br>
+
+    </div>
     <div id='appointments'>
     </div>
   </div>
 </div>
-<%= javascript_include_tag 'customer_appointment' %>
 <%= javascript_include_tag 'admin_appointment' %>
 <%= javascript_include_tag 'appointment_filter' %>
+<%= javascript_include_tag 'state_filter' %>
+
 

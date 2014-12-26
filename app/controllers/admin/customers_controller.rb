@@ -3,7 +3,7 @@ class Admin::CustomersController < Admin::BaseController
   before_action :set_customer, only: [:edit, :show, :update]
 
   def index
-    @customers = Customer.order(:name).includes(:appointments)
+    @customers = Customer.order(:name).includes(:appointments).page(params[:page]).per(15)
   end
 
   def edit

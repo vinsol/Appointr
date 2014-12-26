@@ -1,5 +1,8 @@
 // TODO: LoadCalendar defined twice? Move to a common class. DRY.
 
+function LoadCalendar() {
+}
+
 LoadCalendar.prototype.initializeCalendarForAdmin = function() {
   $('#calendar').fullCalendar({
     contentHeight: 400,

@@ -68,17 +68,25 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Set mailer options
-  config.action_mailer.default_url_options = { host: 'appointr.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: '54.149.24.175' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "domain.of.sender.net",
-    authentication: "plain",
-    user_name: "test.vinsol.ams@gmail.com",
-    password: "appointment",
-    enable_starttls_auto: true
+    :user_name => '580469c992f026d4',
+    :password => '07e50944df94a7',
+    :address => 'mailtrap.io',
+    :domain => 'mailtrap.io',
+    :port => '2525',
+    :authentication => :cram_md5
   }
+  # config.action_mailer.smtp_settings = {
+  #   address: "smtp.gmail.com",
+  #   port: 587,
+  #   domain: "domain.of.sender.net",
+  #   authentication: "plain",
+  #   user_name: "test.vinsol.ams@gmail.com",
+  #   password: "appointment",
+  #   enable_starttls_auto: true
+  # }
 
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false

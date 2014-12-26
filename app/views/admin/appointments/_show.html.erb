@@ -15,12 +15,17 @@
 
 <p>
   <strong>Time:</strong>
-  <%= @appointment.start_at %>
+  <%= @appointment.start_at.strftime("%I:%M %p") %>
 </p>
 
 <p>
   <strong>Duration:</strong>
   <%= @appointment.duration %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @appointment.start_at.strftime("%d %b %Y") %>
 </p>
 
 <p>
