@@ -1,7 +1,6 @@
 class Staffs::AppointmentsController < ApplicationController
 
   before_action :set_appointment, only: [:destroy, :show, :edit, :update]
-  before_action :ensure_remark_is_present, only: :destroy
   before_action :user_has_staff_priveleges?
 
   def active_appointments

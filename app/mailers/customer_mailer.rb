@@ -5,19 +5,19 @@ class CustomerMailer < ActionMailer::Base
   def new_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment created.'
+    mail to: @customer.email, subject: 'Appointment Created'
   end
 
   def edit_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment edited.'
+    mail to: @customer.email, subject: 'Appointment Edited'
   end
 
   def cancel_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment cancelled.'
+    mail to: @customer.email, subject: 'Appointment Cancelled'
   end
 
 end

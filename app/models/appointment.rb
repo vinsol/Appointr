@@ -54,23 +54,24 @@ class Appointment < ActiveRecord::Base
 
   protected
 
-  def send_new_appointment_mail_to_customer_and_staff
+  def send_new_appointment_mail_to_customer_and_staff#
     CustomerMailer.new_appointment_notifier(self).deliver
     StaffMailer.new_appointment_notifier(self).deliver
   end
 
-  def send_edit_appointment_mail_to_customer_and_staff
+  def send_edit_appointment_mail_to_customer_and_staff#
     CustomerMailer.edit_appointment_notifier(self).deliver
     StaffMailer.edit_appointment_notifier(self).deliver
   end
+
   def check_if_approved?
     state == 'approved'
   end
 
   def staff_allotable?
-    if(staff.is_available?(start_at, end_at,start_at.to_date, service))
+    if(staff.is_available?(start_at, end_at, start_at.to_date, service))
       if(staff.is_occupied?(start_at, end_at,start_at.to_date, id))
-        errors[:staff] << 'not available for this duration.'
+        errors[:staff] << 'is occupied.'
       end
     else
       errors[:base] <<  'No availability for this time duration for this staff.'
@@ -81,7 +82,7 @@ class Appointment < ActiveRecord::Base
     get_availabilities_for_service
     if(@availabilities.empty?)
       errors[:base] <<  'No availability for this time duration.'
-      return false
+      false
     else
       set_staff
     end
@@ -103,7 +104,7 @@ class Appointment < ActiveRecord::Base
   def get_availabilities_for_service
     @availabilities = service.availabilities
     @availabilities = @availabilities.select do |availability|
-      availability.start_date <=start_at.to_date && availability.end_date >=start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
+      availability.start_date <=start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
     end
   end
 

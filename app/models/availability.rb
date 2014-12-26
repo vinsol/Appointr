@@ -5,9 +5,9 @@ class Availability < ActiveRecord::Base
   validates :services, presence: true
   validates :enabled, inclusion: { in: [true, false] }
   validate :ensure_dates_are_valid
-  validate :ensure_end_at_greater_than_start_at, if: :ensure_dates_are_valid
-  validate :ensure_end_date_greater_than_start_date, if: :ensure_dates_are_valid
-  validates :start_date, future: true,on: :create, if: :ensure_dates_are_valid
+  validate :ensure_end_at_greater_than_start_at, if: [:ensure_dates_are_valid, :start_at, :end_at]
+  validate :ensure_end_date_greater_than_start_date, if: [:ensure_dates_are_valid, :start_date, :end_date]
+  validates :start_date, future: true, on: :create, if: [:ensure_dates_are_valid, :start_date, :end_date]
 
   #associations
   belongs_to :staff
