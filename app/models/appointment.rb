@@ -97,11 +97,7 @@ class Appointment < ActiveRecord::Base
     @clashing_appointment = user.appointments.approved.detect do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
-    if(@clashing_appointment)
-      false
-    else
-      true
-    end
+    @clashing_appointment == nil
   end
 
   def get_availabilities_for_service

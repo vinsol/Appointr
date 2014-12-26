@@ -5,16 +5,21 @@ function StateFilter() {
 
 StateFilter.prototype.set = function(filterSelect) {
   $('.appointment').hide();
-  if($(filterSelect).val() == 'approved') {
-    $('.approved').show();
-  } else if($(filterSelect).val() == 'cancelled') {
-    $('.cancelled').show();
-  } else if($(filterSelect).val() == 'attended') {
-    $('.attended').show();
-  } else if($(filterSelect).val() == 'missed') {
-    $('.missed').show();
-  } else {
-    $('.appointment').show();
+  switch($(filterSelect).val()) {
+    case 'approved':
+      $('.approved').show();
+      break;
+    case 'attended':
+      $('.attended').show();
+      break;
+    case 'cancelled':
+      $('.cancelled').show();
+      break;
+    case 'missed':
+      $('.missed').show();
+      break;
+    default:
+      $('.appointment').show();
   }
 }
 
