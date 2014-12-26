@@ -22,7 +22,7 @@ Rails.describe Staff do
   describe '#should_validate_password?' do
     it do
       staff = Staff.create(name: 'gaurav', email:'Gaurav@Vinsol.Com', designation: 'asdcacsdc', password: '', password_confirmation: '11111111')
-      expect(staff.should_validate_password?).to eq(false)
+      expect(staff.send(:should_validate_password?)).to eq(false)
     end
   end
 end

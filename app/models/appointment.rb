@@ -60,15 +60,16 @@ class Appointment < ActiveRecord::Base
 
   protected
 
-  def send_new_appointment_mail_to_customer_and_staff
+  def send_new_appointment_mail_to_customer_and_staff#
     CustomerMailer.new_appointment_notifier(self).deliver
     StaffMailer.new_appointment_notifier(self).deliver
   end
 
-  def send_edit_appointment_mail_to_customer_and_staff
+  def send_edit_appointment_mail_to_customer_and_staff#
     CustomerMailer.edit_appointment_notifier(self).deliver
     StaffMailer.edit_appointment_notifier(self).deliver
   end
+
   def check_if_approved?
     state == 'approved'
   end
@@ -88,7 +89,7 @@ class Appointment < ActiveRecord::Base
     get_availabilities_for_service
     if(@availabilities.empty?)
       errors[:base] <<  'No availability for this time duration.'
-      return false
+      false
     else
       set_staff
     end
@@ -104,17 +105,13 @@ class Appointment < ActiveRecord::Base
     @clashing_appointment = user.appointments.approved.detect do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
-    if(@clashing_appointment)
-      false
-    else
-      true
-    end
+    @clashing_appointment == nil
   end
 
   def get_availabilities_for_service
     @availabilities = service.availabilities
     @availabilities = @availabilities.select do |availability|
-      availability.start_date <=start_at.to_date && availability.end_date >=start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
+      availability.start_date <=start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
     end
   end
 
