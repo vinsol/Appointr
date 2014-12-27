@@ -1,3 +1,7 @@
+<% if :notice %>
+  <p class='text-success bg-success' style="width: 100%"><%= flash[:notice] %></p>
+<% end %>
+
 <%= form_for [:customers, @appointment], remote: true do |f| %>
   <% if @appointment.errors.any? %>
     <div id="error_explanation">

@@ -13,11 +13,6 @@ class Staff < User
   has_many :appointed_services, through: :appointments, source: 'Service', foreign_key: 'service_id'
   has_many :appointed_customers, through: :appointments, source: 'Customer', foreign_key: 'customer_id'
 
-
-  def only_if_unconfirmed
-    pending_any_confirmation {yield}
-  end
-
   def password_required?
     super if confirmed?
   end

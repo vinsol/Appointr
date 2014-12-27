@@ -33,6 +33,13 @@ class Customers::AppointmentsController < Customers::BaseController
         format.js { render :js => "window.location = '#{customer_home_path}'" }
       end
     else
+      available_times = @appointment.get_available_times
+      if(@appointment.duration >= @appointment.service.duration && !available_times.keys.empty?)
+        flash.now[:notice] = "You can have an appointment at "
+        flash.now[:notice] += available_times.values.map {|value| value.strftime("%I:%M %p")}.join(' or ')
+      elsif(@appointment.duration >= @appointment.service.duration)
+        flash.now[:notice] = "Sorry but there is no availability for this service on this day. Please try another day."
+      end
       render :new
     end
 
@@ -52,6 +59,13 @@ class Customers::AppointmentsController < Customers::BaseController
         format.js { render :js => "window.location = '/customer_home'" }
       end
     else
+      available_times = @appointment.get_available_times
+      if(@appointment.duration >= @appointment.service.duration && !available_times.keys.empty?)
+        flash.now[:notice] = "You can have an appointment at "
+        flash.now[:notice] += available_times.values.map {|value| value.strftime("%I:%M %p")}.join(' or ')
+      elsif(@appointment.duration >= @appointment.service.duration)
+        flash.now[:notice] = "Sorry but there is no availability for this service on this day. Please try another day."
+      end
       render :edit
     end
   end

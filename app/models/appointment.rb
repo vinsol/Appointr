@@ -81,6 +81,38 @@ class Appointment < ActiveRecord::Base
     end
   end
 
+  def get_availabilities
+    if(staff)
+      @availabilities = Availability.where("staff_id = '#{ staff.id }'")
+      @availabilities = @availabilities.select do |availability|
+        availability.service_ids.include?(service.id) && availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
+      end
+    else
+      get_availabilities_for_service
+    end
+  end
+
+  def get_available_times
+    get_availabilities
+    @matching_times = {}
+    start_at_copy = start_at
+    @availabilities.each do |availability|
+      populate_matching_times(availability, start_at_copy, :-, :time_less_than_start_at)
+      populate_matching_times(availability, start_at_copy, :+, :time_greater_than_start_at)
+      return @matching_times if(@matching_times[:time_greater_than_start_at] && @matching_times[:time_less_than_start_at])
+    end
+    @matching_times
+  end
+
+  def populate_matching_times(availability, start_at_copy, operator, time)
+    while((start_at_copy.to_date == start_at.to_date) && !@matching_times[time]) do
+      if(!availability.staff.is_occupied?(start_at_copy, start_at_copy + duration.minutes, start_at_copy.to_date, id) && availability.start_at.seconds_since_midnight <= start_at_copy.seconds_since_midnight && availability.end_at.seconds_since_midnight >= (start_at_copy + duration.minutes).seconds_since_midnight)
+        @matching_times[time] = start_at_copy
+      end
+      start_at_copy =  start_at_copy.send(operator, 15.minutes)
+    end
+  end
+
   protected
 
   def send_new_appointment_mail_to_customer_and_staff
@@ -169,4 +201,5 @@ class Appointment < ActiveRecord::Base
       errors[:duration] << "must be greater than or equal to #{ service.duration }"
     end
   end
+
 end
