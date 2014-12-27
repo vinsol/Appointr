@@ -1,0 +1,29 @@
+<%= render 'show' %>
+
+<%= form_for [:staffs, @appointment], remote: true do |f| %>
+  <% if @appointment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
+
+      <ul>
+      <% @appointment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class='field'>
+    <%= f.label :state, "Attended", :value => "attended"  %>
+    <%= f.radio_button :state, 'attended', checked: true %><br />
+    <%= f.label :state, "Missed", :value => "missed"  %>
+    <%= f.radio_button :state, 'missed' %><br />
+  </div><br />
+  <div class='field'>
+    <%= f.label :remarks %>
+    <%= f.text_area :remarks %>
+  </div>
+
+  <div class='actions'>
+    <%= f.submit :save %>
+  </div>
+<% end %>

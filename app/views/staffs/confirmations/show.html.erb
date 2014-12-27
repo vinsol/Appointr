@@ -1,0 +1,24 @@
+You're almost done! Now create a password to securely access your account.
+
+
+<%= form_for(resource, as: resource_name, :url => staff_confirm_path(resource)) do |f| %>
+  <%= devise_error_messages! %>
+  <div class="field">
+    <%= f.label :password %>
+    <% if @validatable %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+  <%= f.hidden_field :id %>
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div>
+  <div class='field'>
+    <%= f.hidden_field :confirmation_token, value: @original_token %>
+  </div>
+  <div class='actions'>
+    <%= f.submit 'Confirm' %>
+  </div>
+<% end %>

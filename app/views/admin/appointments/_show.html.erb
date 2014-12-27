@@ -1,0 +1,43 @@
+<p>
+  <strong>Customer:</strong>
+  <%= @appointment.customer.name.capitalize %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @appointment.service.name.capitalize %>
+</p>
+
+<p>
+  <strong>Staff:</strong>
+  <%= @appointment.staff.name.capitalize %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @appointment.start_at.strftime("%I:%M %p") %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @appointment.duration %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @appointment.start_at.strftime("%d %b %Y") %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @appointment.state %>
+</p>
+
+<p>
+  <strong>Remarks:</strong>
+  <%= @appointment.remarks %>
+</p>
+
+<% if params[:cancellable] %>
+  <%= button_to 'Cancel Appointment', cancel_admin_appointment_path(@appointment), method: :patch, form: {id: 'cancellation'}, params: [:remarks] %>
+<% end %>
