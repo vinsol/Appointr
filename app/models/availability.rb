@@ -1,7 +1,8 @@
 class Availability < ActiveRecord::Base
-
+  
+  DAY_MAP = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   #validations
-  validates :staff, presence: true
+  validates :staff, :days, presence: true
   validates :services, presence: true
   validates :enabled, inclusion: { in: [true, false] }
   validate :ensure_dates_are_valid

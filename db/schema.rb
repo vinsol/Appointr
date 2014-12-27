@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141224080126) do
+ActiveRecord::Schema.define(version: 20141226092735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20141224080126) do
     t.datetime "updated_at"
     t.datetime "start_at"
     t.datetime "end_at"
+    t.integer  "days",       default: [0, 1, 2, 3, 4, 5, 6], array: true
   end
 
   create_table "availability_services", force: true do |t|

@@ -41,7 +41,7 @@ class Appointment < ActiveRecord::Base
   belongs_to :customer
   belongs_to :staff
   belongs_to :service
-  belong_to :reminder_job, class_name: 'Delayed::Job', foreign_key: 'reminder_job_id'
+  belongs_to :reminder_job, class_name: 'Delayed::Job', foreign_key: 'reminder_job_id'
 
   # Validations
   validates :service, :customer, :start_at, :duration, presence: true
@@ -149,7 +149,7 @@ class Appointment < ActiveRecord::Base
   def get_availabilities_for_service
     @availabilities = service.availabilities
     @availabilities = @availabilities.select do |availability|
-      availability.start_date <=start_at.to_date && availability.end_date >=start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight
+      availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
     end
   end
 

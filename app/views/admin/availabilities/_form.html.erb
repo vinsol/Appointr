@@ -22,7 +22,7 @@
     </div>
       <%= f.select :service_ids, Service.all.collect { |service| [service.name, service.id] }, { prompt: 'select staff' }, { multiple: true } %>
     <% else %>
-      <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] },{ prompt: 'select staff' }, { multiple: true } %>
+      <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] }, {}, { multiple: true } %>
     <% end %>
   </div><br>
 
@@ -36,6 +36,12 @@
     <%= f.label :end_at %><br />
     <div class='control'>
       <%= f.time_select :end_at, minute_step: 15 %>
+    </div>
+  </div><br>
+  <div class='control-group'>
+    <%= f.label :days %><br />
+    <div class='control'>
+      <%= f.select :days, options_for_select(get_day_options, f.object.days || [1, 2, 3, 4, 5]), {}, { multiple: true, style: 'border: none; height: 30px' } %>
     </div>
   </div><br>
 
@@ -55,7 +61,7 @@
   <div class='control-group'>
     <%= f.label :enabled %>
     <span class='control'>
-      <%= f.check_box :enabled %>
+      <%= f.check_box :enabled, checked: true %>
     </span>
   </div><br>
 

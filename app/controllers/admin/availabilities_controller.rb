@@ -11,6 +11,7 @@ class Admin::AvailabilitiesController < Admin::BaseController
     @availability = Availability.new(availability_params)
     @availability.service_ids = service_param
     @availability.staff_id = staff_param[:staff]
+    @availability.days = days_param
     if @availability.save
       redirect_to admin_availability_path(@availability), notice: 'Availability successfully created.'
     else
@@ -29,8 +30,8 @@ class Admin::AvailabilitiesController < Admin::BaseController
   end
 
   def update
-    @availability.service_ids = service_param
-    if @availability.update(availability_params)
+    @availability.days = days_param
+    if @availability.update(availability_params.merge({ service_ids: service_param }))
       redirect_to admin_availability_path(@availability), notice: 'Availability successfully updated.'
     else
       render action: 'edit'
@@ -45,6 +46,10 @@ class Admin::AvailabilitiesController < Admin::BaseController
 
   def service_param
     params.require(:availability).require(:service_ids).reject { |service_id| service_id.empty? }
+  end
+
+  def days_param
+    params.require(:availability).require(:days).reject { |day| day.empty? }
   end
 
   def staff_param
