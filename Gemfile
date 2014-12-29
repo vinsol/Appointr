@@ -49,9 +49,11 @@ gem 'delayed_job_active_record', '~> 4.0.2'
 gem 'capistrano', '~> 3.3.0'
 
 # Use kaminari
-gem 'kaminari'
+gem 'kaminari', '0.16.1'
 
-gem 'dotiw'
+gem 'dotiw', '2.0'
+
+gem 'whenever','0.9.4', :require => false
 
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

@@ -1,0 +1,12 @@
+<h3>Hi <%= @staff.name %></h3>
+<p>
+  You have <%= @appointments.size %> appointments today.<br>
+</p>
+<% unless @appointments.empty? %>
+  <p>
+    Details:
+  </p>
+  <p>
+    <%= render '/staffs/appointments/index' %>
+  </p>
+<% end %>
