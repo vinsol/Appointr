@@ -55,8 +55,9 @@ gem 'dotiw', '2.0'
 gem 'whenever','0.9.4', :require => false
 
 gem "unicorn"
-
+gem 'capistrano'
 gem 'capistrano-rails'
+gem 'capistrano-bundler'
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'
