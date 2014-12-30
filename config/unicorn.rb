@@ -1,10 +1,11 @@
 root = "/var/www/Appointr/current"
+shared_path = '/var/www/Appointr/shared'
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"
 
-listen "/tmp/unicorn.Appointr.sock"
+listen "unix:#{ shared_path }/tmp/sockets/unicorn.sock", backlog: 64
 worker_processes 2
 timeout 30
 
