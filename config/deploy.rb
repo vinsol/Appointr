@@ -10,7 +10,7 @@ set :repo_url, 'git@github.com:vinsol/Appointr.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/var/www/Appointr'
 
-set :user, 'deploy'
+set :user, 'appointer'
 
 set :branch, 'as-30'
 
