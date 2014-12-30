@@ -56,11 +56,10 @@ gem 'whenever','0.9.4', :require => false
 
 gem "unicorn"
 
+gem 'capistrano-rails'
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'
-
-  gem 'capistrano-rails'
 end
 
 group :development, :test do
