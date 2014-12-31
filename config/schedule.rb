@@ -23,8 +23,9 @@ set :output, "log/cron.log"
 
 every :day, :at => '05:00am' do
   rake "staff:daily_appointment_notify"
-  rake "admin:day_appointments"
+  rake "admin:daily_appointments"
 end
 
-# every :day, :at => '01:14pm' do
-# end
+every :day, :at => '10:00pm' do
+  rake "admin:daily_appointments"
+end
