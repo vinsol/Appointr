@@ -37,7 +37,7 @@ gem "twitter-bootstrap-rails", '3.2.0'
 gem 'active_model_serializers', '0.9.0'
 
 # Use postgres full text search
-gem 'pg_search'
+gem 'pg_search', '0.7.8'
 
 # Use asynchronous state machine
 gem 'aasm', '~> 4.0.3'
@@ -54,10 +54,8 @@ gem 'dotiw', '2.0'
 
 gem 'whenever','0.9.4', :require => false
 
-gem "unicorn"
-gem 'capistrano'
-gem 'capistrano-rails'
-gem 'capistrano-bundler'
+gem "unicorn", '4.8.3'
+gem 'capistrano-rails', '1.1.2'
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'
@@ -70,8 +68,8 @@ end
 
 group :test do
   gem 'rspec-rails', '~> 3.0.0'
-  gem 'shoulda-matchers', require: false
-  gem "codeclimate-test-reporter"
+  gem 'shoulda-matchers', '2.7.0', require: false
+  gem "codeclimate-test-reporter", '0.4.3'
 end
 
 group :production do

@@ -6,18 +6,18 @@ set :repo_url, 'git@github.com:vinsol/Appointr.git'
 
 set :deploy_to, '/var/www/Appointr'
 set :scm, :git
+set :branch, 'as-30'
 set :format, :pretty
 set :sudo, false
+set :scm_command, '/usr/bin/git'
+set :log_level, :debug
 set :linked_files, %w{config/database.yml
                       config/secrets.yml}
 
 set :linked_dirs, %w{log
-                    tmp/pids
-                    tmp/cache
-                    tmp/sockets
+                    tmp
                     vendor/bundle
-                    public/system
-                    public/assets}
+                    public}
 
 set :keep_releases, 15
 
