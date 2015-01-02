@@ -39,13 +39,13 @@
         <%= appointment.service.name %>
       </td>
       <td>
-        <%= appointment.start_at.strftime("%I:%M %p") %>
+        <%= appointment.start_at %>
       </td>
       <td>
         <%= "#{ appointment.duration } minutes" %>
       </td>
       <td>
-        <%= appointment.start_at.strftime("%d %b %Y") %>
+        <%= appointment.start_at.to_date %>
       </td>
       <td>
         <%= appointment.state %>

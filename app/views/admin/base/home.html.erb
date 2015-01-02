@@ -36,7 +36,7 @@
     </div>
     <div id='state_filter'>
       <%= label_tag 'state' %>
-      <%= select_tag 'state', options_for_select([['Approved', 'approved'], ['Cancelled', 'cancelled'], ['Attended', 'attended'], ['Missed', 'missed']]), prompt: 'All' %><br>
+      <%= select_tag 'state', options_for_select(Admin::APPOINTMENT_STATE_OPTIONS), prompt: 'All' %><br>
     </div>
     <div id='appointments'>
     </div>

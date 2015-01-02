@@ -27,9 +27,9 @@ class Appointment < ActiveRecord::Base
   end
 
   #scopes
-  scope :past, -> { where("start_at <= '#{ Time.current }'") }
-  scope :future, -> { where("start_at >= '#{ Time.current }'") }
-  scope :past_or_cancelled, -> { where("state = 'cancelled' OR start_at <= '#{ Time.current }'") }
+  scope :past, -> { where("start_at <= '#{ Time.current.strftime('%Y-%m-%d %H:%M:%S %z') }'") }
+  scope :future, -> { where("start_at >= '#{ Time.current.strftime('%Y-%m-%d %H:%M:%S %z') }'") }
+  scope :past_or_cancelled, -> { where("state = 'cancelled' OR start_at <= '#{ Time.current.strftime('%Y-%m-%d %H:%M:%S %z') }'") }
   scope :past_and_not_cancelled, -> { where.not("state = 'cancelled' OR state = 'approved'").past }
   pg_search_scope :search_for_admin, :associated_against => {
     :customer => [:name, :email],
@@ -77,7 +77,7 @@ class Appointment < ActiveRecord::Base
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
       @clashing_appointment = staff.is_occupied?(start_at, end_at,start_at.to_date, id)
       if(@clashing_appointment)
-        errors[:staff] << "is occupied from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
+        errors[:staff] << "is occupied from #{ @clashing_appointment.start_at } to #{ @clashing_appointment.end_at }"
       end
     else
       errors[:base] <<  'No availability for this time duration for this staff.'
@@ -96,7 +96,7 @@ class Appointment < ActiveRecord::Base
   
   def ensure_customer_has_no_prior_appointment_at_same_time
     unless has_no_clashing_appointments?(customer)
-      errors[:base] << "You already have an overlapping appointment from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
+      errors[:base] << "You already have an overlapping appointment from #{ @clashing_appointment.start_at } to #{ @clashing_appointment.end_at }"
     end
   end
 

@@ -13,13 +13,15 @@ Rails.application.routes.draw do
 
   get 'staff_home' => 'staffs#home'
 
+  scope 'customers' do
+    get 'reminder_settings' => 'customers#reminder_settings'
+  end
   resources :customers, only: :update
   namespace :customers do
     get 'availabilities' => 'availabilities#index'
     get 'active_appointments' => 'appointments#active_appointments'
     get 'appointment_history' => 'base#appointment_history'
     get 'past_appointments' => 'appointments#past_appointments'
-    get 'reminder_settings' => 'base#reminder'
     resources :appointments do
       patch 'cancel' => 'appointments#cancel', on: :member
     end

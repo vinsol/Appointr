@@ -5,8 +5,4 @@ module AvailabilitiesHelper
     end
     staff_options
   end
-
-  def get_local_time(utc_time)
-    utc_time.in_time_zone.strftime("%H:%M")
-  end
 end

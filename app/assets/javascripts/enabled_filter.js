@@ -2,7 +2,7 @@ function EnabledFilter() {
 }
 
 EnabledFilter.prototype.set = function(filterSelect) {
-  $('.filter_row').hide();
+  $('.filtered .filter_row').hide();
   if($('#enabled')[0].checked == $('#disabled')[0].checked) {
     $('.filter_row').show();
   } else if($('#enabled')[0].checked == true) {

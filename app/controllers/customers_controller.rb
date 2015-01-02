@@ -7,10 +7,14 @@ class CustomersController < ApplicationController
   def home
   end
 
+  def reminder_settings
+    @customer = current_customer
+  end
+
   def update
     @customer.reminder_time_lapse = (reminder_params[:days].to_i * 1440) + (reminder_params['time(4i)'].to_i * 60) + reminder_params['time(5i)'].to_i
     if @customer.save
-      redirect_to customer_home_path, notice: 'Reminder settings updated'
+      redirect_to reminder_settings_path, notice: 'Reminder settings updated'
     else
       render template: 'customers/base/reminder'
     end
