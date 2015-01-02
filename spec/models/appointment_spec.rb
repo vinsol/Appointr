@@ -67,8 +67,8 @@ describe Appointment do
       it do
         invalid_appointment_one.send(:ensure_customer_has_no_prior_appointment_at_same_time)
         invalid_appointment_two.send(:ensure_customer_has_no_prior_appointment_at_same_time)
-        expect(invalid_appointment_one.errors[:base]).to include("You already have an overlapping appointment from #{ @appointment.start_at.strftime("%H:%M") } to #{ @appointment.end_at.strftime("%H:%M") }")
-        expect(invalid_appointment_two.errors[:base]).to include("You already have an overlapping appointment from #{ @appointment.start_at.strftime("%H:%M") } to #{ @appointment.end_at.strftime("%H:%M") }")
+        expect(invalid_appointment_one.errors[:base]).to include("You already have an overlapping appointment from #{ @appointment.start_at } to #{ @appointment.end_at }")
+        expect(invalid_appointment_two.errors[:base]).to include("You already have an overlapping appointment from #{ @appointment.start_at } to #{ @appointment.end_at }")
       end
     end
     context 'when valid' do
