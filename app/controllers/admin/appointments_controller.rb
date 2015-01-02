@@ -33,9 +33,9 @@ class Admin::AppointmentsController < Admin::BaseController
 
   def search
     if params[:search].empty?
-      @appointments = Appointment.all.includes(:staff, :service, :customer)
+      @appointments = Appointment.all.order(start_at: :desc).includes(:staff, :service, :customer).page(params[:page]).per(15)
     else
-      @appointments = Appointment.search(Riddle::Query.escape(params[:search]))
+      @appointments = Appointment.search_for_admin(params[:search]).order(start_at: :desc).includes(:staff, :service, :customer).page(params[:page]).per(15)
     end
   end
 
@@ -43,7 +43,7 @@ class Admin::AppointmentsController < Admin::BaseController
 
   def set_appointment
     unless @appointment = Appointment.find_by(id: params[:id])
-      redirect_to admin_path, notice: 'No appointment found.'
+      redirect_to admin_path, alert: 'No appointment found.'
     end
   end
 
@@ -62,7 +62,7 @@ class Admin::AppointmentsController < Admin::BaseController
       @appointment.remarks = params[:remarks]
     end
     if @appointment.remarks.nil?
-      redirect_to admin_path, notice: 'Please provide a remark to cancel the appointment.'
+      redirect_to admin_path, alert: 'Please provide a remark to cancel the appointment.'
     end
   end
 

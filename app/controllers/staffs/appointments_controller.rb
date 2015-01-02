@@ -44,7 +44,7 @@ class Staffs::AppointmentsController < ApplicationController
 
   def set_appointment
     unless @appointment = Appointment.find_by(id: params[:id])
-      redirect_to admin_path, notice: 'No appointment found.'
+      redirect_to admin_path, alert: 'No appointment found.'
     end
   end
 

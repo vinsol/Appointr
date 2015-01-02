@@ -1,11 +1,13 @@
 <h1>Listing availabilities</h1>
-
+<%= label_tag 'month', nil, for: 'date_month' %>
 <%= select_month(14, prompt: 'All') %>
 <br />
 
+<%= render '/admin/shared/enabled_filter' %>
+
 <%= link_to 'Create New Availability', new_admin_availability_path %>
 <br />
-<table class = 'table table-hover table-striped'>
+<table class = 'table table-hover table-striped filtered'>
   <tr>
     <th>
       Staff
@@ -33,7 +35,7 @@
     </th>
   </tr>
   <% @availabilities.each do |availability| %>
-    <tr class='availability'> 
+    <tr class="availability filter_row <%= availability.enabled ? 'enabled' : 'disabled' %>"> 
       <td>
         <%= availability.staff.name %>
       </td>
@@ -41,16 +43,16 @@
         <%= availability.services.map(&:name).join(', ') %>
       </td>
       <td>
-        <%= availability.start_at.strftime("%I:%M %p") %>
+        <%= availability.start_at %>
       </td>
       <td>
-        <%= availability.end_at.strftime("%I:%M %p") %>
+        <%= availability.end_at %>
       </td>
       <td class='start_date'>
-        <%= availability.start_date.strftime("%d %b %Y") %>
+        <%= availability.start_date %>
       </td>
       <td class='end_date'>
-        <%= availability.end_date.strftime("%d %b %Y") %>
+        <%= availability.end_date %>
       </td>
       <td>
         <%= availability.enabled %>
@@ -68,3 +70,5 @@
 <%= paginate @availabilities %>
 
 <%= javascript_include_tag 'availability_filter' %>
+<%= javascript_include_tag 'enabled_filter' %>
+

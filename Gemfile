@@ -32,9 +32,8 @@ gem "twitter-bootstrap-rails", '3.2.0'
 # Use serializer
 gem 'active_model_serializers', '0.9.0'
 
-# Use thinking sphinx
-gem 'mysql2', '~> 0.3.17'
-gem 'thinking-sphinx', '~> 3.1.1'
+# Use postgres full text search
+gem 'pg_search'
 
 # Use asynchronous state machine
 gem 'aasm', '~> 4.0.3'
@@ -46,7 +45,9 @@ gem 'delayed_job_active_record', '~> 4.0.2'
 gem 'capistrano', '~> 3.3.0'
 
 # Use kaminari
+
 gem 'kaminari', '0.16.1'
+gem 'dotiw'
 
 group :development, :test do
   # Use debugger

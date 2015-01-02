@@ -53,7 +53,7 @@ class Admin::AvailabilitiesController < Admin::BaseController
 
   def set_availability
     unless @availability = Availability.find_by(id: params[:id])
-      redirect_to admin_availabilities_path, notice: 'No availability found.'
+      redirect_to admin_availabilities_path, alert: 'No availability found.'
     end
   end
 end

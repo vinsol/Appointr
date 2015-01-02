@@ -84,7 +84,7 @@ class Customers::AppointmentsController < Customers::BaseController
 
   def set_appointment
     unless @appointment = Appointment.find_by(id: params[:id])
-      redirect_to root_path, notice: 'No appointment found.'
+      redirect_to root_path, alert: 'No appointment found.'
     end
   end
 end

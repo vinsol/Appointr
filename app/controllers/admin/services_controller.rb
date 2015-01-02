@@ -39,8 +39,7 @@ class Admin::ServicesController < Admin::BaseController
   # Use callbacks to share common setup or constraints between actions.
   def set_service
     unless @service = Service.find_by(id: params[:id])
-      flash[:notice] = 'No service found.'
-      redirect_to admin_services_path
+      redirect_to admin_services_path, alert: 'No service found.'
     end
   end
 

@@ -34,7 +34,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= @availability.start_at.strftime("%I:%M %p") %>
+    <%= @availability.start_at %>
   </p>
 </div>
 <div class='col-md-4'>
@@ -47,7 +47,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= @availability.end_at.strftime("%I:%M %p") %>
+    <%= @availability.end_at %>
   </p>
 </div>
 <div class='col-md-4'>
@@ -60,7 +60,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= @availability.start_date.strftime("%d %b %Y") %>
+    <%= @availability.start_date %>
   </p>
 </div>
 <div class='col-md-4'>
@@ -73,7 +73,7 @@
 </div>
 <div class="col-md-6">
   <p>
-    <%= @availability.end_date.strftime("%d %b %Y") %>
+    <%= @availability.end_date %>
   </p>
 </div>
 <div class='col-md-4'>

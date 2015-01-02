@@ -34,7 +34,7 @@ class Admin::BackGroundsController < Admin::BaseController
     if @back_ground.destroy
       redirect_to admin_application_images_path, notice: 'Background successfully removed.'
     else
-      redirect_to admin_application_images_path, notice: 'Could not remove background.'
+      redirect_to admin_application_images_path, alert: 'Could not remove background.'
     end
   end
 
@@ -42,7 +42,7 @@ class Admin::BackGroundsController < Admin::BaseController
 
   def set_back_ground
     unless @back_ground = BackGround.find_by(id: params[:id])
-      redirect_to admin_application_images_path, notice: 'No background found.'
+      redirect_to admin_application_images_path, alert: 'No background found.'
     end
   end
 

@@ -9,32 +9,7 @@ class StaffsController < ApplicationController
   def home
   end
 
-  def update_password
-    @staff = Staff.find_by(id: params[:staff][:id])
-    @staff.confirmation_token = nil
-    @staff.confirmed_at = Time.current
-    if @staff.update(password_update_params)
-      redirect_to staff_home_path
-    else
-      redirect_to :back,
-        notice: 'Please re-enter the password.'
-    end
-  end
-
   def show
-  end
-
-  def edit
-  end
-
-  def update
-    service_ids = service_param[:services].split(',')
-    @staff.service_ids = service_ids
-    if @staff.update(staff_params)
-      redirect_to staff_path
-    else
-      render action: 'edit'
-    end
   end
 
   private
@@ -54,7 +29,7 @@ class StaffsController < ApplicationController
   def set_staff
     @staff = Staff.find_by(id: params[:id])
     if !@staff
-      redirect_to staff_home_path, notice: 'Staff does not exists.'
+      redirect_to staff_home_path, alert: 'No staff found.'
     end
   end
 

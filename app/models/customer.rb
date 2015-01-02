@@ -9,4 +9,18 @@ class Customer < User
   has_many :appointed_services, through: :appointments, source: 'Service', foreign_key: 'service_id'
   has_many :appointed_staffs, through: :appointments, source: 'Staff', foreign_key: 'staff_id'
 
+  attr_accessor :time, :days
+
+  def reminder_hours
+    (reminder_time_lapse % 1440) / 60
+  end
+
+  def reminder_minutes
+    (reminder_time_lapse % 1440) % 60
+  end
+
+  def reminder_days
+    reminder_time_lapse / 1440
+  end
+
 end

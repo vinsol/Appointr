@@ -1,8 +1,10 @@
 <h1>Listing Services</h1>
 
+<%= render '/admin/shared/enabled_filter' %>
+
 <%= link_to 'New service', new_admin_service_path %>
 <br />
-<table class = 'table table-hover table-striped'>
+<table class = 'table table-hover table-striped filtered'>
   <tr>
     <th>
       Name
@@ -18,7 +20,7 @@
     </th>
   </tr>
   <% @services.each do |service| %>
-    <tr> 
+    <tr class="filter_row <%= service.enabled ? 'enabled' : 'disabled' %>"> 
       <td>
         <%= service.name.capitalize %>
       </td>
@@ -39,3 +41,4 @@
 <%= paginate @services %>
 <br />
 <%= link_to 'New service', new_admin_service_path %>
+<%= javascript_include_tag 'enabled_filter' %>

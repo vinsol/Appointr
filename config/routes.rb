@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   get 'staff_home' => 'staffs#home'
 
+  scope 'customers' do
+    get 'reminder_settings' => 'customers#reminder_settings'
+  end
+  resources :customers, only: :update
   namespace :customers do
     get 'availabilities' => 'availabilities#index'
     get 'active_appointments' => 'appointments#active_appointments'
@@ -31,11 +35,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :staffs do
-      patch 'update_password' => 'staffs#update_password', on: :member
-    end
+    resources :staffs
     resources :appointments do
-      post 'search' => 'appointments#search', on: :collection
+      get 'search' => 'appointments#search', on: :collection
       patch 'cancel' => 'appointments#cancel', on: :member
     end
     get 'active_appointments' => 'appointments#active_appointments'

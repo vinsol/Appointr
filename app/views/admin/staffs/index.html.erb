@@ -1,8 +1,10 @@
 <h1>Listing Staff</h1>
 
+<%= render '/admin/shared/enabled_filter' %>
+
 <%= link_to 'New staff', new_admin_staff_path %>
 <br />
-<table class = 'table table-hover table-striped'>
+<table class = 'table table-hover table-striped filtered'>
   <tr>
     <th>
       Name
@@ -24,7 +26,7 @@
     </th>
   </tr>
   <% @staffs.each do |staff| %>
-    <tr> 
+    <tr class="filter_row <%= staff.enabled ? 'enabled' : 'disabled' %>"> 
       <td>
         <%= staff.name %>
       </td>
@@ -55,3 +57,4 @@
 
 <br />
 <%= link_to 'New staff', new_admin_staff_path %>
+<%= javascript_include_tag 'enabled_filter' %>

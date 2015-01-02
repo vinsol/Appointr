@@ -25,7 +25,7 @@ StateFilter.prototype.set = function(filterSelect) {
 
 StateFilter.prototype.bindEvents = function() {
   var _this = this;
-  $('#filter').on('change', function() {
+  $('#state').on('change', function() {
     _this.set(this);
   })
 }
