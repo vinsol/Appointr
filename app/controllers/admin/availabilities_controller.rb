@@ -30,6 +30,7 @@ class Admin::AvailabilitiesController < Admin::BaseController
   end
 
   def update
+    # [rai] you can better do merge { service_ids: service_param, days: days_param }
     @availability.days = days_param
     if @availability.update(availability_params.merge({ service_ids: service_param }))
       redirect_to admin_availability_path(@availability), notice: 'Availability successfully updated.'
@@ -45,10 +46,12 @@ class Admin::AvailabilitiesController < Admin::BaseController
   end
 
   def service_param
+    # [rai] you can use .compact
     params.require(:availability).require(:service_ids).reject { |service_id| service_id.empty? }
   end
 
   def days_param
+    # [rai] you can use .compact
     params.require(:availability).require(:days).reject { |day| day.empty? }
   end
 

@@ -1,7 +1,11 @@
 class Staff < User
+
+  # [rai] can't two staff have same name in real world?
   validates :name, uniqueness: { case_sensitive: false }
   validates :designation, presence: true
   validates :services, presence: true
+
+  # [rai] not sure why do we need to override the default behaviour?
   validates :password, presence: :true, if: :should_validate_password?
   validates :password, format: { with: PASSWORD_VALIDATOR_REGEX, message: 'can not include spaces.' }, if: :encrypted_password_changed?
   
@@ -17,6 +21,8 @@ class Staff < User
     super if confirmed?
   end
 
+  # [rai] bad definition. argument should not need date and time separately. it could just be start_time and end_time
+  # [rai] why skipping arel or sql here. ruby will take more time then sql
   def is_available?(start_at, end_at, date, service)
     availabilities = Availability.where("staff_id = '#{ id }'")
     availabilities.any? do |availability|
@@ -24,6 +30,9 @@ class Staff < User
     end
   end
 
+  # [rai] does not this should be a counterpart method of the is_available? method
+  # [rai] similarly we should do it in sql
+  # [rai] a truty method should mostly return truty value, not the object itself
   def is_occupied?(start_at, end_at, date, new_appointment_id)
     clashing_appointment = appointments.approved.detect do |appointment|
       if new_appointment_id
@@ -36,6 +45,8 @@ class Staff < User
 
   protected
 
+  # [rai] bad name for this method.
+  # [rai] this will create problem in future as password is now compulsory for any existing user
   def should_validate_password?
     encrypted_password.empty? && !new_record?
   end

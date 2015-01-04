@@ -1,3 +1,4 @@
+# [rai] both customer and staff mailer are more or less similar. we need discussion to optimize them
 class CustomerMailer < ActionMailer::Base
 
   default from: 'test.vinsol.ams@gmail.com'
