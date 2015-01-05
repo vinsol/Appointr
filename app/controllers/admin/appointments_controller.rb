@@ -22,6 +22,7 @@ class Admin::AppointmentsController < Admin::BaseController
   def show
   end
 
+  # [rai] can't we just done @appointment.cancel! and handle exception
   def cancel
     @appointment.cancel
     if @appointment.save
@@ -31,6 +32,8 @@ class Admin::AppointmentsController < Admin::BaseController
     end
   end
 
+  # [rai] not sure but can we chain on .all? i remember that .all returns array and not arel
+  # [rai] moreover we dont need to repeat the code the chaining could go at last line with variable @appointments
   def search
     if params[:search].empty?
       @appointments = Appointment.all.order(start_at: :desc).includes(:staff, :service, :customer).page(params[:page]).per(15)
@@ -47,6 +50,7 @@ class Admin::AppointmentsController < Admin::BaseController
     end
   end
 
+  # [rai] please use serializers. this is not controller responsibility to prepare json representation for appointments
   def get_appointments_json
     @appointments.map do |appointment|
       { id: appointment.id,
@@ -57,6 +61,7 @@ class Admin::AppointmentsController < Admin::BaseController
     end
   end
 
+  # [rai] could not we just use if else block?
   def ensure_remark_is_present
     unless params[:remarks].empty?
       @appointment.remarks = params[:remarks]

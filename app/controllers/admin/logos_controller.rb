@@ -13,6 +13,7 @@ class Admin::LogosController < Admin::BaseController
     else
       flash[:alert] = 'Please select an image.'
       render :new
+      # [rai] why you need to clear flash
       flash.clear
     end
   end
@@ -30,6 +31,7 @@ class Admin::LogosController < Admin::BaseController
     end
   end
 
+  # [rai] sent the flash in if else block
   def destroy
     if @logo.destroy
       redirect_to admin_application_images_path, notice: 'Logo successfully removed.'
@@ -38,8 +40,10 @@ class Admin::LogosController < Admin::BaseController
     end
   end
 
+  # [rai] why not private
   protected
 
+  # [rai] put two space indentation after protected/private block
   def set_logo
     unless @logo = Logo.find_by(id: params[:id])
       redirect_to admin_application_images_path, alert: 'No logo found.'

@@ -1,5 +1,6 @@
 class Admin::CustomersController < Admin::BaseController
 
+  # [rai] its should be load_customer or find_customer
   before_action :set_customer, only: [:edit, :show, :update]
 
   def index

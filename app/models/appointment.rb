@@ -31,6 +31,11 @@ class Appointment < ActiveRecord::Base
   scope :future, -> { where('start_at >= ?', Time.current) }
   scope :past_or_cancelled, -> { where('state = ? OR start_at <= ?', 'cancelled', Time.current) }
   scope :past_and_not_cancelled, -> { where.not('state = ? OR state = ?', 'cancelled', 'approved').past }
+  # [rai] though the below scopes does not seem to be exposed for sql injection but it is always good practice to maintain it.
+  # [rai] how could start_at = Time.current is past time
+  # [rai] how could start_at = Time.current is future time
+  
+  # [rai] we need a cancelled and not_cancelled scope and below scope could be like past.cancelled and past.not_cancelled
   pg_search_scope :search_for_admin, :associated_against => {
     :customer => [:name, :email],
     :staff => [:name, :email],
@@ -81,6 +86,7 @@ class Appointment < ActiveRecord::Base
     end
   end
 
+  # [rai] please use arel or sql
   def get_availabilities
     if(staff)
       @availabilities = Availability.where("staff_id = '#{ staff.id }'")
@@ -104,6 +110,7 @@ class Appointment < ActiveRecord::Base
     @matching_times
   end
 
+  # [rai] we need to refactor this method. please discuss
   def populate_matching_times(availability, start_at_copy, operator, time)
     while((start_at_copy.to_date == start_at.to_date) && !@matching_times[time]) do
       if(!availability.staff.is_occupied?(start_at_copy, start_at_copy + duration.minutes, start_at_copy.to_date, id) && availability.start_at.seconds_since_midnight <= start_at_copy.seconds_since_midnight && availability.end_at.seconds_since_midnight >= (start_at_copy + duration.minutes).seconds_since_midnight)
@@ -115,6 +122,7 @@ class Appointment < ActiveRecord::Base
 
   protected
 
+  # [rai] having trouble following the architecture for reminder job. Please discuss and we will find the optimized solution
   def send_new_appointment_mail_to_customer_and_staff
     CustomerMailer.delay.new_appointment_notifier(self)
     StaffMailer.delay.new_appointment_notifier(self)

@@ -23,6 +23,7 @@ class Customer < User
     reminder_time_lapse / 1440
   end
 
+  # [rai] please refactor this method
   def change_appointments_reminder_time(old_reminder_time_lapse, new_reminder_time_lapse)
     appointments.each do |appointment|
       if appointment.start_at > Time.current
