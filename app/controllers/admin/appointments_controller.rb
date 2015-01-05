@@ -24,10 +24,11 @@ class Admin::AppointmentsController < Admin::BaseController
 
   # [rai] can't we just done @appointment.cancel! and handle exception(FIXED)
   def cancel
-    if @appointment.cancel!
+    @appointment.cancel
+    if @appointment.save(validate: false)
       redirect_to admin_path, notice: 'Appointment cancelled'
     else
-      render :show
+      redirect_to admin_path, alert: 'Appointment could not be cancelled'
     end
   end
 

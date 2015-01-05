@@ -20,7 +20,7 @@ class Availability < ActiveRecord::Base
   has_many :services, through: :availability_services
 
   #scopes
-  
+  scope :for_appointment, -> (start_at, end_at) { where("start_date <= '#{ start_at.to_date }' AND end_date >= '#{ start_at.to_date }' AND start_at::time <= '#{ start_at.strftime('%Y-%m-%d %H:%M:%S')}'::time AND end_at::time <= '#{ end_at.strftime('%Y-%m-%d %H:%M:%S')}'::time AND #{ start_at.to_date.wday } = ANY (days)") }
 
   attr_accessor :title, :start, :end
 

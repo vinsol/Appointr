@@ -89,10 +89,11 @@ class Appointment < ActiveRecord::Base
   # [rai] please use arel or sql
   def get_availabilities
     if(staff)
-      @availabilities = Availability.where("staff_id = '#{ staff.id }'")
-      @availabilities = @availabilities.select do |availability|
-        availability.service_ids.include?(service.id) && availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
-      end
+      @availabilities = staff.availabilities.for_appointment(start_at, end_at).joins(:availability_services).where('availability_services.service_id = ?', service.id)
+      # @availabilities = Availability.where("staff_id = '#{ staff.id }'")
+      # @availabilities = @availabilities.select do |availability|
+      #   availability.service_ids.include?(service.id) && availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
+      # end
     else
       get_availabilities_for_service
     end
@@ -149,8 +150,8 @@ class Appointment < ActiveRecord::Base
   end
 
   def staff_allotable?
-    if(staff.is_available?(start_at, end_at,start_at.to_date, service))
-      @clashing_appointment = staff.is_occupied?(start_at, end_at,start_at.to_date, id)
+    if(staff.is_available?(start_at, end_at, service))
+      @clashing_appointment = staff.is_occupied?(start_at, end_at, id)
       if(@clashing_appointment)
         errors[:staff] << "is occupied from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
       end
@@ -187,10 +188,10 @@ class Appointment < ActiveRecord::Base
   end
 
   def get_availabilities_for_service
-    @availabilities = service.availabilities
-    @availabilities = @availabilities.select do |availability|
-      availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
-    end
+    @availabilities = service.availabilities.for_appointment(start_at, end_at)
+    # @availabilities = @availabilities.select do |availability|
+    #   availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
+    # end
   end
 
   def set_staff

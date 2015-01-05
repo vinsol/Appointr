@@ -23,17 +23,18 @@ class Staff < User
 
   # [rai] bad definition. argument should not need date and time separately. it could just be start_time and end_time
   # [rai] why skipping arel or sql here. ruby will take more time then sql
-  def is_available?(start_at, end_at, date, service)
-    availabilities = Availability.where("staff_id = '#{ id }'")
-    availabilities.any? do |availability|
-      availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
-    end
+  def is_available?(start_at, end_at, service)
+    availabilities.for_appointment(start_at, end_at).joins(:availability_services).where('availability_services.service_id = ?', service.id).exists?
+    # availabilities = Availability.where("staff_id = '#{ id }'")
+    # availabilities.any? do |availability|
+    #   availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
+    # end
   end
 
   # [rai] does not this should be a counterpart method of the is_available? method
   # [rai] similarly we should do it in sql
   # [rai] a truty method should mostly return truty value, not the object itself
-  def is_occupied?(start_at, end_at, date, new_appointment_id)
+  def is_occupied?(start_at, end_at, new_appointment_id)
     clashing_appointment = appointments.approved.detect do |appointment|
       if new_appointment_id
         appointment.id != new_appointment_id && appointment.start_at.to_date == date && ((start_at.seconds_since_midnight >= appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight <= appointment.end_at.seconds_since_midnight))
