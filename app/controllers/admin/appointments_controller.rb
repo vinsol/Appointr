@@ -22,24 +22,24 @@ class Admin::AppointmentsController < Admin::BaseController
   def show
   end
 
-  # [rai] can't we just done @appointment.cancel! and handle exception
+  # [rai] can't we just done @appointment.cancel! and handle exception(FIXED)
   def cancel
-    @appointment.cancel
-    if @appointment.save
+    if @appointment.cancel!
       redirect_to admin_path, notice: 'Appointment cancelled'
     else
       render :show
     end
   end
 
-  # [rai] not sure but can we chain on .all? i remember that .all returns array and not arel
-  # [rai] moreover we dont need to repeat the code the chaining could go at last line with variable @appointments
+  # [rai] not sure but can we chain on .all? i remember that .all returns array and not arel([gaurav] .all returns arel)
+  # [rai] moreover we dont need to repeat the code the chaining could go at last line with variable @appointments(fixed)
   def search
     if params[:search].empty?
-      @appointments = Appointment.all.order(start_at: :desc).includes(:staff, :service, :customer).page(params[:page]).per(15)
+      @appointments = Appointment.all
     else
-      @appointments = Appointment.search_for_admin(params[:search]).order(start_at: :desc).includes(:staff, :service, :customer).page(params[:page]).per(15)
+      @appointments = Appointment.search_for_admin(params[:search])
     end
+    @appointments = @appointments.reorder(start_at: :desc).includes(:staff, :service, :customer).page(params[:page]).per(15)
   end
 
   protected
@@ -61,12 +61,10 @@ class Admin::AppointmentsController < Admin::BaseController
     end
   end
 
-  # [rai] could not we just use if else block?
+  # [rai] could not we just use if else block?(fixed)
   def ensure_remark_is_present
-    unless params[:remarks].empty?
-      @appointment.remarks = params[:remarks]
-    end
-    if @appointment.remarks.nil?
+    @appointment.remarks = params[:remarks]
+    if @appointment.remarks.blank?
       redirect_to admin_path, alert: 'Please provide a remark to cancel the appointment.'
     end
   end

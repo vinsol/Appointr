@@ -28,7 +28,7 @@
     </th>
   </tr>
   <% @appointments.each do |appointment| %>
-    <tr class='appointment <%= appointment.state %>' data-date='<%= appointment.start_at.to_date %>'> 
+    <tr class='appointment <%= appointment.state %> date_filtered state_filtered' data-date='<%= appointment.start_at.to_date %>'> 
       <td>
         <%= appointment.customer.name %>
       </td>

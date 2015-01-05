@@ -19,6 +19,9 @@ class Availability < ActiveRecord::Base
   has_many :availability_services, dependent: :restrict_with_error
   has_many :services, through: :availability_services
 
+  #scopes
+  
+
   attr_accessor :title, :start, :end
 
   # [rai] why protected and not private. do we have any subclass of Availability
