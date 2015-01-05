@@ -27,10 +27,10 @@ class Appointment < ActiveRecord::Base
   end
 
   #scopes
-  scope :past, -> { where("start_at <= '#{ Time.current }'") }
-  scope :future, -> { where("start_at >= '#{ Time.current }'") }
-  scope :past_or_cancelled, -> { where("state = 'cancelled' OR start_at <= '#{ Time.current }'") }
-  scope :past_and_not_cancelled, -> { where.not("state = 'cancelled' OR state = 'approved'").past }
+  scope :past, -> { where('start_at <= ?', Time.current) }
+  scope :future, -> { where('start_at >= ?', Time.current) }
+  scope :past_or_cancelled, -> { where('state = ? OR start_at <= ?', 'cancelled', Time.current) }
+  scope :past_and_not_cancelled, -> { where.not('state = ? OR state = ?', 'cancelled', 'approved').past }
   pg_search_scope :search_for_admin, :associated_against => {
     :customer => [:name, :email],
     :staff => [:name, :email],

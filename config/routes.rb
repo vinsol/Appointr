@@ -54,4 +54,5 @@ Rails.application.routes.draw do
   end
 
   get 'services/search' => 'services#search'
+  match '*other', :to => redirect('/404.html'), via: [:get]
 end
