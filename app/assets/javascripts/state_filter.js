@@ -1,20 +1,20 @@
-// TODO: Object Oriented JS???
 function StateFilter() {
 
 }
 
 StateFilter.prototype.set = function(filterSelect) {
-  $('.appointment').hide();
+  $('.appointment').removeClass('state_filtered').hide();
   if($(filterSelect).val() == 'approved') {
-    $('.approved').show();
+    debugger
+    $('.approved').addClass('state_filtered').filter('.date_filtered').show();
   } else if($(filterSelect).val() == 'cancelled') {
-    $('.cancelled').show();
+    $('.cancelled').addClass('state_filtered').filter('.date_filtered').show();
   } else if($(filterSelect).val() == 'attended') {
-    $('.attended').show();
+    $('.attended').addClass('state_filtered').filter('.date_filtered').show();
   } else if($(filterSelect).val() == 'missed') {
-    $('.missed').show();
+    $('.missed').addClass('state_filtered').filter('.date_filtered').show();
   } else {
-    $('.appointment').show();
+    $('.appointment').addClass('state_filtered').filter('.date_filtered').show();
   }
 }
 
