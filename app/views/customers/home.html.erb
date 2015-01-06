@@ -24,7 +24,6 @@
       <%= select_tag 'service', options_for_select(get_service_options), prompt: 'Select Service' %><br>
       <% label_tag 'staff' %>
       <%= select_tag 'staff', options_for_select(Staff.all.collect { |staff| [staff.name, staff.id]}), { prompt: 'Select Staff' } %>
-      
     </div>
   </div>
   <div class='row'>
