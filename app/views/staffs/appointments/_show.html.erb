@@ -1,11 +1,11 @@
 <p>
   <strong>Customer:</strong>
-  <%= @appointment.customer.name.capitalize %>
+  <%= @appointment.customer.name.humanize %>
 </p>
 
 <p>
   <strong>Service:</strong>
-  <%= @appointment.service.name.capitalize %>
+  <%= @appointment.service.name.humanize %>
 </p>
 
 <p>
@@ -15,7 +15,7 @@
 
 <p>
   <strong>Duration:</strong>
-  <%= @appointment.duration %>
+  <%= @appointment.duration %> minutes
 </p>
 
 <p>
@@ -30,5 +30,5 @@
 
 <p>
   <strong>Remarks:</strong>
-  <%= @appointment.remarks %>
+  <%= @appointment.remarks.humanize %>
 </p>

@@ -15,7 +15,7 @@
 
 <p>
   <strong>Duration:</strong>
-  <%= @appointment.duration %>
+  <%= @appointment.duration %> minutes
 </p>
 
 <p>
@@ -25,10 +25,10 @@
 
 <p>
   <strong>State:</strong>
-  <%= @appointment.state %>
+  <%= @appointment.state.humanize %>
 </p>
 
 <p>
   <strong>Remarks:</strong>
-  <%= @appointment.remarks %>
+  <%= @appointment.remarks.humanize %>
 </p>
