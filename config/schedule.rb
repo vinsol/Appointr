@@ -26,5 +26,9 @@ every :day, :at => '05:00am' do
   rake "admin:day_appointments"
 end
 
+every :day, :at => '10:00pm' do
+  rake "admin:day_appointments"
+end
+
 # every :day, :at => '01:14pm' do
 # end
