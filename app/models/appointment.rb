@@ -83,7 +83,7 @@ class Appointment < ActiveRecord::Base
 
   def get_availabilities
     if(staff)
-      @availabilities = Availability.where("staff_id = '#{ staff.id }'")
+      @availabilities = staff.availabilities
       @availabilities = @availabilities.select do |availability|
         availability.service_ids.include?(service.id) && availability.start_date <= start_at.to_date && availability.end_date >= start_at.to_date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
       end
@@ -99,17 +99,18 @@ class Appointment < ActiveRecord::Base
     @availabilities.each do |availability|
       populate_matching_times(availability, start_at_copy, :-, :time_less_than_start_at)
       populate_matching_times(availability, start_at_copy, :+, :time_greater_than_start_at)
-      return @matching_times if(@matching_times[:time_greater_than_start_at] && @matching_times[:time_less_than_start_at])
     end
     @matching_times
   end
 
   def populate_matching_times(availability, start_at_copy, operator, time)
-    while((start_at_copy.to_date == start_at.to_date) && !@matching_times[time]) do
+    end_at_copy = start_at_copy + duration.minutes
+    while((start_at_copy.to_date == end_at_copy.to_date) && !@matching_times[time]) do
       if(!availability.staff.is_occupied?(start_at_copy, start_at_copy + duration.minutes, start_at_copy.to_date, id) && availability.start_at.seconds_since_midnight <= start_at_copy.seconds_since_midnight && availability.end_at.seconds_since_midnight >= (start_at_copy + duration.minutes).seconds_since_midnight)
         @matching_times[time] = start_at_copy
       end
       start_at_copy =  start_at_copy.send(operator, 15.minutes)
+      end_at_copy = start_at_copy + duration.minutes
     end
   end
 

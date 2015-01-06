@@ -39,7 +39,7 @@ class Customers::AppointmentsController < Customers::BaseController
           flash.now[:notice] = "You can have an appointment at "
           flash.now[:notice] += available_times.values.map {|value| value.strftime("%I:%M %p")}.join(' or ')
         elsif(@appointment.duration >= @appointment.service.duration)
-          flash.now[:alert] = "Sorry but there is no availability for this service on this day. Please try another day."
+          flash.now[:notice] = "Sorry but there is no availability for this service on this day. Please try another day."
         end
       end
       render :new
