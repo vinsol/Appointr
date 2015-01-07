@@ -114,7 +114,7 @@ class Appointment < ActiveRecord::Base
   # [rai] we need to refactor this method. please discuss(to discuss)
   def populate_matching_times(availability, start_at_copy, operator, time)
     while((start_at_copy.to_date == start_at.to_date) && !@matching_times[time]) do
-      if(!availability.staff.is_occupied?(start_at_copy, start_at_copy + duration.minutes, start_at_copy.to_date, id) && availability.start_at.seconds_since_midnight <= start_at_copy.seconds_since_midnight && availability.end_at.seconds_since_midnight >= (start_at_copy + duration.minutes).seconds_since_midnight)
+      if(!availability.staff.is_occupied?(start_at_copy, start_at_copy + duration.minutes, id) && availability.start_at.seconds_since_midnight <= start_at_copy.seconds_since_midnight && availability.end_at.seconds_since_midnight >= (start_at_copy + duration.minutes).seconds_since_midnight)
         @matching_times[time] = start_at_copy
       end
       start_at_copy =  start_at_copy.send(operator, 15.minutes)
@@ -171,7 +171,7 @@ class Appointment < ActiveRecord::Base
     end
     
     def ensure_customer_has_no_prior_appointment_at_same_time
-      unless has_no_clashing_appointments?(customer)
+      if has_no_clashing_appointments?(customer)
         errors[:base] << "You already have an overlapping appointment from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
       end
     end
@@ -180,6 +180,7 @@ class Appointment < ActiveRecord::Base
       @clashing_appointment = user.appointments.approved.detect do |appointment|
         appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
       end
+      # @clashing_appointment == nil
     end
 
     def get_availabilities_for_service
@@ -192,7 +193,7 @@ class Appointment < ActiveRecord::Base
     def set_staff
       @staffs = @availabilities.map(&:staff)
       self.staff = @staffs.detect do |staff|
-        has_no_clashing_appointments?(staff)
+        !has_no_clashing_appointments?(staff)
       end
       if(!self.staff)
         errors[:base] << 'No staff available for this time duration'
