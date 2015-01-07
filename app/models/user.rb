@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  # [rai] why password could not have spaces?
+  # [rai] why password could not have spaces?(required by app)
   PASSWORD_VALIDATOR_REGEX = /\A[^\s]*\z/i
 
   # Include default devise modules. Others available are:
@@ -10,19 +10,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   
   #calbacks
-  # [rai] you dont need this. Devise already have configuration for case insensitivity. Check devise.rb
-  before_save :downcase_email
+  # [rai] you dont need this. Devise already have configuration for case insensitivity. Check devise.rb(removed)
 
   #validations
   validates :name, presence: true
 
-  # [rai] are we using it anywhere?
-  def self.types
-      %w(Admin Customer Staff)
-  end
+  # [rai] are we using it anywhere?([gaurav] no. so i removed it)
 
-  # [rai] check devise
-  def downcase_email
-     self.email = email.downcase
-  end
+  # [rai] check devise(removed)
 end

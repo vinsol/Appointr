@@ -1,4 +1,6 @@
 module AvailabilitiesHelper
+  
+  DAY_MAP = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
   def get_staff_options
     staff_options = Staff.all.map do |staff|
@@ -13,7 +15,7 @@ module AvailabilitiesHelper
 
   def get_day_options
     day_options = []
-    Availability::DAY_MAP.each_with_index do |day, index|
+    DAY_MAP.each_with_index do |day, index|
       day_options << [day, index, class: 'btn btn-secondary']
     end
     day_options

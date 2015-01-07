@@ -36,8 +36,8 @@
 
     <%= javascript_include_tag "application" %>
   </head>
-  <% if BackGround.first %>
-    <body background=<%= BackGround.first.image.url(:medium) %> >
+  <% if Background.first %>
+    <body background=<%= Background.first.image.url(:medium) %> >
   <% else %>
     <body>
   <% end %>

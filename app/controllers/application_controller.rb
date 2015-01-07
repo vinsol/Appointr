@@ -13,36 +13,34 @@ class ApplicationController < ActionController::Base
       customer_home_path
     end
   end
-  
-  protected
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) do |user|
-      user.permit(:name, :email, :password, :password_confirmation, :current_password, :designation, :services => [])
+  private
+
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.for(:sign_up) do |user|
+        user.permit(:name, :email, :password, :password_confirmation, :current_password, :designation, :services => [])
+      end
+
+      devise_parameter_sanitizer.for(:account_update) do |user|
+        user.permit(:name, :email, :password, :password_confirmation, :current_password, :designation, :services => [])
+      end
     end
 
-    devise_parameter_sanitizer.for(:account_update) do |user|
-      user.permit(:name, :email, :password, :password_confirmation, :current_password, :designation, :services => [])
+    def authorize_admin
+      if !current_admin
+        redirect_to root_path, alert: 'Access Denied'
+      end
     end
-  end
 
-  def user_has_admin_priveleges?
-    if !current_admin
-      redirect_to root_path, alert: 'Access Denied'
+    def authorize_customer
+      if !current_customer
+        redirect_to new_customer_session_path, alert: 'You need to sign in.'
+      end
     end
-  end
 
-  def user_has_customer_priveleges?
-    if !current_customer
-      redirect_to new_customer_session_path, alert: 'You need to sign in.'
+    def authorize_staff
+      if !current_staff
+        redirect_to new_staff_session_path, alert: 'You need to sign in.'
+      end
     end
-  end
-
-  def user_has_staff_priveleges?
-    if !current_staff
-      redirect_to new_staff_session_path, alert: 'You need to sign in.'
-    end
-  end
-
-
 end

@@ -69,7 +69,7 @@
   </div>
   <div class="col-md-6">
     <p>
-      <%= @availability.days.map { |day| get_days_array[day] }
+      <%= @availability.days.map { |day| AvailabilitiesHelper::DAY_MAP[day] }
               .join(', ') %>
     </p>
   </div>

@@ -1,7 +1,7 @@
 class Admin::BaseController < ApplicationController
 
-  # [rai] rename to authorize_admin!
-  before_action :user_has_admin_priveleges?
+  # [rai] rename to authorize_admin!(fixed)
+  before_action :authorize_admin
   
   layout 'admin'
 

@@ -1,7 +1,7 @@
 class Admin::StaffsController < Admin::BaseController
 
   #callbacks
-  before_action :set_staff, only: [:edit, :show, :update]
+  before_action :load_staff, only: [:edit, :show, :update]
 
   def index
     @staffs = Staff.order(:name).includes(:services).page(params[:page]).per(15)
@@ -42,18 +42,18 @@ class Admin::StaffsController < Admin::BaseController
 
   private
 
-  def service_param
-    params.require(:staff).permit(:services)
-  end
-
-  def staff_params
-    params.require(:staff).permit(:name, :designation, :email, :enabled)
-  end
-
-  def set_staff
-    unless @staff = Staff.find_by(id: params[:id])
-      redirect_to admin_staffs_path, alert: 'No staff found.'
+    def service_param
+      params.require(:staff).permit(:services)
     end
-  end
+
+    def staff_params
+      params.require(:staff).permit(:name, :designation, :email, :enabled)
+    end
+
+    def load_staff
+      unless @staff = Staff.find_by(id: params[:id])
+        redirect_to admin_staffs_path, alert: 'No staff found.'
+      end
+    end
 
 end

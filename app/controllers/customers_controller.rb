@@ -1,8 +1,8 @@
 class CustomersController < ApplicationController
   layout 'customer'
 
-  before_action :user_has_customer_priveleges?
-  before_action :set_customer, only: :update
+  before_action :authorize_customer
+  before_action :load_customer, only: :update
   
   def home
   end
@@ -21,14 +21,14 @@ class CustomersController < ApplicationController
 
   private
 
-  def reminder_params
-    params.require(:customer).permit(:time, :days)
-  end
-
-  def set_customer
-    unless @customer = Customer.find_by(id: params[:id])
-      redirect_to root_path, alert: 'No customer found.'
+    def reminder_params
+      params.require(:customer).permit(:time, :days)
     end
-  end
+
+    def load_customer
+      unless @customer = Customer.find_by(id: params[:id])
+        redirect_to root_path, alert: 'No customer found.'
+      end
+    end
 
 end

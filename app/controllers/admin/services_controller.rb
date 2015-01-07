@@ -1,6 +1,6 @@
 class Admin::ServicesController < Admin::BaseController
 
-  before_action :set_service, only: [:show, :edit, :update]
+  before_action :load_service, only: [:show, :edit, :update]
 
   def index
     @services = Service.order("LOWER(name)").page(params[:page]).per(15)
@@ -36,16 +36,13 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_service
-    unless @service = Service.find_by(id: params[:id])
-      redirect_to admin_services_path, alert: 'No service found.'
+    def load_service
+      unless @service = Service.find_by(id: params[:id])
+        redirect_to admin_services_path, alert: 'No service found.'
+      end
     end
-  end
 
-  # Never trust parameters from the scary internet, only allow the white
-  # list through.
-  def service_params
-    params.require(:service).permit(:name, :duration, :enabled)
-  end
+    def service_params
+      params.require(:service).permit(:name, :duration, :enabled)
+    end
 end

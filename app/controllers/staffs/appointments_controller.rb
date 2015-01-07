@@ -1,19 +1,17 @@
 class Staffs::AppointmentsController < ApplicationController
 
-  before_action :set_appointment, only: [:destroy, :show, :edit, :update]
+  before_action :load_appointment, only: [:destroy, :show, :edit, :update]
   before_action :ensure_remark_is_present, only: :destroy
-  before_action :user_has_staff_priveleges?
+  before_action :authorize_staff
 
   def active_appointments
     @appointments = current_staff.appointments.approved.includes(:customer, :service)
-    appointments_json = get_appointments_json
-    render(json: appointments_json, root: false)
+    render(json: @appointments, each_serializer: StaffAppointmentSerializer, root: false)
   end
 
   def past_appointments
-    @appointments = current_staff.appointments.past_and_not_cancelled.includes(:customer, :service)
-    appointments_json = get_appointments_json
-    render(json: appointments_json, root: false)
+    @appointments = current_staff.appointments.not_cancelled_or_approved.past.includes(:customer, :service)
+    render(json: @appointments, each_serializer: StaffAppointmentSerializer, root: false)
   end
 
   def show
@@ -41,27 +39,16 @@ class Staffs::AppointmentsController < ApplicationController
     end
   end
 
-  protected
+  private
 
-  def set_appointment
-    unless @appointment = Appointment.find_by(id: params[:id])
-      redirect_to admin_path, alert: 'No appointment found.'
+    def load_appointment
+      unless @appointment = Appointment.find_by(id: params[:id])
+        redirect_to admin_path, alert: 'No appointment found.'
+      end
     end
-  end
 
-  def appointment_params
-    params.require('appointment').permit(:state, :remarks)
-  end
-
-  def get_appointments_json
-    @appointments.map do |appointment|
-      { id: appointment.id,
-        state: appointment.state,
-        title: "#{ appointment.customer.name }, #{ appointment.service.name }",
-        start: appointment.start_at,
-        end: appointment.end_at
-      }
+    def appointment_params
+      params.require('appointment').permit(:state, :remarks)
     end
-  end
 
 end

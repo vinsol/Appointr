@@ -1,3 +1,8 @@
+<div class='errors'>
+  <% @logo.errors.full_messages.each do |message| %>
+    <p> <%= message %> </p>
+  <% end %>
+</div>
 <%= form_for [:admin, @logo], :html => { :multipart => true } do |f| %>
   <div class='field'>
   <%= f.file_field :image %>

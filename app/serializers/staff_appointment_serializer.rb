@@ -1,8 +1,8 @@
-class AppointmentSerializer < ActiveModel::Serializer
+class StaffAppointmentSerializer < ActiveModel::Serializer
   attributes :id, :title, :start, :end, :state
 
   def title
-    "#{ object.staff.name }, #{ object.service.name }"
+    "#{ object.customer.name }, #{ object.service.name }"
   end
 
   def start

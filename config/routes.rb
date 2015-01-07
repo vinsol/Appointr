@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     resources :customers, except: [:new, :create]
     resources :application_images, only: :index
     resources :logos, only: [:new, :create, :edit, :update, :destroy]
-    resources :back_grounds, only: [:new, :create, :edit, :update, :destroy]
+    resources :backgrounds, only: [:new, :create, :edit, :update, :destroy]
     get '/' => 'base#home'
   end
 

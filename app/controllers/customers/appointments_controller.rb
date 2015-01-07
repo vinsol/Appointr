@@ -1,16 +1,16 @@
 class Customers::AppointmentsController < Customers::BaseController
 
   before_action :ensure_dates_are_valid, only: :index
-  before_action :set_appointment, only: [:show, :edit, :update, :cancel]
+  before_action :load_appointment, only: [:show, :edit, :update, :cancel]
 
   def active_appointments
     @appointments = current_customer.appointments.approved.includes(:staff, :service)
-    render(json: @appointments, root: false)
+    render(json: @appointments, each_serializer: CustomerAppointmentSerializer, root: false)
   end
 
   def past_appointments
-    @appointments = current_customer.appointments.past_and_not_cancelled.includes(:staff, :service)
-    render(json: @appointments, root: false)
+    @appointments = current_customer.appointments.not_cancelled_or_approved.past.includes(:staff, :service)
+    render(json: @appointments, each_serializer: CustomerAppointmentSerializer, root: false)
   end
 
   def new
@@ -85,37 +85,37 @@ class Customers::AppointmentsController < Customers::BaseController
     end
   end
 
-  protected
+  private
 
-  def appointment_params
-    params.require(:appointment).permit(:start_at, :duration)
-  end
-
-  def service_param
-    params.require(:appointment).permit(:service)
-  end
-
-  def staff_param
-    params.require(:appointment).permit(:staff)
-  end
-
-  def set_appointment
-    unless @appointment = Appointment.find_by(id: params[:id])
-      redirect_to root_path, alert: 'No appointment found.'
+    def appointment_params
+      params.require(:appointment).permit(:start_at, :duration)
     end
-  end
 
-  def ensure_dates_are_valid
-    if(params[:start] && params[:end])
-      begin
-        Date.parse(params[:start])
-        Date.parse(params[:end])
-      rescue ArgumentError
-        render status: 422, json: { message: 'Invalid start or end date.' }
+    def service_param
+      params.require(:appointment).permit(:service)
+    end
+
+    def staff_param
+      params.require(:appointment).permit(:staff)
+    end
+
+    def load_appointment
+      unless @appointment = Appointment.find_by(id: params[:id])
+        redirect_to root_path, alert: 'No appointment found.'
       end
-    else
-      params[:start] = Date.today
-      params[:end] = Date.today + 7.days
     end
-  end
+
+    def ensure_dates_are_valid
+      if(params[:start] && params[:end])
+        begin
+          Date.parse(params[:start])
+          Date.parse(params[:end])
+        rescue ArgumentError
+          render status: 422, json: { message: 'Invalid start or end date.' }
+        end
+      else
+        params[:start] = Date.today
+        params[:end] = Date.today + 7.days
+      end
+    end
 end

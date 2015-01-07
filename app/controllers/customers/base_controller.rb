@@ -1,6 +1,6 @@
 class Customers::BaseController < ApplicationController
 
-  before_action :user_has_customer_priveleges?
+  before_action :authorize_customer
   
   layout 'customer'
 

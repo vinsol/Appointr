@@ -1,7 +1,7 @@
 class Admin::CustomersController < Admin::BaseController
 
-  # [rai] its should be load_customer or find_customer
-  before_action :set_customer, only: [:edit, :show, :update]
+  # [rai] its should be load_customer or find_customer(fixed)
+  before_action :load_customer, only: [:edit, :show, :update]
 
   def index
     @customers = Customer.order(:name).includes(:appointments).page(params[:page]).per(15)
@@ -22,14 +22,14 @@ class Admin::CustomersController < Admin::BaseController
   end
 
   private
-  def set_customer
-    unless @customer = Customer.find_by(id: params[:id])
-      redirect_to admin_cunstomers_path, alert: 'No customer found.'
+    def load_customer
+      unless @customer = Customer.find_by(id: params[:id])
+        redirect_to admin_cunstomers_path, alert: 'No customer found.'
+      end
     end
-  end
 
-  def customer_params
-    params.require(:customer).permit(:name, :enabled)
-  end
+    def customer_params
+      params.require(:customer).permit(:name, :enabled)
+    end
 
 end

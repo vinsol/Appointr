@@ -4,10 +4,10 @@ class Service < ActiveRecord::Base
 
   #validations
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :enabled, presence: true
   validates :duration, inclusion: { in: ALLOWED_DURATIONS }
 
-  # [rai] what!!!!....really. can't we just add presence validation for enabled. a boolean could have only nil, true or false
-  validates :enabled, inclusion: { in: [true, false] }
+  # [rai] what!!!!....really. can't we just add presence validation for enabled. a boolean could have only nil, true or false(fixed)
 
   #associations
   has_many :allocations, dependent: :restrict_with_error

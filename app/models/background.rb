@@ -1,0 +1,2 @@
+class Background < ApplicationImage
+end
