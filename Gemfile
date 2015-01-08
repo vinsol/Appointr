@@ -45,6 +45,9 @@ gem 'aasm', '~> 4.0.3'
 # Use delayed job
 gem 'delayed_job_active_record', '~> 4.0.2'
 
+# Use daemons
+gem "daemons"
+
 # Use capistrano
 
 # Use kaminari
