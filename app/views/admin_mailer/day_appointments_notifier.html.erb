@@ -4,7 +4,7 @@
 </p>
 <% @staffs.each do |staff| %>
   <p><b><%= staff.name.humanize %></b></p>
-  <% @appointments = staff.appointments.approved.where("start_at >= '#{ Time.now.beginning_of_day }'") %>
+  <% @appointments = staff.appointments.confirmed.where("start_at >= '#{ Time.now.beginning_of_day }'") %>
   <% if @appointments.empty? %>
     <p>No appointments</p>
   <% else %>

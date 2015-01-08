@@ -1,0 +1,4 @@
+<h1>Listing Past And Cancelled Appointments</h1>
+
+<%= render partial: "appointments", object: @inactive_appointments %>
+<%= paginate @inactive_appointments %>

@@ -8,7 +8,7 @@ class Admin::AppointmentsController < Admin::BaseController
   end
 
   def active_appointments
-    @appointments = Appointment.approved.includes(:customer, :staff, :service)
+    @appointments = Appointment.confirmed.includes(:customer, :staff, :service)
     appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end

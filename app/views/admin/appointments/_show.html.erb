@@ -35,7 +35,7 @@
 
 <p>
   <strong>Remarks:</strong>
-  <%= @appointment.remarks.humanize %>
+  <%= @appointment.remarks.try(:humanize) %>
 </p>
 
 <% if params[:cancellable] %>

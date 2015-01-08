@@ -72,7 +72,7 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
         ],
         eventClick: function(calEvent, jsEvent, view) {
           var appointmentStartAt = new Date(calEvent['start']['_i']);
-          if(appointmentStartAt > (new Date) && calEvent['state'] == 'approved') {
+          if(appointmentStartAt > (new Date) && calEvent['state'] == 'confirmed') {
             $.ajax({
               url: 'customers/appointments/' + calEvent['id'] + '/edit',
               error: function (xhr, ajaxOptions, thrownError) {
@@ -102,7 +102,7 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
           }
         },
         selectOverlap: function(event) {
-          return(event.rendering === 'background' || event.state !== 'approved');
+          return(event.rendering === 'background' || event.state !== 'confirmed');
         }
       })
 }

@@ -1,63 +1,6 @@
 <h1>Listing Approved Appointments</h1>
-
-<table class = 'table table-hover table-striped'>
-  <tr>
-    <th>
-      Staff
-    </th>
-    <th>
-      Service
-    </th>
-    <th>
-      Start Time
-    </th>
-    <th>
-      Duration
-    </th>
-    <th>
-      Date
-    </th>
-    <th>
-      State
-    </th>
-    <th>
-      Remarks
-    </th>
-    <th>
-      Actions
-    </th>
-  </tr>
-  <% @active_appointments.each do |appointment| %>
-    <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
-      <td>
-        <%= appointment.staff.name.humanize %>
-      </td>
-      <td>
-        <%= appointment.service.name.humanize %>
-      </td>
-      <td>
-        <%= appointment.start_at.strftime("%I:%M %p") %>
-      </td>
-      <td>
-        <%= "#{ appointment.duration } minutes" %>
-      </td>
-      <td>
-        <%= appointment.start_at.strftime("%d %b %Y") %>
-      </td>
-      <td>
-        <%= appointment.state %>
-      </td>
-      <td>
-        <%= appointment.remarks %>
-      </td>
-      <td>
-        <%= link_to 'Cancel', cancel_customers_appointment_path(appointment), method: :patch %>
-      </td>
-    </tr>
-  <% end %>
-</table>
-<%= paginate @active_appointments %>
-
+<%= render partial: "appointments", object: @active_appointments %>
+<%= link_to 'view_all', customers_active_appointments_index_path %>
 <br />
 <br />
 <hr />
@@ -65,56 +8,6 @@
 <br />
 <h1>Listing Past and Cancelled Appointments</h1>
 
-<table class = 'table table-hover table-striped'>
-  <tr>
-    <th>
-      Staff
-    </th>
-    <th>
-      Service
-    </th>
-    <th>
-      Start Time
-    </th>
-    <th>
-      Duration
-    </th>
-    <th>
-      Date
-    </th>
-    <th>
-      State
-    </th>
-    <th>
-      Remarks
-    </th>
-  </tr>
-  <% @inactive_appointments.each do |appointment| %>
-    <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
-      <td>
-        <%= appointment.staff.name.humanize %>
-      </td>
-      <td>
-        <%= appointment.service.name.humanize %>
-      </td>
-      <td>
-        <%= appointment.start_at.strftime("%I:%M %p") %>
-      </td>
-      <td>
-        <%= "#{ appointment.duration } minutes" %>
-      </td>
-      <td>
-        <%= appointment.start_at.strftime("%d %b %Y") %>
-      </td>
-      <td>
-        <%= appointment.state %>
-      </td>
-      <td>
-        <%= appointment.remarks %>
-      </td>
-    </tr>
-  <% end %>
-</table>
-<%= paginate @inactive_appointments %>
-
+<%= render partial: "appointments", object: @inactive_appointments %>
+<%= link_to 'view_all', customers_inactive_appointments_index_path %>
 <br />

@@ -1,6 +1,7 @@
 class AdminMailer < ActionMailer::Base
 
-  default from: 'test.vinsol.ams@gmail.com'
+  default from: 'test.vinsol.ams@gmail.com',
+          headers: { secret: 'secret' }
 
   def day_appointments_notifier
     @staffs = Staff.all.includes(:appointments)

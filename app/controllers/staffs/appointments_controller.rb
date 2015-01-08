@@ -5,7 +5,7 @@ class Staffs::AppointmentsController < ApplicationController
   before_action :user_has_staff_priveleges?
 
   def active_appointments
-    @appointments = current_staff.appointments.approved.includes(:customer, :service)
+    @appointments = current_staff.appointments.confirmed.includes(:customer, :service)
     appointments_json = get_appointments_json
     render(json: appointments_json, root: false)
   end

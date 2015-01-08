@@ -1,0 +1,56 @@
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Staff
+    </th>
+    <th>
+      Service
+    </th>
+    <th>
+      Start Time
+    </th>
+    <th>
+      Duration
+    </th>
+    <th>
+      Date
+    </th>
+    <th>
+      State
+    </th>
+    <th>
+      Remarks
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+  <% appointments.each do |appointment| %>
+    <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
+      <td>
+        <%= appointment.staff.name.humanize %>
+      </td>
+      <td>
+        <%= appointment.service.name.humanize %>
+      </td>
+      <td>
+        <%= appointment.start_at.strftime("%I:%M %p") %>
+      </td>
+      <td>
+        <%= "#{ appointment.duration } minutes" %>
+      </td>
+      <td>
+        <%= appointment.start_at.strftime("%d %b %Y") %>
+      </td>
+      <td>
+        <%= appointment.state %>
+      </td>
+      <td>
+        <%= appointment.remarks %>
+      </td>
+      <td>
+        <%= link_to 'Cancel', cancel_customers_appointment_path(appointment), method: :patch %>
+      </td>
+    </tr>
+  <% end %>
+</table>

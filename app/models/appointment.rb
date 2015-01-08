@@ -4,13 +4,13 @@ class Appointment < ActiveRecord::Base
   include AASM
 
   aasm(no_direct_assignment: false, column: 'state', whiny_transitions: false) do
-    state :approved, :initial => true
+    state :confirmed, :initial => true
     state :cancelled
     state :attended
     state :missed
 
     event :cancel do
-      transitions :from => :approved, :to => :cancelled
+      transitions :from => :confirmed, :to => :cancelled
       after do
         CustomerMailer.delay.cancel_appointment_notifier(self)
         StaffMailer.delay.cancel_appointment_notifier(self)
@@ -18,11 +18,11 @@ class Appointment < ActiveRecord::Base
     end
 
     event :attend do
-      transitions :from => [:approved, :missed, :attended], :to => :attended
+      transitions :from => [:confirmed, :missed, :attended], :to => :attended
     end
 
     event :miss do
-      transitions :from => [:approved, :missed, :attended], :to => :missed
+      transitions :from => [:confirmed, :missed, :attended], :to => :missed
     end
   end
 
@@ -30,7 +30,7 @@ class Appointment < ActiveRecord::Base
   scope :past, -> { where("start_at <= '#{ Time.current }'") }
   scope :future, -> { where("start_at >= '#{ Time.current }'") }
   scope :past_or_cancelled, -> { where("state = 'cancelled' OR start_at <= '#{ Time.current }'") }
-  scope :past_and_not_cancelled, -> { where.not("state = 'cancelled' OR state = 'approved'").past }
+  scope :past_and_not_cancelled, -> { where.not("state = 'cancelled' OR state = 'confirmed'").past }
   pg_search_scope :search_for_admin, :associated_against => {
     :customer => [:name, :email],
     :staff => [:name, :email],
@@ -137,10 +137,6 @@ class Appointment < ActiveRecord::Base
     start_at - customer.reminder_time_lapse.minutes
   end
 
-  def check_if_approved?
-    state == 'approved'
-  end
-
   def staff_allotable?
     if(staff.is_available?(start_at, end_at,start_at.to_date, service))
       @clashing_appointment = staff.is_occupied?(start_at, end_at,start_at.to_date, id)
@@ -169,7 +165,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def has_no_clashing_appointments?(user)
-    @clashing_appointment = user.appointments.approved.detect do |appointment|
+    @clashing_appointment = user.appointments.confirmed.detect do |appointment|
       appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
     end
     if(@clashing_appointment)

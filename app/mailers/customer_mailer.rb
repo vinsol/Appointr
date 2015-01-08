@@ -1,11 +1,11 @@
 class CustomerMailer < ActionMailer::Base
 
-  default from: 'test.vinsol.ams@gmail.com'
-
+  default from: 'test.vinsol.ams@gmail.com',
+          headers: { secret: 'secret' }
   def new_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment Created'
+    mail to: @customer.email, subject: 'Appointment Created...'
   end
 
   def edit_appointment_notifier(appointment)

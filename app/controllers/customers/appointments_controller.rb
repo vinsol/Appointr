@@ -4,7 +4,7 @@ class Customers::AppointmentsController < Customers::BaseController
   before_action :set_appointment, only: [:show, :edit, :update, :cancel]
 
   def active_appointments
-    @appointments = current_customer.appointments.approved.includes(:staff, :service)
+    @appointments = current_customer.appointments.confirmed.includes(:staff, :service)
     render(json: @appointments, root: false)
   end
 

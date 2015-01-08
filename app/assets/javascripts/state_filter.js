@@ -4,8 +4,8 @@ function StateFilter() {
 
 StateFilter.prototype.set = function(filterSelect) {
   $('.appointment').removeClass('state_filtered').hide();
-  if($(filterSelect).val() == 'approved') {
-    $('.approved').addClass('state_filtered').filter('.date_filtered').show();
+  if($(filterSelect).val() == 'confirmed') {
+    $('.confirmed').addClass('state_filtered').filter('.date_filtered').show();
   } else if($(filterSelect).val() == 'cancelled') {
     $('.cancelled').addClass('state_filtered').filter('.date_filtered').show();
   } else if($(filterSelect).val() == 'attended') {

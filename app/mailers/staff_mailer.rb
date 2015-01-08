@@ -1,6 +1,7 @@
 class StaffMailer < ActionMailer::Base
 
-  default from: 'test.vinsol.ams@gmail.com'
+  default from: 'test.vinsol.ams@gmail.com',
+          headers: { secret: 'secret' }
 
   def new_appointment_notifier(appointment)
     @appointment = appointment
@@ -22,7 +23,7 @@ class StaffMailer < ActionMailer::Base
 
   def notify(staff)
     @staff = staff
-    @appointments = Appointment.approved.where(staff_id: @staff.id)
+    @appointments = Appointment.confirmed.where(staff_id: @staff.id)
     @appointments = @appointments.select do |appointment|
       appointment.start_at.to_date == Date.today
     end
