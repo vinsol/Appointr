@@ -4,15 +4,14 @@
 <p>Currently it is => <%= distance_of_time_in_words(Time.current,Time.current + @customer.reminder_time_lapse.minutes) %></p>
 <%= form_for @customer, html: { class: "form-horizontal" } do |f| %>
   <div class="control-group">
-    <%= f.label :days, class: 'control-label' %>
+    <%= f.label 'Number of days/hours/minutes', for: :number, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :days, options_for_select(get_day_number_options, @customer.reminder_days) %>
+        <%= f.text_field :number %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :time, class: 'control-label' %>
     <div class="controls">
-      <%= f.time_select :time, {ignore_date: true, default: Time.new(0) + @customer.reminder_time_lapse.minutes} %>
+      <%= f.select :time, options_for_select(get_time_options, f.object.time) %>
     </div>
   </div>
   <%= f.submit :Update, :class => 'btn btn-primary' %>

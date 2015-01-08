@@ -9,7 +9,7 @@ class CustomersController < ApplicationController
 
   def update
     old_reminder_time_lapse = @customer.reminder_time_lapse
-    @customer.reminder_time_lapse = (reminder_params[:days].to_i * 1440) + (reminder_params['time(4i)'].to_i * 60) + reminder_params['time(5i)'].to_i
+      @customer.reminder_time_lapse = reminder_params[:number].to_i * reminder_params[:time].to_i
     new_reminder_time_lapse = @customer.reminder_time_lapse
     if @customer.save
       @customer.change_appointments_reminder_time(old_reminder_time_lapse, new_reminder_time_lapse)
@@ -22,7 +22,7 @@ class CustomersController < ApplicationController
   private
 
   def reminder_params
-    params.require(:customer).permit(:time, :days)
+    params.require(:customer).permit(:time, :number)
   end
 
   def set_customer

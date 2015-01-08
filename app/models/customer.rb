@@ -9,7 +9,23 @@ class Customer < User
   has_many :appointed_services, through: :appointments, source: 'Service', foreign_key: 'service_id'
   has_many :appointed_staffs, through: :appointments, source: 'Staff', foreign_key: 'staff_id'
 
-  attr_accessor :time, :days
+  def number
+    get_number_or_time()
+  end
+
+  def time
+    get_number_or_time(1, 60, 1440)
+  end
+
+  def get_number_or_time(*args)
+    if(reminder_time_lapse < 60)
+      args[0] || reminder_time_lapse
+    elsif(reminder_time_lapse < 1440)
+      args[1] || (reminder_time_lapse / 60)
+    else
+      args[2] || (reminder_time_lapse / 1440)
+    end
+  end
 
   def reminder_hours
     (reminder_time_lapse % 1440) / 60
