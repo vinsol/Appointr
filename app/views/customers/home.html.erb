@@ -20,6 +20,7 @@
     </div>
 
     <div class='col-md-4'>
+      <p><b>Select service to book a reservation</b></p>
       <% label_tag 'service' %>
       <%= select_tag 'service', options_for_select(get_service_options), prompt: 'Select Service' %><br>
       <% label_tag 'staff' %>
