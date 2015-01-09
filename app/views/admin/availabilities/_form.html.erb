@@ -42,7 +42,7 @@
     <%= f.label :days %><br />
     <div class='control'>
       <%= f.select :days, options_for_select(get_day_options, f.object.days || [1, 2, 3, 4, 5]), {}, { multiple: true, style: 'border: none; height: 30px' } %>
-      <span><b>Use command key to select multiple values</b></span>
+      <p><b>Use command key to select multiple values</b></p>
     </div>
   </div><br>
 
