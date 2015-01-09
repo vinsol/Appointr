@@ -33,7 +33,7 @@ class Customers::AppointmentsController < Customers::BaseController
         format.js { render :js => "window.location = '#{customer_home_path}'" }
       end
     else
-      if(@appointment.send(:has_no_clashing_appointments?, @appointment.customer))
+      if(@appointment.send(:has_no_clashing_appointments?, @appointment.customer) && @appointment.start_at > Time.current)
         available_times = @appointment.get_available_times
         if(@appointment.duration >= @appointment.service.duration && !available_times.keys.empty?)
           flash.now[:notice] = "You can have an appointment at "
@@ -62,11 +62,13 @@ class Customers::AppointmentsController < Customers::BaseController
       end
     else
       available_times = @appointment.get_available_times
-      if(@appointment.duration >= @appointment.service.duration && !available_times.keys.empty?)
-        flash.now[:notice] = "You can have an appointment at "
-        flash.now[:notice] += available_times.values.map {|value| value.strftime("%I:%M %p")}.join(' or ')
-      elsif(@appointment.duration >= @appointment.service.duration)
-        flash.now[:notice] = "Sorry but there is no availability for this service on this day. Please try another day."
+      if(@appointment.send(:has_no_clashing_appointments?, @appointment.customer) && @appointment.start_at > Time.current)
+        if(@appointment.duration >= @appointment.service.duration && !available_times.keys.empty?)
+          flash.now[:notice] = "You can have an appointment at "
+          flash.now[:notice] += available_times.values.map {|value| value.strftime("%I:%M %p")}.join(' or ')
+        elsif(@appointment.duration >= @appointment.service.duration)
+          flash.now[:notice] = "Sorry but there is no availability for this service on this day. Please try another day."
+        end
       end
       render :edit
     end
