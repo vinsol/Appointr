@@ -14,6 +14,7 @@ class Appointment < ActiveRecord::Base
       after do
         CustomerMailer.delay.cancel_appointment_notifier(self)
         StaffMailer.delay.cancel_appointment_notifier(self)
+        Delayed::Job.find_by(id: reminder_job_id).try(:delete)
       end
     end
 
