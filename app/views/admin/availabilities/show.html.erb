@@ -9,7 +9,7 @@
   </div>
   <div class="col-md-6">
     <p>
-      <%= @availability.staff.name.capitalize %>
+      <%= @availability.staff.name.titleize %>
     </p>
   </div>
 </div>
@@ -24,7 +24,7 @@
   </div>
   <div class="col-md-6">
     <p>
-      <%= @availability.services.map(&:name).join(', ') %>
+      <%= @availability.services.map(&:name).join(', ').titleize %>
     </p>
   </div>
 </div>

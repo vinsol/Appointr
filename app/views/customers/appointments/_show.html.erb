@@ -1,11 +1,11 @@
 <p>
   <strong>Service:</strong>
-  <%= @appointment.service.name.humanize %>
+  <%= @appointment.service.name.titleize %>
 </p>
 
 <p>
   <strong>Staff:</strong>
-  <%= @appointment.staff.name.humanize %>
+  <%= @appointment.staff.name.titleize %>
 </p>
 
 <p>
@@ -26,6 +26,6 @@
 <% if @appointment.state == 'Cancelled' %>
   <p>
     <strong>Remarks:</strong>
-    <%= @appointment.remarks.try(:humanize) %>
+    <%= @appointment.remarks.try(:titleize) %>
   </p>
 <% end %>

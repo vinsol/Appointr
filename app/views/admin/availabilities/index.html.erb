@@ -37,10 +37,10 @@
   <% @availabilities.each do |availability| %>
     <tr class="availability filter_row <%= availability.enabled ? 'enabled' : 'disabled' %>"> 
       <td>
-        <%= availability.staff.name %>
+        <%= availability.staff.name.titleize %>
       </td>
       <td>
-        <%= availability.services.map(&:name).join(', ') %>
+        <%= availability.services.map(&:name).join(', ').titleize %>
       </td>
       <td>
         <%= availability.start_at.strftime("%I:%M %p") %>

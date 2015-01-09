@@ -28,10 +28,10 @@
   <% appointments.each do |appointment| %>
     <tr class='appointment' data-date='<%= appointment.start_at.to_date %>'> 
       <td>
-        <%= appointment.staff.name.humanize %>
+        <%= appointment.staff.name.titleize %>
       </td>
       <td>
-        <%= appointment.service.name.humanize %>
+        <%= appointment.service.name.titleize %>
       </td>
       <td>
         <%= appointment.start_at.strftime("%I:%M %p") %>
@@ -46,7 +46,7 @@
         <%= appointment.state %>
       </td>
       <td>
-        <%= appointment.remarks %>
+        <%= appointment.remarks.capitalize %>
       </td>
       <td>
         <%= link_to 'Cancel', cancel_customers_appointment_path(appointment), method: :patch %>

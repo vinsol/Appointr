@@ -1,16 +1,16 @@
 <p>
   <strong>Customer:</strong>
-  <%= @appointment.customer.name.humanize %>
+  <%= @appointment.customer.name.titleize %>
 </p>
 
 <p>
   <strong>Service:</strong>
-  <%= @appointment.service.name.humanize %>
+  <%= @appointment.service.name.titleize %>
 </p>
 
 <p>
   <strong>Staff:</strong>
-  <%= @appointment.staff.name.humanize %>
+  <%= @appointment.staff.name.titleize %>
 </p>
 
 <p>
@@ -30,12 +30,12 @@
 
 <p>
   <strong>State:</strong>
-  <%= @appointment.state.humanize %>
+  <%= @appointment.state %>
 </p>
 
 <p>
   <strong>Remarks:</strong>
-  <%= @appointment.remarks.try(:humanize) %>
+  <%= @appointment.remarks.try(:capitalize) %>
 </p>
 
 <% if params[:cancellable] %>
