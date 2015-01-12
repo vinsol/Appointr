@@ -9,7 +9,13 @@ class Customers::AvailabilitiesController < Customers::BaseController
     else
       @availabilities = []
     end
+    get_per_day_availabilities
+    render(json: @per_day_availabilities, root: false)
+  end
 
+  private
+
+  def get_per_day_availabilities
     @per_day_availabilities = []
     @availabilities.each do |availability|
       daily_start_at = availability.start_at.localtime.to_s.split(' ')[1]
@@ -27,6 +33,5 @@ class Customers::AvailabilitiesController < Customers::BaseController
         end
       end
     end
-    render(json: @per_day_availabilities, root: false)
   end
 end
