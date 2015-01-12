@@ -16,11 +16,11 @@
     <% end %>
   </div><br>
   <div class='control-group'>  
-    <%= f.label :services_ids %><br />
+    <%= f.label 'Services', for: :services_ids %><br />
     <div class='control'>
       <% if @availability.new_record?%>
     </div>
-      <%= f.select :service_ids, Service.all.collect { |service| [service.name, service.id] }, { prompt: 'select staff' }, { multiple: true } %>
+      <%= f.select :service_ids, Service.all.collect { |service| [service.name, service.id] }, { prompt: 'Select services' }, { multiple: true, disabled: true } %>
     <% else %>
       <%= f.select :service_ids, @availability.staff.services.collect { |service| [service.name, service.id] }, {}, { multiple: true } %>
     <% end %>
