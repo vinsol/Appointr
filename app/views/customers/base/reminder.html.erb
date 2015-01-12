@@ -1,19 +1,23 @@
-<h1>Reminder Settings</h1>
+<h1>Appointment Reminder Settings</h1>
 <br />
-<h4>This is to change how much time before your appointment you want to receive a reminder mail.</h4>
+<h4>You can set a time interval at which you will receive a reminder mail.</h4>
 <p>Currently it is => <%= distance_of_time_in_words(Time.current,Time.current + @customer.reminder_time_lapse.minutes) %></p>
 <%= form_for @customer, html: { class: "form-horizontal" } do |f| %>
-  <div class="control-group">
+  <span class="control-group">
+    <div>
     <%= f.label 'Number of days/hours/minutes', for: :number, class: 'control-label' %>
-    <div class="controls">
+    </div>
+    <span class="controls">
         <%= f.number_field :number %>
-    </div>
-  </div>
-  <div class="control-group">
-    <div class="controls">
+    </span>
+  </span>
+  <span class="control-group">
+    <span class="controls">
       <%= f.select :time, options_for_select(get_time_options, f.object.time) %>
-    </div>
-  </div>
+    </span>
+  </span>
+  <div>
   <%= f.submit :Update, :class => 'btn btn-primary' %>
+  </div>
 <% end %>
 <%= button_to 'Cancel', customer_home_path, method: :get, class: 'btn btn-secondary' %>

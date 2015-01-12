@@ -18,9 +18,9 @@ class Customer < User
   end
 
   def get_number_or_time(*args)
-    if(reminder_time_lapse < 60)
+    if(reminder_time_lapse % 60 != 0)
       args[0] || reminder_time_lapse
-    elsif(reminder_time_lapse < 1440)
+    elsif(reminder_time_lapse % 1440 != 0)
       args[1] || (reminder_time_lapse / 60)
     else
       args[2] || (reminder_time_lapse / 1440)
