@@ -1,6 +1,8 @@
 <h1>Listing Approved Appointments</h1>
-<%= render partial: "appointments", object: @active_appointments %>
-<%= link_to 'view_all', customers_active_appointments_index_path %>
+<%= render partial: "appointments", object: @active_appointments.limit(5) %>
+<% if(@active_appointments.size > 5) %>
+  <%= link_to 'view_all', customers_active_appointments_index_path %>
+<% end %>
 <br />
 <br />
 <hr />
@@ -8,6 +10,8 @@
 <br />
 <h1>Listing Past and Cancelled Appointments</h1>
 
-<%= render partial: "appointments", object: @inactive_appointments %>
-<%= link_to 'view_all', customers_inactive_appointments_index_path %>
+<%= render partial: "appointments", object: @inactive_appointments.limit(5) %>
+<% if(@inactive_appointments.size > 5) %>
+  <%= link_to 'view_all', customers_inactive_appointments_index_path %>
+<% end %>
 <br />

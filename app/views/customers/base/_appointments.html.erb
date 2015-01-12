@@ -46,7 +46,7 @@
         <%= appointment.state %>
       </td>
       <td>
-        <%= appointment.remarks.capitalize %>
+        <%= appointment.remarks.try(:capitalize) %>
       </td>
       <td>
         <%= link_to 'Cancel', cancel_customers_appointment_path(appointment), method: :patch %>

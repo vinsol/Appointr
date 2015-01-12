@@ -5,8 +5,8 @@ class Customers::BaseController < ApplicationController
   layout 'customer'
 
   def appointment_history
-    @active_appointments = current_customer.appointments.confirmed.future.order(:start_at).limit(5).includes(:staff, :service)
-    @inactive_appointments = current_customer.appointments.past_or_cancelled.order(start_at: :desc).limit(5).includes(:staff, :service)
+    @active_appointments = current_customer.appointments.confirmed.future.order(:start_at).includes(:staff, :service)
+    @inactive_appointments = current_customer.appointments.past_or_cancelled.order(start_at: :desc).includes(:staff, :service)
   end
 
   def active_appointments_index
