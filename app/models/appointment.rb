@@ -54,7 +54,7 @@ class Appointment < ActiveRecord::Base
 
   # Callbacks
   after_create :send_new_appointment_mail_to_customer_and_staff
-  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :check_if_approved?
+  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :confirmed?
 
   def end_at
     start_at + duration.minutes

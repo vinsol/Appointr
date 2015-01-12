@@ -26,8 +26,11 @@
     <%= f.datetime_select :start_at, {minute_step: 15} %>
   </div>
   <div class="field">
-    <%= f.label :duration %>:
+    <%= f.label 'Duration(minutes)', for: 'appointment_duration' %>:
     <%= f.select :duration, options_for_select([['15', 15], ['30', 30], ['45', 45], ['60', 60]], @appointment.duration) %>
+    <% if(@selected_duration.try(:>, 60)) %>
+    <span>Sorry but the maximum duration can be 60 minutes</span>
+    <% end %>
   </div>
   <div class='actions'>
     <%= f.submit :save %>

@@ -19,6 +19,9 @@ LoadCalendar.prototype.loadStaffAndCalendar = function(dynamicServiceSelect) {
   $('#staff').children().hide();
   if(value) {
     // TODO: No indentation.
+    _this.$staffSelect[0].disabled = false
+    $('#staff_hint').removeClass('hidden')
+    $('#availability_hint').removeClass('hidden')
     $.each(staff_ids, function(index, staff) {
       // TODO: Bad selector.
       $('#staff :first-child').show();
@@ -30,6 +33,9 @@ LoadCalendar.prototype.loadStaffAndCalendar = function(dynamicServiceSelect) {
   }
   else {
     _this.$staffSelect.val('');
+    _this.$staffSelect[0].disabled = true
+    $('#staff_hint').addClass('hidden')
+    $('#availability_hint').addClass('hidden')
     $('#calendar').fullCalendar('destroy');
     _this.initializeCalendarForCustomer('', '', false);
   }

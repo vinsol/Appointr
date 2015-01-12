@@ -16,7 +16,12 @@ class Customers::AppointmentsController < Customers::BaseController
   def new
     @appointment = Appointment.new
     @appointment.start_at = ((Time.parse params['start']) - 11.hours)
-    @appointment.duration = (((Time.parse params['end']) - (Time.parse params['start']))/60).to_i
+    @selected_duration = (((Time.parse params['end']) - (Time.parse params['start']))/60).to_i
+    if(@selected_duration > 60)
+      @appointment.duration = 60
+    else
+      @appointment.duration = @selected_duration
+    end
     respond_to do |format|
       format.js
     end

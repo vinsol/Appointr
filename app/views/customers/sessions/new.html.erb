@@ -1,25 +1,26 @@
 <div class='container-fluid'>
   <div class='row'>
-    <div class='col-md-5'>
+    <div class='col-md-0'>
     </div>
-    <div class='col-md-7'>
-      <h2>Log in</h2>
+    <div class='col-md-12'>
+      <h2>Customer Log in</h2>
     </div>
   </div>
   <% if alert %>
     <div class='row'>
-      <div class='col-md-5'>
+      <div class='col-md-0'>
       </div>
-      <div class='col-md-7'>
+      <div class='col-md-12'>
         <p id="notice"><%= alert %></p>
       </div>
     </div>
   <% end %>
 
   <div class='row'>
-    <div class='col-md-5'>
+    <div class='col-md-0'>
     </div>
-    <div class='col-md-7'>
+    <div class='col-md-12'>
+      <h4>Please log in to view and book appointments.</h4>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
         <div class="field">
@@ -46,9 +47,9 @@
     </div>
   </div>
   <div class='row'>
-    <div class='col-md-5'>
+    <div class='col-md-0'>
     </div>
-    <div class='col-md-7'>
+    <div class='col-md-12'>
       <%= render "devise/shared/links" %>
     </div>
   </div>

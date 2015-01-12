@@ -1,3 +1,3 @@
 class Customers::RegistrationsController < Devise::RegistrationsController
-  layout 'customer'
+  layout 'customer', only: [:edit, :update]
 end
