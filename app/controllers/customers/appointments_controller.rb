@@ -4,19 +4,24 @@ class Customers::AppointmentsController < Customers::BaseController
   before_action :load_appointment, only: [:show, :edit, :update, :cancel]
 
   def active_appointments
-    @appointments = current_customer.appointments.approved.includes(:staff, :service)
+    @appointments = current_customer.appointments.confirmed.includes(:staff, :service)
     render(json: @appointments, each_serializer: CustomerAppointmentSerializer, root: false)
   end
 
   def past_appointments
-    @appointments = current_customer.appointments.not_cancelled_or_approved.past.includes(:staff, :service)
+    @appointments = current_customer.appointments.not_cancelled_or_confirmed.past.includes(:staff, :service)
     render(json: @appointments, each_serializer: CustomerAppointmentSerializer, root: false)
   end
 
   def new
     @appointment = Appointment.new
     @appointment.start_at = ((Time.parse params['start']) - 11.hours)
-    @appointment.duration = (((Time.parse params['end']) - (Time.parse params['start']))/60).to_i
+    @selected_duration = (((Time.parse params['end']) - (Time.parse params['start']))/60).to_i
+    if(@selected_duration > 60)
+      @appointment.duration = 60
+    else
+      @appointment.duration = @selected_duration
+    end
     respond_to do |format|
       format.js
     end
@@ -33,7 +38,7 @@ class Customers::AppointmentsController < Customers::BaseController
         format.js { render :js => "window.location = '#{customer_home_path}'" }
       end
     else
-      unless(@appointment.send(:has_no_clashing_appointments?, @appointment.customer))
+      if(@appointment.send(:has_no_clashing_appointments?, @appointment.customer) && @appointment.start_at > Time.current)
         available_times = @appointment.get_available_times
         if(@appointment.duration >= @appointment.service.duration && !available_times.keys.empty?)
           flash.now[:notice] = "You can have an appointment at "
@@ -61,7 +66,7 @@ class Customers::AppointmentsController < Customers::BaseController
         format.js { render :js => "window.location = '/customer_home'" }
       end
     else
-      unless(@appointment.send(:has_no_clashing_appointments?, @appointment.customer))
+      if(@appointment.send(:has_no_clashing_appointments?, @appointment.customer) && @appointment.start_at > Time.current)
         available_times = @appointment.get_available_times
         if(@appointment.duration >= @appointment.service.duration && !available_times.keys.empty?)
           flash.now[:notice] = "You can have an appointment at "

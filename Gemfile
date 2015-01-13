@@ -45,6 +45,9 @@ gem 'aasm', '~> 4.0.3'
 # Use delayed job
 gem 'delayed_job_active_record', '~> 4.0.2'
 
+# Use daemons
+gem "daemons"
+
 # Use capistrano
 
 # Use kaminari
@@ -56,6 +59,7 @@ gem 'whenever','0.9.4', :require => false
 
 gem "unicorn", '4.8.3'
 gem 'capistrano-rails', '1.1.2'
+gem 'exception_notification', :require => 'exception_notification'
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'

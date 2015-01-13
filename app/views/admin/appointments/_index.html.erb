@@ -28,15 +28,15 @@
     </th>
   </tr>
   <% @appointments.each do |appointment| %>
-    <tr class='appointment <%= appointment.state %> date_filtered state_filtered' data-date='<%= appointment.start_at.to_date %>'> 
+    <tr class='appointment date_filtered state_filtered <%= appointment.state %>' data-date='<%= appointment.start_at.to_date %>'> 
       <td>
-        <%= appointment.customer.name %>
+        <%= appointment.customer.name.titleize %>
       </td>
       <td>
-        <%= appointment.staff.name %>
+        <%= appointment.staff.name.titleize %>
       </td>
       <td>
-        <%= appointment.service.name %>
+        <%= appointment.service.name.titleize %>
       </td>
       <td>
         <%= appointment.start_at.strftime("%I:%M %p") %>
@@ -51,7 +51,7 @@
         <%= appointment.state %>
       </td>
       <td>
-        <%= appointment.remarks %>
+        <%= appointment.remarks.try(:capitalize) %>
       </td>
     </tr>
   <% end %>

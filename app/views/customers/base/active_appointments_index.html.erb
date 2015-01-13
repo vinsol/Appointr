@@ -1,0 +1,4 @@
+<h1>Listing Approved Appointments</h1>
+
+<%= render partial: "appointments", object: @active_appointments, locals: { cancellable: true } %>
+<%= paginate @active_appointments %>

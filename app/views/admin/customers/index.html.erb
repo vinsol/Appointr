@@ -23,7 +23,7 @@
   <% @customers.each do |customer| %>
     <tr class="filter_row <%= customer.enabled ? 'enabled' : 'disabled' %>"> 
       <td>
-        <%= customer.name %>
+        <%= customer.name.titleize %>
       </td>
       <td>
         <%= customer.email %>

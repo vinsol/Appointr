@@ -20,9 +20,11 @@ FillSelect.prototype.fillServices = function() {
     $.each(service_ids, function(index, service) {
       _this.$serviceSelect.children('option[value = "' + service + '"]').show();
     });
+    $('#availability_service_ids')[0].disabled = false;
   }
   else {
     _this.$serviceSelect.children().first().show();
+    $('#availability_service_ids')[0].disabled = true;
   }
 
 }

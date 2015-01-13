@@ -1,7 +1,6 @@
   <div class="container-fluid">
   <div class='row'>
-    <div class='col-md-8'>
-      <h2>Welcome to AMS</h2>
+    <div class='col-md-7'>
     </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -18,21 +17,22 @@
         </div>
       </div>
     </div>
-
-    <div class='col-md-4'>
-      <% label_tag 'service' %>
-      <%= select_tag 'service', options_for_select(get_service_options), prompt: 'Select Service' %><br>
-      <% label_tag 'staff' %>
-      <%= select_tag 'staff', options_for_select(Staff.all.collect { |staff| [staff.name, staff.id]}), { prompt: 'Select Staff' } %>
-      
+    <div class='col-md-5'>
+      <p><b>Select service to book a reservation.</b></p>
+      <%= select_tag 'service', options_for_select(get_service_options), prompt: 'Select Service' %>
+      <%= select_tag 'staff', options_for_select(Staff.all.collect { |staff| [staff.name, staff.id]}), { prompt: 'Select Staff', disabled: true } %>
+      <p id='staff_hint' class='hidden'><b>Select a particular staff or a random staff will be assigned.</b></p>
     </div>
   </div>
   <div class='row'>
-    <div class='col-md-3's>
+    <div id='calendar'>
     </div>
-    <div id='calendar' style='width:700px;' class='col-md-6'>
-    </div>
-    <div class='col-md-3'>
+    <div class='row'>
+      <div class='col-md-5'>
+      </div>
+      <div class='col-md-5'>
+        <h4 id='availability_hint' class='hidden'>Green means available.</h4>
+      </div>
     </div>
   </div>
 </div>

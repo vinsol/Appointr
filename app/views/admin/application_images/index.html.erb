@@ -1,15 +1,13 @@
-<div class='col-md-3'>
-</div>
-<div class="col-md-9">
-  <h1>Logo:</h1>
-  <% if Logo.exists? %>
-    <%= image_tag Logo.first.image.url(:thumb) %><br>
-    <%= link_to 'Change', edit_admin_logo_path(Logo.first) %>
-    <%= link_to 'Remove', admin_logo_path(Logo.first), method: :delete %>
-  <% else %>
-    <%= link_to 'Add', new_admin_logo_path %>
-  <% end %>
+<h1>Logo:</h1>
+<% if Logo.exists? %>
+  <%= image_tag Logo.first.image.url(:thumb) %><br>
+  <%= link_to 'Change', edit_admin_logo_path(Logo.first) %>
+  <%= link_to 'Remove', admin_logo_path(Logo.first), method: :delete %>
+<% else %>
+  <%= link_to 'Add', new_admin_logo_path %>
+<% end %>
 
+<div>
   <br>
   <br>
   <br>

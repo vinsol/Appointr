@@ -1,11 +1,11 @@
 <p>
   <strong>Service:</strong>
-  <%= @appointment.service.name.humanize %>
+  <%= @appointment.service.name.titleize %>
 </p>
 
 <p>
   <strong>Staff:</strong>
-  <%= @appointment.staff.name.humanize %>
+  <%= @appointment.staff.name.titleize %>
 </p>
 
 <p>
@@ -15,7 +15,7 @@
 
 <p>
   <strong>Duration:</strong>
-  <%= @appointment.duration %>
+  <%= @appointment.duration %> minutes
 </p>
 
 <p>
@@ -23,7 +23,9 @@
   <%= @appointment.start_at.strftime("%d %b %Y") %>
 </p>
 
-<p>
-  <strong>State:</strong>
-  <%= @appointment.state %>
-</p>
+<% if @appointment.state == 'Cancelled' %>
+  <p>
+    <strong>Remarks:</strong>
+    <%= @appointment.remarks.try(:titleize) %>
+  </p>
+<% end %>

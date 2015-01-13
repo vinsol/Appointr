@@ -31,12 +31,11 @@ class Staff < User
     #   availability.service_ids.include?(service.id) && availability.start_date <= date && availability.end_date >= date && availability.start_at.seconds_since_midnight <= start_at.seconds_since_midnight && availability.end_at.seconds_since_midnight >= end_at.seconds_since_midnight && availability.days.include?(start_at.to_date.wday)
     # end
   end
-
   # [rai] does not this should be a counterpart method of the is_available? method(discuss)
   # [rai] similarly we should do it in sql(discuss)
   # [rai] a truty method should mostly return truty value, not the object itself(discuss)
   def is_occupied?(start_at, end_at, new_appointment_id)
-    clashing_appointment = appointments.approved.detect do |appointment|
+    clashing_appointment = appointments.confirmed.detect do |appointment|
       if new_appointment_id
         appointment.id != new_appointment_id && appointment.start_at.to_date == start_at.to_date && ((start_at.seconds_since_midnight >= appointment.start_at.seconds_since_midnight && start_at.seconds_since_midnight < appointment.end_at.seconds_since_midnight) || (end_at.seconds_since_midnight > appointment.start_at.seconds_since_midnight && end_at.seconds_since_midnight <= appointment.end_at.seconds_since_midnight))
       else

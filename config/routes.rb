@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     get 'availabilities' => 'availabilities#index'
     get 'active_appointments' => 'appointments#active_appointments'
     get 'appointment_history' => 'base#appointment_history'
+    get 'active_appointments_index' => 'base#active_appointments_index'
+    get 'inactive_appointments_index' => 'base#inactive_appointments_index'
     get 'past_appointments' => 'appointments#past_appointments'
     get 'reminder_settings' => 'base#reminder'
     resources :appointments do

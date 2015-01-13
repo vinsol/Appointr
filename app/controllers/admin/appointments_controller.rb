@@ -8,12 +8,12 @@ class Admin::AppointmentsController < Admin::BaseController
   end
 
   def active_appointments
-    @appointments = Appointment.approved.includes(:customer, :staff, :service)
+    @appointments = Appointment.confirmed.includes(:customer, :staff, :service)
     render(json: @appointments, each_serializer: AdminAppointmentSerializer, root: false)
   end
 
   def past_appointments
-    @appointments = Appointment.not_cancelled_or_approved.past.includes(:customer, :staff, :service)
+    @appointments = Appointment.not_cancelled_or_confirmed.past.includes(:customer, :staff, :service)
     render(json: @appointments, each_serializer: AdminAppointmentSerializer, root: false)
   end
 

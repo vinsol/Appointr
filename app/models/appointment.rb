@@ -4,25 +4,26 @@ class Appointment < ActiveRecord::Base
   include AASM
 
   aasm(no_direct_assignment: false, column: 'state', whiny_transitions: false) do
-    state :approved, :initial => true
+    state :confirmed, :initial => true
     state :cancelled
     state :attended
     state :missed
 
     event :cancel do
-      transitions :from => :approved, :to => :cancelled
+      transitions :from => :confirmed, :to => :cancelled
       after do
         CustomerMailer.delay.cancel_appointment_notifier(self)
         StaffMailer.delay.cancel_appointment_notifier(self)
+        Delayed::Job.find_by(id: reminder_job_id).try(:delete)
       end
     end
 
     event :attend do
-      transitions :from => [:approved, :missed, :attended], :to => :attended
+      transitions :from => [:confirmed, :missed, :attended], :to => :attended
     end
 
     event :miss do
-      transitions :from => [:approved, :missed, :attended], :to => :missed
+      transitions :from => [:confirmed, :missed, :attended], :to => :missed
     end
   end
 
@@ -31,11 +32,10 @@ class Appointment < ActiveRecord::Base
   scope :future, -> { where('start_at >= ?', Time.current) }
   scope :past_or_cancelled, -> { where('state = ? OR start_at <= ?', 'cancelled', Time.current) }
   # [rai] we need a cancelled and not_cancelled scope and below scope could be like past.cancelled and past.not_cancelled(fixed)
-  scope :not_cancelled_or_approved, -> { where.not('state = ? OR state = ?', 'cancelled', 'approved') }
+  scope :not_cancelled_or_confirmed, -> { where.not('state = ? OR state = ?', 'cancelled', 'confirmed') }
   # [rai] though the below scopes does not seem to be exposed for sql injection but it is always good practice to maintain it.
   # [rai] how could start_at = Time.current is past time([gaurav] I am comparing wth time.current)
   # [rai] how could start_at = Time.current is future time([gaurav] I am comparing wth time.current)
-  
   pg_search_scope :search_for_admin, :associated_against => {
     :customer => [:name, :email],
     :staff => [:name, :email],
@@ -58,7 +58,7 @@ class Appointment < ActiveRecord::Base
 
   # Callbacks
   after_create :send_new_appointment_mail_to_customer_and_staff
-  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :check_if_approved?
+  after_update :send_edit_appointment_mail_to_customer_and_staff, if: :confirmed?
 
   def end_at
     start_at + duration.minutes
@@ -106,18 +106,19 @@ class Appointment < ActiveRecord::Base
     @availabilities.each do |availability|
       populate_matching_times(availability, start_at_copy, :-, :time_less_than_start_at)
       populate_matching_times(availability, start_at_copy, :+, :time_greater_than_start_at)
-      return @matching_times if(@matching_times[:time_greater_than_start_at] && @matching_times[:time_less_than_start_at])
     end
     @matching_times
   end
 
   # [rai] we need to refactor this method. please discuss(to discuss)
   def populate_matching_times(availability, start_at_copy, operator, time)
-    while((start_at_copy.to_date == start_at.to_date) && !@matching_times[time]) do
+    end_at_copy = start_at_copy + duration.minutes
+    while((start_at_copy.to_date == end_at_copy.to_date) && !@matching_times[time]) do
       if(!availability.staff.is_occupied?(start_at_copy, start_at_copy + duration.minutes, id) && availability.start_at.seconds_since_midnight <= start_at_copy.seconds_since_midnight && availability.end_at.seconds_since_midnight >= (start_at_copy + duration.minutes).seconds_since_midnight)
         @matching_times[time] = start_at_copy
       end
       start_at_copy =  start_at_copy.send(operator, 15.minutes)
+      end_at_copy = start_at_copy + duration.minutes
     end
   end
 
@@ -145,18 +146,12 @@ class Appointment < ActiveRecord::Base
       start_at - customer.reminder_time_lapse.minutes
     end
 
-    def check_if_approved?
-      state == 'approved'
-    end
-
     def staff_allotable?
       if(staff.is_available?(start_at, end_at, service))
         @clashing_appointment = staff.is_occupied?(start_at, end_at, id)
         if(@clashing_appointment)
           errors[:staff] << "is occupied from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
         end
-      else
-        errors[:base] <<  'No availability for this time duration for this staff.'
       end
     end
 
@@ -171,16 +166,16 @@ class Appointment < ActiveRecord::Base
     end
     
     def ensure_customer_has_no_prior_appointment_at_same_time
-      if has_no_clashing_appointments?(customer)
+      unless has_no_clashing_appointments?(customer)
         errors[:base] << "You already have an overlapping appointment from #{ @clashing_appointment.start_at.strftime("%H:%M") } to #{ @clashing_appointment.end_at.strftime("%H:%M") }"
       end
     end
 
     def has_no_clashing_appointments?(user)
-      @clashing_appointment = user.appointments.approved.detect do |appointment|
+      @clashing_appointment = user.appointments.confirmed.detect do |appointment|
         appointment.id != id && appointment.start_at.to_date == start_at.to_date && ((start_at >= appointment.start_at && start_at < appointment.end_at) || (end_at > appointment.start_at && end_at <= appointment.end_at))
       end
-      # @clashing_appointment == nil
+      @clashing_appointment == nil
     end
 
     def get_availabilities_for_service
@@ -193,7 +188,7 @@ class Appointment < ActiveRecord::Base
     def set_staff
       @staffs = @availabilities.map(&:staff)
       self.staff = @staffs.detect do |staff|
-        !has_no_clashing_appointments?(staff)
+        has_no_clashing_appointments?(staff)
       end
       if(!self.staff)
         errors[:base] << 'No staff available for this time duration'

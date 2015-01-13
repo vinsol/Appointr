@@ -22,7 +22,7 @@
   <% @services.each do |service| %>
     <tr class="filter_row <%= service.enabled ? 'enabled' : 'disabled' %>"> 
       <td>
-        <%= service.name.capitalize %>
+        <%= service.name.titleize %>
       </td>
       <td>
         <%= "#{ service.duration } minutes" %>

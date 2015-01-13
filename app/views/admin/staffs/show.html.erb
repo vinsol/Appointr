@@ -1,16 +1,16 @@
 <p>
   <strong>Name:</strong>
-  <%= @staff.name %>
+  <%= @staff.name.titleize %>
 </p>
 
 <p>
   <strong>Designation:</strong>
-  <%= @staff.designation %>
+  <%= @staff.designation.titleize %>
 </p>
 
 <p>
   <strong>Services</strong>
-  <%= @staff.services.map(&:name).join(', ') %>
+  <%= @staff.services.map(&:name).join(', ').titleize %>
 </p>
 
 <%= link_to 'Edit', edit_admin_staff_path(@staff), method: :get %> |

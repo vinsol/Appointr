@@ -2,6 +2,13 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
+  config.middleware.use ExceptionNotification::Rack,
+    email: {
+      :sender_address => %{"Exception Notifier" <test.vinsol.ams@gmail.com>},
+      :exception_recipients => %w{gaurav@vinsol.com},
+      :email_prefix => '[Appointr]',
+      :sections => ['request', 'session', 'environment']
+    }
   config.cache_classes = true
 
   # Eager load code on boot. This eager loads most of Rails and

@@ -21,16 +21,16 @@
   <% @staffs.each do |staff| %>
     <tr> 
       <td>
-        <%= staff.name %>
+        <%= staff.name.titleize %>
       </td>
       <td>
-        <%= staff.designation %>
+        <%= staff.designation.titleize %>
       </td>
       <td>
         <%= staff.email %>
       </td>
       <td>
-        <%= staff.services.map(&:name).join(', ') %>
+        <%= staff.services.map(&:name).join(', ').titleize %>
       </td>
       <td>
         <%= link_to 'Show', staff_path(staff.id) %>

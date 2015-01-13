@@ -1,30 +1,31 @@
 # [rai] both customer and staff mailer are more or less similar. we need discussion to optimize them
 class CustomerMailer < ActionMailer::Base
 
-  default from: 'test.vinsol.ams@gmail.com'
-
+  layout 'mailer'
+  default from: 'test.vinsol.ams@gmail.com',
+          headers: { secret: 'ams-secret-key' }
   def new_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment Created'
+    mail to: @customer.email, subject: "Appointment for #{ @appointment.service.name.humanize } with #{ @appointment.staff.name.humanize } Created"
   end
 
   def edit_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment Edited'
+    mail to: @customer.email, subject: "Appointment for #{ @appointment.service.name.humanize } with #{ @appointment.staff.name.humanize } Edited"
   end
 
   def cancel_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment Cancelled'
+    mail to: @customer.email, subject: 'Appointment for #{ @appointment.service.name.humanize } with #{ @appointment.staff.name.humanize } Cancelled'
   end
 
   def reminder(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment Reminder'
+    mail to: @customer.email, subject: "Appointment Reminder for #{ @appointment.service.name.humanize } with #{ @appointment.staff.name.humanize }"
   end
 
 end

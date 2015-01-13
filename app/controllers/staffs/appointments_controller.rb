@@ -5,12 +5,12 @@ class Staffs::AppointmentsController < ApplicationController
   before_action :authorize_staff
 
   def active_appointments
-    @appointments = current_staff.appointments.approved.includes(:customer, :service)
+    @appointments = current_staff.appointments.confirmed.includes(:customer, :service)
     render(json: @appointments, each_serializer: StaffAppointmentSerializer, root: false)
   end
 
   def past_appointments
-    @appointments = current_staff.appointments.not_cancelled_or_approved.past.includes(:customer, :service)
+    @appointments = current_staff.appointments.not_cancelled_or_confirmed.past.includes(:customer, :service)
     render(json: @appointments, each_serializer: StaffAppointmentSerializer, root: false)
   end
 

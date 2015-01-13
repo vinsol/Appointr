@@ -15,20 +15,14 @@
     <th>
       Date
     </th>
-    <th>
-      State
-    </th>
-    <th>
-      Remarks
-    </th>
   </tr>
   <% @appointments.each do |appointment| %>
     <tr class='appointment <%= appointment.state %>' data-date='<%= appointment.start_at.to_date %>'> 
       <td>
-        <%= appointment.customer.name %>
+        <%= appointment.customer.name.titleize %>
       </td>
       <td>
-        <%= appointment.service.name %>
+        <%= appointment.service.name.titleize %>
       </td>
       <td>
         <%= appointment.start_at.strftime("%I:%M %p") %>
@@ -38,12 +32,6 @@
       </td>
       <td>
         <%= appointment.start_at.strftime("%d %b %Y") %>
-      </td>
-      <td>
-        <%= appointment.state %>
-      </td>
-      <td>
-        <%= appointment.remarks %>
       </td>
     </tr>
   <% end %>

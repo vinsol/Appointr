@@ -1,16 +1,16 @@
 <p>
   <strong>Customer:</strong>
-  <%= @appointment.customer.name.capitalize %>
+  <%= @appointment.customer.name.titleize %>
 </p>
 
 <p>
   <strong>Service:</strong>
-  <%= @appointment.service.name.capitalize %>
+  <%= @appointment.service.name.titleize %>
 </p>
 
 <p>
   <strong>Staff:</strong>
-  <%= @appointment.staff.name.capitalize %>
+  <%= @appointment.staff.name.titleize %>
 </p>
 
 <p>
@@ -20,7 +20,7 @@
 
 <p>
   <strong>Duration:</strong>
-  <%= @appointment.duration %>
+  <%= @appointment.duration %> minutes
 </p>
 
 <p>
@@ -35,7 +35,7 @@
 
 <p>
   <strong>Remarks:</strong>
-  <%= @appointment.remarks %>
+  <%= @appointment.remarks.try(:capitalize) %>
 </p>
 
 <% if params[:cancellable] %>

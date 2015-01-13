@@ -1,8 +1,12 @@
-<h3>Hi <%= @staff.name %></h3>
-<p>
-  You have <%= @appointments.size %> appointments today.<br>
-</p>
-<% unless @appointments.empty? %>
+<h3>Hi <%= @staff.name.capitalize %></h3>
+<% if @appointments.empty? %>
+  <p>
+    You have no appointments today.<br>
+  </p>
+<% else %>
+  <p>
+    You have <%= pluralize(@appointments.size, 'appointment') %> today.<br>
+  </p>
   <p>
     Details:
   </p>
