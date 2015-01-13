@@ -15,10 +15,10 @@ form {
   margin: 10px;
 }
 
-input {
-  margin: 5px;
-}
-
 a {
   cursor: pointer;
+}
+
+div.control-group {
+  margin: 5px;
 }

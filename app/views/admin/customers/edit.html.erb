@@ -1,6 +1,6 @@
 <%= form_for([:admin, @customer]) do |f| %>
   <% if @customer.errors.any? %>
-    <div id="error_explanation">
+    <div class="errors">
       <h4><%= pluralize(@customer.errors.count, "error") %> prohibited this customer from being saved:</h4>
       <ul>
       <% @customer.errors.full_messages.each do |message| %>
@@ -11,7 +11,7 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br>
+    <%= f.label :name %>*<br>
     <%= f.text_field :name %>
   </div>
   <div class="field">

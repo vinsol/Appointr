@@ -4,7 +4,7 @@
 
 <%= form_for [:customers, @appointment], remote: true do |f| %>
   <% if @appointment.errors.any? %>
-    <div id="error_explanation">
+    <div class="errors">
       <h4><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h4>
 
       <ul>
@@ -15,18 +15,18 @@
     </div>
   <% end %>
   <div class="field">
-    <%= f.label :service %>:
+    <%= f.label :service %>* :
     <%= hidden_field(:appointment, :service) %>
   </div>
   <div class="field">
     <%= hidden_field(:appointment, :staff) %>
   </div>
   <div class="field">
-    <%= f.label :start_at %>:
+    <%= f.label :start_at %>* :
     <%= f.datetime_select :start_at, {minute_step: 15} %>
   </div>
   <div class="field">
-    <%= f.label 'Duration(minutes)', for: 'appointment_duration' %>:
+    <%= f.label 'Duration(minutes)', for: 'appointment_duration' %>* :
     <%= f.select :duration, options_for_select([['15', 15], ['30', 30], ['45', 45], ['60', 60]], @appointment.duration) %>
     <% if(@selected_duration.try(:>, 60)) %>
     <span>Sorry but the maximum duration can be 60 minutes</span>

@@ -8,39 +8,39 @@
 <%= form_for([:admin, @staff]) do |f| %>
 
   <div class='control-group'>
-    <%= f.label :name %><br />
+    <%= f.label :name %>*<br />
     <div class='control'>
       <%= f.text_field :name, autofocus: true %>
     </div>
   </div>
 
   <div class='control-group'>
-    <%= f.label :designation %><br />
+    <%= f.label :designation %>*<br />
     <div class='control'>
       <%= f.text_field :designation %>
     </div>
   </div>
 
   <div class='control-group'>
-    <%= f.label :email %><br />
+    <%= f.label :email %>*<br />
     <div class='control'>
       <%= f.email_field :email %>
     </div>
   </div>
 
   <div class='control-group'>
-    <%= f.label :services %><br />
+    <%= f.label :services %>*<br />
     <div class='control'>
       <%= f.text_field :services, value: '', data: { services: Service.select(:id, :name).to_json } %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :enabled, :class => 'control-label' %>
-    <div class="control">
-      <%= f.check_box :enabled, :class => 'form-control' %>
-    </div>
-  </div>
+  <div class='control-group'>
+    <%= f.label :enabled %>
+    <span class='control'>
+      <%= f.check_box :enabled, checked: true %>
+    </span>
+  </div><br>
 
   <div class="actions">
     <%= f.submit "Create", class: 'btn btn-primary' %>
