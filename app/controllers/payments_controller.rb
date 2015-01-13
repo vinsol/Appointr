@@ -4,7 +4,6 @@ class PaymentsController < ActionController::Base
 
   def get_payment
     transaction = WebpayInterswitch::TransactionQuery.new(params, 200)
-    debugger
     if transaction.success?
       redirect_to successful_path, notice: 'Payment Successful'
     else
