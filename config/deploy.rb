@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:vinsol/Appointr.git'
 
 set :deploy_to, '/var/www/Appointr'
 set :scm, :git
-set :branch, 'as-34'
+set :branch, 'web-pay'
 set :format, :pretty
 set :sudo, false
 set :scm_command, '/usr/bin/git'

@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/vinsol/webpay_interswitch.git
+  revision: cfbc7767ef61ae808ae9fefe64ffe0e969e01e33
+  specs:
+    webpay_interswitch (0.0.1)
+      rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -253,4 +260,5 @@ DEPENDENCIES
   twitter-bootstrap-rails (= 3.2.0)
   uglifier (>= 1.3.0)
   unicorn (= 4.8.3)
+  webpay_interswitch!
   whenever (= 0.9.4)

@@ -60,6 +60,8 @@ gem 'whenever','0.9.4', :require => false
 gem "unicorn", '4.8.3'
 gem 'capistrano-rails', '1.1.2'
 gem 'exception_notification', :require => 'exception_notification'
+
+gem 'webpay_interswitch', git: 'https://github.com/vinsol/webpay_interswitch.git'
 group :development do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '1.1.3'

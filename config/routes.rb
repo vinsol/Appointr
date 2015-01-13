@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'pay' => 'payments#pay'
+  post 'get_payment' => 'payments#get_payment'
+  get 'successful' => 'payments#successful'
+  get 'unsuccessful' => 'payments#unsuccessful'
 
   namespace :staffs do
     resources :appointments
