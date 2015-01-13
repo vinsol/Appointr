@@ -6,8 +6,8 @@ class Staff < User
   validates :services, presence: true
 
   # [rai] not sure why do we need to override the default behaviour?(discuss)
-  validates :password, confirmation: true, presence: :true, on: :update
-  validates :password_confirmation, presence: true, on: :update
+  # validates :password, confirmation: true, presence: :true, on: :update
+  # validates :password_confirmation, presence: true, on: :update
   validates :password, format: { with: PASSWORD_VALIDATOR_REGEX, message: 'can not include spaces.' }, on: :update
   
   has_many :allocations, dependent: :restrict_with_error
