@@ -1,25 +1,25 @@
 <div class='container-fluid'>
   <div class='row'>
-    <div class='col-md-5'>
+    <div class='col-md-0'>
     </div>
-    <div class='col-md-7'>
+    <div class='col-md-12'>
       <h2>Admin Log in</h2>
     </div>
   </div>
   <% if alert %>
     <div class='row'>
-      <div class='col-md-5'>
+      <div class='col-md-0'>
       </div>
-      <div class='col-md-7'>
+      <div class='col-md-12'>
         <p id="notice"><%= alert %></p>
       </div>
     </div>
   <% end %>
 
   <div class='row'>
-    <div class='col-md-5'>
+    <div class='col-md-0'>
     </div>
-    <div class='col-md-7'>
+    <div class='col-md-12'>
       <h4>Please login to continue.</h4>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
@@ -47,9 +47,9 @@
     </div>
   </div>
   <div class='row'>
-    <div class='col-md-5'>
+    <div class='col-md-0'>
     </div>
-    <div class='col-md-7'>
+    <div class='col-md-12'>
       <%= render "admin/shared/links" %>
     </div>
   </div>

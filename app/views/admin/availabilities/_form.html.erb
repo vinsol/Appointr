@@ -6,14 +6,14 @@
 
 <%= form_for [:admin, @availability] do |f| %>
   <div class='control-group'>
-    <%= f.label :staff %>*<br />
     <div class='control'>
       <% if @availability.new_record?%>
+        <%= f.label :staff %>*<br />
+        <%= f.select :staff, options_for_select(get_staff_options), { prompt: true } %>
+      <% else %>
+        <p><b>Staff: <%= @availability.staff.name.titleize %></b></p>
+      <% end %>
     </div>
-      <%= f.select :staff, options_for_select(get_staff_options), { prompt: true } %>
-    <% else %>
-      <%= f.select :staff, options_for_select(get_staff_options, @availability.staff.id), { prompt: true }, { disabled: true } %>
-    <% end %>
   </div><br>
   <div class='control-group'>  
     <%= f.label 'Services', for: :services_ids %>*<br />
