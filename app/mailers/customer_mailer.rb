@@ -19,7 +19,7 @@ class CustomerMailer < ActionMailer::Base
   def cancel_appointment_notifier(appointment)
     @appointment = appointment
     @customer = @appointment.customer
-    mail to: @customer.email, subject: 'Appointment for #{ @appointment.service.name.humanize } with #{ @appointment.staff.name.humanize } Cancelled'
+    mail to: @customer.email, subject: "Appointment for #{ @appointment.service.name.humanize } with #{ @appointment.staff.name.humanize } Cancelled"
   end
 
   def reminder(appointment)

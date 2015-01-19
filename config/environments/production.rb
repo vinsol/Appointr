@@ -75,7 +75,7 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Set mailer options
-  config.action_mailer.default_url_options = { host: '54.149.200.153' }
+  config.action_mailer.default_url_options = { host: '54.148.176.137' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :user_name => '580469c992f026d4',
