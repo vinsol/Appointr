@@ -17,6 +17,14 @@
     <%= button_to 'List View', admin_appointments_path, remote: true, method: :get, id: 'list_view', class: 'btn btn-primary' %>
     <div id='calendar'>
     </div>
+    <div class='row'>
+      <div class='col-md-4'>
+        <h4><span style='color: yellow;'>Yellow</span> means confirmed appointments.</h4>
+      </div>
+      <div class='col-md-8'>
+        <h4><span style='color: red;'>Red</span> means past appointments.</h4>
+      </div>
+    </div>
   </div>
   <div class='row hidden' id='list'>
     <%= button_to 'Calendar View', (admin_appointments_path + '?view=calendar'), remote: true, method: :get, id: 'calendar_view', class: 'btn btn-primary' %>

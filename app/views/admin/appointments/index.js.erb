@@ -15,6 +15,5 @@ var $searchInput = $('#search'),
   $calendarBox.addClass('hidden');
   $calendarDiv.fullCalendar('destroy');
   $searchInput.val('');
-  $( '#clear_dates' ).click();
   $listDiv.html("<%= escape_javascript(render 'index') %>");
 <% end %>

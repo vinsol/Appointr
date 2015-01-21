@@ -4,7 +4,24 @@ class Admin::AppointmentsController < Admin::BaseController
   before_action :ensure_remark_is_present, only: :cancel
 
   def index
-    @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    # if params[:state]
+      # @appointments = Appointment.where(state: params[:state]).order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    # else
+      # @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    # end
+    if params[:state].blank?
+      @appointments = Appointment.all#.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    else
+      @appointments = Appointment.where(state: params[:state])#.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    end
+
+    if params[:start_date] && params[:end_date]      
+      @appointments = @appointments.where("start_at::date >= '#{ params[:start_date] }'::date AND start_at::date <= '#{ params[:end_date] }'::date").order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    elsif params[:start_date]      
+      @appointments = @appointments.where("start_at::date = '#{ params[:start_date] }'::date").order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    else
+      @appointments = @appointments.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+    end
   end
 
   def active_appointments

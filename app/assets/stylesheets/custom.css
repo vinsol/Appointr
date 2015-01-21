@@ -1,0 +1,13 @@
+#cancel_button {
+  position: relative;
+  top: -54px;
+  left: 84px;
+}
+
+.btn {
+  margin-top: 10px;
+}
+
+ul.token-input-list, div.token-input-dropdown {
+  width: 154px;
+}
