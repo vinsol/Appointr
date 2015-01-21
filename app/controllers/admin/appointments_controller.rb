@@ -14,9 +14,9 @@ class Admin::AppointmentsController < Admin::BaseController
       @appointments = @appointments.search_for_admin(params[:search])
     end
 
-    if params[:start_date] && params[:end_date]      
+    if params[:start_date].present? && params[:end_date].present?
       @appointments = @appointments.where("start_at::date >= '#{ params[:start_date] }'::date AND start_at::date <= '#{ params[:end_date] }'::date")
-    elsif params[:start_date]      
+    elsif params[:start_date].present?
       @appointments = @appointments.where("start_at::date = '#{ params[:start_date] }'::date")
     end
     @appointments = @appointments.reorder(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
