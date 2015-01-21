@@ -24,25 +24,24 @@ AppointmentsFilter.prototype.set = function(start, end) {
     //     }
     //   })
     // }
+    var queryString = '?state=' + $('#state').val();
     if(end.val() == '') {
-      $.ajax({
-          url: 'admin/appointments/' + '?state=' + $('#state').val() + '&start_date=' + startDate.toDateString(),
-          dataType: 'script',
-          error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-          }
-        })
+      queryString += '&start_date=' + startDate.toDateString();
     } else {
-      $.ajax({
-          url: 'admin/appointments/' + '?state=' + $('#state').val() + '&start_date=' + (new Date($('#start').val())).toDateString() + '&end_date=' + (new Date($('#end').val())).toDateString(),
-          dataType: 'script',
-          error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-          }
-        })
+      queryString += '&start_date=' + (new Date($('#start').val())).toDateString() + '&end_date=' + (new Date($('#end').val())).toDateString();
     }
+
+    if($('#search').val().length != 0) {
+      queryString += '&search=' + $('#search').val();
+    }
+    $.ajax({
+        url: 'admin/appointments/' + queryString,
+        dataType: 'script',
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(xhr.status);
+          alert(thrownError);
+        }
+      })
   } });
 }
 

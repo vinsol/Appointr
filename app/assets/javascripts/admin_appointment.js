@@ -56,7 +56,21 @@ LoadCalendar.prototype.initializeCalendarForAdmin = function() {
   })
 }
 
+function Search() {
+
+}
+
+Search.prototype.bindEvents = function() {
+  $('#search_form').on('submit', function() {
+    $('#current_state').val($('#state').val());
+    $('#current_start_date').val($('#start').val());
+    $('#current_end_date').val($('#end').val());
+  });
+}
+
 $(document).ready(function() {
-  var loadCalendar = new LoadCalendar;
-  loadCalendar.initializeCalendarForAdmin()
+  var loadCalendar = new LoadCalendar,
+      search = new Search;
+  loadCalendar.initializeCalendarForAdmin();
+  search.bindEvents();  
 });

@@ -4,24 +4,22 @@ class Admin::AppointmentsController < Admin::BaseController
   before_action :ensure_remark_is_present, only: :cancel
 
   def index
-    # if params[:state]
-      # @appointments = Appointment.where(state: params[:state]).order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
-    # else
-      # @appointments = Appointment.all.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
-    # end
     if params[:state].blank?
-      @appointments = Appointment.all#.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+      @appointments = Appointment.all
     else
-      @appointments = Appointment.where(state: params[:state])#.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+      @appointments = Appointment.where(state: params[:state])
+    end
+
+    if params[:search].present?
+      @appointments = @appointments.search_for_admin(params[:search])
     end
 
     if params[:start_date] && params[:end_date]      
-      @appointments = @appointments.where("start_at::date >= '#{ params[:start_date] }'::date AND start_at::date <= '#{ params[:end_date] }'::date").order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+      @appointments = @appointments.where("start_at::date >= '#{ params[:start_date] }'::date AND start_at::date <= '#{ params[:end_date] }'::date")
     elsif params[:start_date]      
-      @appointments = @appointments.where("start_at::date = '#{ params[:start_date] }'::date").order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
-    else
-      @appointments = @appointments.order(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
+      @appointments = @appointments.where("start_at::date = '#{ params[:start_date] }'::date")
     end
+    @appointments = @appointments.reorder(start_at: :desc).includes(:customer, :staff, :service).page(params[:page]).per(15)
   end
 
   def active_appointments
@@ -45,17 +43,6 @@ class Admin::AppointmentsController < Admin::BaseController
     else
       redirect_to admin_path, alert: 'Appointment could not be cancelled'
     end
-  end
-
-  # [rai] not sure but can we chain on .all? i remember that .all returns array and not arel([gaurav] .all returns arel)
-  # [rai] moreover we dont need to repeat the code the chaining could go at last line with variable @appointments(fixed)
-  def search
-    if params[:search].empty?
-      @appointments = Appointment.all
-    else
-      @appointments = Appointment.search_for_admin(params[:search])
-    end
-    @appointments = @appointments.reorder(start_at: :desc).includes(:staff, :service, :customer).page(params[:page]).per(15)
   end
 
   private

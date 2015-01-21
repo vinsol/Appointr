@@ -26,6 +26,10 @@ StateFilter.prototype.set = function(filterSelect) {
     queryString += '&start_date=' + (new Date(start_date).toDateString());
   }
 
+  if($('#search').val().length != 0) {
+    queryString += '&search=' + $('#search').val();
+  }
+
   $.ajax({
           url: 'admin/appointments/' + queryString,
           dataType: 'script',

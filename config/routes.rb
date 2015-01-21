@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :staffs
     resources :appointments do
-      get 'search' => 'appointments#search', on: :collection
+      get 'search' => 'appointments#index', on: :collection
       patch 'cancel' => 'appointments#cancel', on: :member
     end
     get 'active_appointments' => 'appointments#active_appointments'

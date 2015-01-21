@@ -9,11 +9,13 @@ var $searchInput = $('#search'),
   $listBox.addClass('hidden');
   $calendarBox.removeClass('hidden');
   loadCalendar.initializeCalendarForAdmin();
+  $('#start').val('');
+  $('#end').val('');
+  $('#state').val('')
   $searchInput.val('');
 <% else %> 
   $listBox.removeClass('hidden');
   $calendarBox.addClass('hidden');
   $calendarDiv.fullCalendar('destroy');
-  $searchInput.val('');
   $listDiv.html("<%= escape_javascript(render 'index') %>");
 <% end %>
