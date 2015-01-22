@@ -22,6 +22,14 @@ class Admin::StaffsController < Admin::BaseController
     end
   end
 
+  def resend_confirmation_mail
+    staff = Staff.find_by(email: params[:email])
+    raw_token, staff.confirmation_token = Devise.token_generator.generate(staff.class, :confirmation_token)
+    staff.save
+    StaffMailer.resend_confirmation_mail(staff, raw_token).deliver
+    redirect_to admin_staffs_path, notice: "A confirmation mail has benn sent to #{ staff.name.titleize } at #{ staff.email }"
+  end
+
   def show
   end
 

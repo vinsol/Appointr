@@ -35,7 +35,7 @@ class Admin::AppointmentsController < Admin::BaseController
   def show
   end
 
-  # [rai] can't we just done @appointment.cancel! and handle exception(FIXED)
+  # [rai] can't we just done @appointment.cancel! and handle exception
   def cancel
     @appointment.cancel
     if @appointment.save(validate: false)

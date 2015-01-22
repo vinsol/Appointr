@@ -31,4 +31,10 @@ class StaffMailer < ActionMailer::Base
     mail to: @staff.email, subject: "Your Appointments for #{ Date.current }"
   end
 
+  def resend_confirmation_mail(staff, raw_token)
+    @staff = staff
+    @raw_token = raw_token
+    mail to: @staff.email, subject: "Re - Confirmation mail for AMS"
+  end
+
 end

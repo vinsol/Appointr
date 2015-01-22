@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :staffs
+    patch 'staff_resend_confirmation_mail' => 'staffs#resend_confirmation_mail'
     resources :appointments do
       get 'search' => 'appointments#index', on: :collection
       patch 'cancel' => 'appointments#cancel', on: :member

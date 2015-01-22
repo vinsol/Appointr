@@ -45,9 +45,11 @@
       <td>
         <%= link_to 'Show', admin_staff_path(staff.id) %>
         |
-        <%= link_to 'Edit', edit_admin_staff_path(staff), method: :get %><br/>
-        <% unless(staff.confirmed_at) %>
-          <p>Not yet confirmed</p>
+        <% if(staff.confirmed_at) %>
+          <%= link_to 'Edit', edit_admin_staff_path(staff), method: :get %><br/>
+        <% else %>
+          <%= link_to 'Resend Confirmation Mail', admin_staff_resend_confirmation_mail_path(email: staff.email), method: :patch %><br/>
+          Not yet confirmed
         <% end %>
       </td>
     </tr>
