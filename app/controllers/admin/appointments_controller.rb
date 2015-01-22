@@ -38,10 +38,18 @@ class Admin::AppointmentsController < Admin::BaseController
   # [rai] can't we just done @appointment.cancel! and handle exception
   def cancel
     @appointment.cancel
-    if @appointment.save(validate: false)
-      redirect_to admin_path, notice: 'Appointment cancelled'
+    if @appointment.save
+      # redirect_to admin_path, notice: 'Appointment cancelled'
+      flash[:notice] = 'Appointment cancelled.'
+      respond_to do |format|
+        format.js { render :js => "window.location = '#{admin_path}'" }
+      end
     else
-      redirect_to admin_path, alert: 'Appointment could not be cancelled'
+      # redirect_to admin_path, alert: 'Appointment could not be cancelled'
+      flash[:notice] = 'Appointment could not be cancelled.'
+      respond_to do |format|
+        format.js { render :js => "window.location = '#{admin_path}'" }
+      end
     end
   end
 
@@ -59,7 +67,9 @@ class Admin::AppointmentsController < Admin::BaseController
     def ensure_remark_is_present
       @appointment.remarks = params[:remarks]
       if @appointment.remarks.blank?
-        redirect_to admin_path, alert: 'Please provide a remark to cancel the appointment.'
+        # @appointment.errors[:base] << 'Please provide remarks'
+        flash.now[:notice] = 'Please provide remarks'
+        render :show
       end
     end
 

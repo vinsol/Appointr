@@ -10,7 +10,4 @@ $('#appointment_staff').before('Staff: ' + "<%= escape_javascript(@appointment.s
 $('#cancellation').on('submit', function() {
   var remarks = prompt('Remarks:');
   $("input[name='remarks']").val(remarks);
-  if(remarks == null) {
-    event.preventDefault();
-  }
 });
