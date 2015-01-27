@@ -3,7 +3,11 @@ class Admin::ServicesController < Admin::BaseController
   before_action :load_service, only: [:show, :edit, :update]
 
   def index
-    @services = Service.order("LOWER(name)").page(params[:page]).per(15)
+    if params[:enabled].blank?
+      @services = Service.order("LOWER(name)").page(params[:page]).per(15)
+    else
+      @services = Service.where(enabled: params[:enabled]).order("LOWER(name)").page(params[:page]).per(15)
+    end
   end
 
   def show

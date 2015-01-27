@@ -21,6 +21,12 @@ StateFilter.prototype.set = function(filterSelect) {
   $.ajax({
           url: 'admin/appointments/' + queryString,
           dataType: 'script',
+          beforeSend: function() {
+            $('#loader_div').show();
+          },
+          complete: function() {
+            $('#loader_div').hide();
+          },
           error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);

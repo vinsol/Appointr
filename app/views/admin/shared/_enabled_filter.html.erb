@@ -1,7 +1,5 @@
 <div id='enabled_filter'>
   <%= label_tag :enabled %>
-  <%= check_box_tag :enabled, 'Enabled', false, class: 'filter' %><br />
-  <%= label_tag :disabled %>
-  <%= check_box_tag :disabled, 'Disabled', false, class: 'filter' %><br />
+  <%= select_tag 'enabled', options_for_select([['Enabled', 't'], ['Disabled', 'f']]), prompt: 'All' %><br>
 </div>
 <br />

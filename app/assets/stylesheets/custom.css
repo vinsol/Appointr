@@ -11,3 +11,7 @@
 ul.token-input-list, div.token-input-dropdown {
   width: 154px;
 }
+
+#loader_div {
+  display: none;
+}

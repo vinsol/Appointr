@@ -4,7 +4,11 @@ class Admin::StaffsController < Admin::BaseController
   before_action :load_staff, only: [:edit, :show, :update]
 
   def index
-    @staffs = Staff.order(:name).includes(:services).page(params[:page]).per(15)
+    if params[:enabled].blank?
+      @staffs = Staff.order(:name).includes(:services).page(params[:page]).per(15)
+    else
+      @staffs = Staff.where(enabled: params[:enabled]).order(:name).includes(:services).page(params[:page]).per(15)
+    end
   end
 
   def new

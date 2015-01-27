@@ -23,7 +23,11 @@ class Admin::AvailabilitiesController < Admin::BaseController
   end
 
   def index
-    @availabilities = Availability.joins(:staff).order('users.name').includes(:services).page(params[:page]).per(15)
+    if params[:enabled].blank?
+      @availabilities = Availability.joins(:staff).order('users.name').includes(:services).page(params[:page]).per(15)
+    else
+      @availabilities = Availability.joins(:staff).where(enabled: params[:enabled]).order('users.name').includes(:services).page(params[:page]).per(15)
+    end
   end
 
   def update

@@ -5,70 +5,21 @@
 
 <%= render '/admin/shared/enabled_filter' %>
 
-<%= link_to 'Create New Availability', new_admin_availability_path %>
-<br />
-<table class = 'table table-hover table-striped'>
-  <tr>
-    <th>
-      Staff
-    </th>
-    <th>
-      Services
-    </th>
-    <th>
-      Start Time
-    </th>
-    <th>
-      End Time
-    </th>
-    <th>
-      Start Date
-    </th>
-    <th>
-      End Date
-    </th>
-    <th>
-      Enabled
-    </th>
-    <th>
-      Actions
-    </th>
-  </tr>
-  <% @availabilities.each do |availability| %>
-    <tr class="availability filter_row <%= availability.enabled ? 'enabled' : 'disabled' %>"> 
-      <td>
-        <%= availability.staff.name.titleize %>
-      </td>
-      <td>
-        <%= availability.services.map(&:name).join(', ').titleize %>
-      </td>
-      <td>
-        <%= availability.start_at.strftime("%I:%M %p") %>
-      </td>
-      <td>
-        <%= availability.end_at.strftime("%I:%M %p") %>
-      </td>
-      <td class='start_date'>
-        <%= availability.start_date.strftime("%d %b %Y") %>
-      </td>
-      <td class='end_date'>
-        <%= availability.end_date.strftime("%d %b %Y") %>
-      </td>
-      <td>
-        <%= availability.enabled %>
-      </td>
-      <td>
-        <%= link_to 'Show', admin_availability_path(availability.id) %>
-        |
-        <%= link_to 'Edit', edit_admin_availability_path(availability), method: :get %><br/>
-      </td>
-    </tr>
-  <% end %>
-</table>
-<%= link_to 'Create New Availability', new_admin_availability_path %>
-<br />
-<%= paginate @availabilities %>
+<div class='row'>
+  <div class='col-md-6'>
+  </div>
+  <div class='col-md-6'>
+    <div id='loader_div'>
+      <%= image_tag '/loader.gif', height: '25px', width: '25px' %>
+    </div>
+  </div>
+</div>
 
+<div id='list_div'>
+  <%= render 'index' %>
+</div>
+
+<%= link_to 'Create New Availability', new_admin_availability_path %>
+<br />
 <%= javascript_include_tag 'availability_filter' %>
 <%= javascript_include_tag 'enabled_filter' %>
-

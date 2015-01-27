@@ -2,19 +2,26 @@ function EnabledFilter() {
 }
 
 EnabledFilter.prototype.set = function(filterSelect) {
-  $('.filter_row').hide();
-  if($('#enabled')[0].checked == $('#disabled')[0].checked) {
-    $('.filter_row').show();
-  } else if($('#enabled')[0].checked == true) {
-    $('.enabled').show();
-  } else {
-    $('.disabled').show();
-  }
+  var enabled = filterSelect.value;
+  $.ajax({
+          url: window.location['pathname'].substring(7) + '?enabled=' + enabled,
+          dataType: 'script',
+          beforeSend: function() {
+            $('#loader_div').show();
+          },
+          complete: function() {
+            $('#loader_div').hide();
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+          }
+        })
 }
 
 EnabledFilter.prototype.bindEvents = function() {
   var _this = this;
-  $('.filter').on('change', function() {
+  $('#enabled').on('change', function() {
     _this.set(this);
   })
 }

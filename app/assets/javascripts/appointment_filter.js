@@ -21,7 +21,14 @@ AppointmentsFilter.prototype.set = function(start, end) {
     $.ajax({
         url: 'admin/appointments/' + queryString,
         dataType: 'script',
+        beforeSend: function() {
+          $('#loader_div').show();
+        },
+        complete: function() {
+          $('#loader_div').hide();
+        },
         error: function (xhr, ajaxOptions, thrownError) {
+          $('#loader_div').hide();
           alert(xhr.status);
           alert(thrownError);
         }
@@ -39,6 +46,12 @@ $(function() {
     $.ajax({
           url: 'admin/appointments/' + '?state=' + $('#state').val() + '&search=' + $('#search').val(),
           dataType: 'script',
+          beforeSend: function() {
+            $('#loader_div').show();
+          },
+          complete: function() {
+            $('#loader_div').hide();
+          },
           error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);

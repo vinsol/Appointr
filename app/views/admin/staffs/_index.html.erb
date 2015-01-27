@@ -1,0 +1,55 @@
+<table class = 'table table-hover table-striped'>
+  <tr>
+    <th>
+      Name
+    </th>
+    <th>
+      Designation
+    </th>
+    <th>
+      Email
+    </th>
+    <th>
+      Services
+    </th>
+    <th>
+      Enabled
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+  <% @staffs.each do |staff| %>
+    <tr class="filter_row <%= staff.enabled ? 'enabled' : 'disabled' %>"> 
+      <td>
+        <%= staff.name.titleize %>
+      </td>
+      <td>
+        <%= staff.designation.titleize %>
+      </td>
+      <td>
+        <%= staff.email %>
+      </td>
+      <td>
+        <%= staff.services.map(&:name).join(', ').titleize %>
+      </td>
+      <td>
+        <%= staff.enabled %>
+      </td>
+      <td>
+        <%= link_to 'Show', admin_staff_path(staff.id) %>
+        |
+        <% if(staff.confirmed_at) %>
+          <%= link_to 'Edit', edit_admin_staff_path(staff), method: :get %><br/>
+        <% else %>
+          <%= link_to 'Resend Confirmation Mail', admin_staff_resend_confirmation_mail_path(email: staff.email), method: :patch %><br/>
+          Not yet confirmed
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= paginate @staffs %>
+
+<br />
+<%= link_to 'New staff', new_admin_staff_path %>

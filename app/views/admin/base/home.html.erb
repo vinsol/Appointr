@@ -47,6 +47,15 @@
       <%= label_tag 'state' %>
       <%= select_tag 'state', options_for_select([['Confirmed', 'confirmed'], ['Cancelled', 'cancelled'], ['Attended', 'attended'], ['Missed', 'missed']]), prompt: 'All' %><br>
     </div>
+    <div class='row'>
+      <div class='col-md-6'>
+      </div>
+      <div class='col-md-6'>
+        <div id='loader_div'>
+          <%= image_tag '/loader.gif', height: '25px', width: '25px' %>
+        </div>
+      </div>
+    </div>
     <div id='appointments'>
     </div>
   </div>
