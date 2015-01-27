@@ -13,7 +13,7 @@ class CustomersController < ApplicationController
     new_reminder_time_lapse = @customer.reminder_time_lapse
     if @customer.save
       @customer.change_appointments_reminder_time(old_reminder_time_lapse, new_reminder_time_lapse)
-      redirect_to customer_home_path, notice: 'Reminder settings updated'
+      redirect_to customers_home_path, notice: 'Reminder settings updated'
     else
       render template: 'customers/base/reminder'
     end

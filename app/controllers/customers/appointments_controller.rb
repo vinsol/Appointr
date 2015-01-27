@@ -35,7 +35,7 @@ class Customers::AppointmentsController < Customers::BaseController
     if @appointment.save
       flash[:notice] = 'Appointment successfully created.'
       respond_to do |format|
-        format.js { render :js => "window.location = '#{customer_home_path}'" }
+        format.js { render :js => "window.location = '#{customers_home_path}'" }
       end
     else
       if(@appointment.send(:has_no_clashing_appointments?, @appointment.customer) && @appointment.start_at > Time.current)

@@ -9,9 +9,9 @@ Rails.application.routes.draw do
 
   root 'home#welcome'
 
-  get 'customer_home' => 'customers#home'
+  get 'customers/home' => 'customers#home'
 
-  get 'staff_home' => 'staffs#home'
+  get 'staffs/home' => 'staffs#home'
 
   resources :customers, only: :update
   namespace :customers do

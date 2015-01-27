@@ -29,7 +29,7 @@ class StaffsController < ApplicationController
     def load_staff
       @staff = Staff.find_by(id: params[:id])
       if !@staff
-        redirect_to staff_home_path, alert: 'No staff found.'
+        redirect_to staffs_home_path, alert: 'No staff found.'
       end
     end
 
