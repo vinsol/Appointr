@@ -2,7 +2,8 @@ class Customer < User
 
   # Validations
   validates :password, format: { with: PASSWORD_VALIDATOR_REGEX, message: 'can not include spaces.' }
-
+  validates :enabled, exclusion: { in: [nil] }
+  
   # Associations
   has_many :appointments, dependent: :restrict_with_error
   has_many :appointed_services, through: :appointments, source: 'Service', foreign_key: 'service_id'

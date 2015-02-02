@@ -4,7 +4,8 @@ class Staff < User
   validates :name, uniqueness: { case_sensitive: false }
   validates :designation, presence: true
   validates :services, presence: true
-
+  validates :enabled, exclusion: { in: [nil] }
+  
   # [rai] not sure why do we need to override the default behaviour?(discuss)
   # validates :password, confirmation: true, presence: :true, on: :update
   # validates :password_confirmation, presence: true, on: :update

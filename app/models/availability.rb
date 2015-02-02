@@ -4,6 +4,8 @@ class Availability < ActiveRecord::Base
   #validations
   validates :staff, :days, presence: true
   validates :services, presence: true
+  validates :enabled, exclusion: { in: [nil] }
+  
   # [rai] again? just presence validation should do it(fixed)
   validate :ensure_dates_are_valid
   # [rai] please discuss this with me. if ensure dates are valid then why do i need to check again ensure_end_date_greater_than_start_date.([gaurav] ensure_dates_are_valid just checks if date format is valid.)

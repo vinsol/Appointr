@@ -5,6 +5,7 @@ class Service < ActiveRecord::Base
   #validations
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :duration, inclusion: { in: ALLOWED_DURATIONS }
+  validates :enabled, exclusion: { in: [nil] }
 
   # [rai] what!!!!....really. can't we just add presence validation for enabled. a boolean could have only nil, true or false(fixed)
 
