@@ -14,4 +14,6 @@ ul.token-input-list, div.token-input-dropdown {
 
 #loader_div {
   display: none;
+  position: absolute;
+  top: -50px;
 }
