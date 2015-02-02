@@ -60,21 +60,20 @@ LoadCalendar.prototype.initializeCalendarForCustomer = function(service_id, staf
         eventSources: [
           {
             color: 'green',
-            url: 'customers/availabilities',
+            url: 'availabilities',
             data: { 'service_id': service_id, 'staff_id': staff_id },
             textColor: 'blue'
           },
           {
-            url: 'customers/active_appointments',
+            url: 'active_appointments',
             color: 'yellow',
             textColor: 'blue'
           },
           {
-            url: 'customers/past_appointments',
+            url: 'past_appointments',
             color: 'red',
             textColor: 'blue'
           }
-
         ],
         eventClick: function(calEvent, jsEvent, view) {
           var appointmentStartAt = new Date(calEvent['start']['_i']);
