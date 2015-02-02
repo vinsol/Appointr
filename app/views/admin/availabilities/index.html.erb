@@ -1,9 +1,13 @@
 <h1>Listing availabilities</h1>
 <%= label_tag 'month', nil, for: 'date_month' %>
-<%= select_month(14, prompt: 'All') %>
+<%= select_month 14, { prompt: 'All' }, {class: 'availability_filter', id: 'date_filter' } %>
 <br />
 
-<%= render '/admin/shared/enabled_filter' %>
+<div>
+  <%= label_tag :enabled %>
+  <%= select_tag 'enabled', options_for_select([['Enabled', 't'], ['Disabled', 'f']]), prompt: 'All', id: 'enabled_filter', class: 'availability_filter' %><br>
+</div>
+<br />
 
 <div class='row'>
   <div class='col-md-6'>
@@ -15,11 +19,11 @@
   </div>
 </div>
 
+<%= link_to 'New Availability', new_admin_availability_path %>
 <div id='list_div'>
   <%= render 'index' %>
 </div>
 
-<%= link_to 'Create New Availability', new_admin_availability_path %>
 <br />
 <%= javascript_include_tag 'availability_filter' %>
 <%= javascript_include_tag 'enabled_filter' %>

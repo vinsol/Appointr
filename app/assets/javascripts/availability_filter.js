@@ -1,53 +1,31 @@
-function Filter() {
-  this.monthSelect = $("#date_month");
+function AvailabilityFilter() {
 }
 
-Filter.prototype.show_selected_months = function() {
+AvailabilityFilter.prototype.set = function() {
+  $.ajax({
+          url: 'availabilities' + '?enabled=' + $('#enabled_filter').val() + '&month=' + $('#date_filter').val(),
+          dataType: 'script',
+          beforeSend: function() {
+            $('#loader_div').show();
+          },
+          complete: function() {
+            $('#loader_div').hide();
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+          }
+        })
+}
+
+AvailabilityFilter.prototype.bindEvents = function() {
   var _this = this;
-  if(this.monthSelect.val()) {
-    $('.availability').each(function(index) {
-      var selectedMonth = parseInt(_this.monthSelect.val()),
-          startMonth = (new Date($(this).children('.start_date').text())).getMonth() + 1,
-          endMonth = (new Date($(this).children('.end_date').text())).getMonth() + 1;
-
-      $(this).hide();
-      _this.checkAndShowAvailability(startMonth, endMonth, selectedMonth, $(this));
-    });
-  }
-  else {
-    $('.availability').show();
-  }
-
-}
-
-Filter.prototype.checkAndShowAvailability = function(startMonth, endMonth, selectedMonth, $availability) {
-  if(startMonth < endMonth) {
-    if(startMonth <= selectedMonth && endMonth >= selectedMonth) {
-      // TODO: Semicolons??? Fix everywhere.
-      $availability.show();
-    }
-  }
-  else if(startMonth == endMonth) {
-    if(selectedMonth == startMonth) {
-      $availability.show();
-    }
-  }
-  else {
-    if((startMonth <= selectedMonth || endMonth >= selectedMonth)) {
-      $availability.show();
-    }
-  }
-}
-
-Filter.prototype.bindEvents = function() {
-  var _this = this;
-  // TODO: Any other way?
-  this.monthSelect.on("change", function() {
-    _this.show_selected_months();
+  $('.availability_filter').on('change', function() {
+    _this.set();
   })
 }
 
 $(function() {
-  var filter = new Filter();
-  filter.bindEvents();
-})
+  var availabilityFilter = new AvailabilityFilter();
+  availabilityFilter.bindEvents();
+});

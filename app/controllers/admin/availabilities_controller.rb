@@ -24,10 +24,20 @@ class Admin::AvailabilitiesController < Admin::BaseController
 
   def index
     if params[:enabled].blank?
-      @availabilities = Availability.joins(:staff).order('users.name').includes(:services).page(params[:page]).per(15)
+      @availabilities = Availability#.joins(:staff).order('users.name').includes(:services).page(params[:page]).per(15)
     else
-      @availabilities = Availability.joins(:staff).where(enabled: params[:enabled]).order('users.name').includes(:services).page(params[:page]).per(15)
+      @availabilities = Availability.where(enabled: params[:enabled])#.joins(:staff).order('users.name').includes(:services).page(params[:page]).per(15)
     end
+
+    unless params[:month].blank?
+      current_date = Date.current
+      check_year = params[:month].to_i >= current_date.month ? current_date.year : current_date.year + 1
+      check_date = Date.new(check_year, params[:month].to_i)
+      @availabilities = @availabilities.where('(start_date <= ? AND end_date >= ?) OR (start_date <= ? AND end_date >= ?)', check_date, check_date, check_date.end_of_month, check_date.end_of_month)
+    end
+
+    @availabilities = @availabilities.joins(:staff).order('users.name').includes(:services).page(params[:page]).per(15)
+
   end
 
   def update

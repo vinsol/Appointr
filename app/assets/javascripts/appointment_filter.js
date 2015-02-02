@@ -1,4 +1,3 @@
-// TODO: Object Oriented JS???
 function AppointmentsFilter() {
 
 }
