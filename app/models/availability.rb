@@ -2,7 +2,7 @@ class Availability < ActiveRecord::Base
   
   # [rai] why do we need it here? you already have get_days_array in AvailabilitiesHelper(moved to avaialbilities_helper)
   #validations
-  validates :staff, :days, :enabled, presence: true
+  validates :staff, :days, presence: true
   validates :services, presence: true
   # [rai] again? just presence validation should do it(fixed)
   validate :ensure_dates_are_valid
