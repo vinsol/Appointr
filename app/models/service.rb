@@ -1,4 +1,4 @@
-class Service < ActiveRecord::Base
+class Service < Db1
 
   ALLOWED_DURATIONS = [15, 30, 45, 60]
 

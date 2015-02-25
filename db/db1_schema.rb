@@ -13,20 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20141226092735) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "allocations", force: true do |t|
     t.integer "service_id"
     t.integer "staff_id"
-  end
-
-  create_table "application_images", force: true do |t|
-    t.string   "type"
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
   end
 
   create_table "appointments", force: true do |t|
@@ -51,7 +40,7 @@ ActiveRecord::Schema.define(version: 20141226092735) do
     t.datetime "updated_at"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.integer  "days",       default: [0, 1, 2, 3, 4, 5, 6], array: true
+    t.integer  "days"
   end
 
   create_table "availability_services", force: true do |t|
@@ -92,11 +81,6 @@ ActiveRecord::Schema.define(version: 20141226092735) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"

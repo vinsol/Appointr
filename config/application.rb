@@ -7,7 +7,14 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module AppointmentManager
+
+
   class Application < Rails::Application
+    # Rails.env ||= 'development'
+    # db_conf = YAML::load(File.open(File.expand_path('../database.yml', __FILE__)))
+
+    # DB1_CONF = db_conf["db1"][Rails.env]
+    # DB2_CONF = db_conf["db2"][Rails.env]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

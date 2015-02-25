@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < Db1
 
   # [rai] why password could not have spaces?(required by app)
   PASSWORD_VALIDATOR_REGEX = /\A[^\s]*\z/i
@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # are we using trackable module?
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+         :recoverable, :rememberable, :validatable, :confirmable
   
   #calbacks
   # [rai] you dont need this. Devise already have configuration for case insensitivity. Check devise.rb(removed)
