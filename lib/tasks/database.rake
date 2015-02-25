@@ -15,18 +15,12 @@ namespace :db do
     Rake::Task["db:migrate_db2"].invoke
   end
 
-  task :migrate_db1 do
+  task :migrate_db1 => :environment do
     DatabaseTasks.migrate("db/migrate/db1/", 'db/db1_schema.rb', DB1_CONF)
   end
 
-  task :migrate_db2 do
+  task :migrate_db2 => :environment do
     DatabaseTasks.migrate("db/migrate/db2/", 'db/db2_schema.rb', DB2_CONF)
-  end
-
-  desc 'Load the seed data from db/seeds.rb'
-  task :seed => [:environment] do
-    ActiveRecord::Base.establish_connection DB1_CONF
-    ActiveRecord::Tasks::DatabaseTasks.load_seed
   end
 
   task :create => :environment do
@@ -34,26 +28,24 @@ namespace :db do
     Rake::Task["db:create_db2"].invoke
   end
 
-  task :create_db1 do
+  task :create_db1 => :environment do
     ActiveRecord::Tasks::DatabaseTasks.create(DB1_CONF)
   end
 
-  task :create_db2 do
+  task :create_db2 => :environment do
     ActiveRecord::Tasks::DatabaseTasks.create(DB2_CONF)
   end
-
-
 
   task :drop => :environment do
     Rake::Task["db:drop_db1"].invoke
     Rake::Task["db:drop_db2"].invoke
   end
 
-  task :drop_db1 do
+  task :drop_db1 => :environment do
     ActiveRecord::Tasks::DatabaseTasks.drop(DB1_CONF)
   end
 
-  task :drop_db2 do
+  task :drop_db2 => :environment do
     ActiveRecord::Tasks::DatabaseTasks.drop(DB2_CONF)
   end
 
@@ -64,11 +56,11 @@ namespace :db do
       Rake::Task['db:schema:load_db2'].invoke
     end
 
-    task :load_db1 do
+    task :load_db1 => :environment do
       DatabaseTasks.load_schema("db/migrate/db1/", 'db/db1_schema.rb', DB1_CONF)
     end
 
-    task :load_db2 do
+    task :load_db2 => :environment do
       DatabaseTasks.load_schema("db/migrate/db2/", 'db/db2_schema.rb', DB2_CONF)
     end
 
@@ -77,11 +69,11 @@ namespace :db do
       Rake::Task['db:schema:dump_db2'].invoke
     end
 
-    task :dump_db1 do
+    task :dump_db1 => :environment do
       DatabaseTasks.dump_schema('db/db1_schema.rb', DB1_CONF)
     end
 
-    task :dump_db2 do
+    task :dump_db2 => :environment do
       DatabaseTasks.dump_schema('db/db2_schema.rb', DB2_CONF)
     end
 
