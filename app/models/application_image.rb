@@ -1,4 +1,4 @@
-class ApplicationImage < ActiveRecord::Base
+class ApplicationImage < Db2
 
   # [rai] no validation for the size limit?(fixed)
   has_attached_file :image, :styles => { medium: "300x300>", thumb: "100x100>" }

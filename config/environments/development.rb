@@ -1,3 +1,6 @@
+ActiveRecord::Tasks::DatabaseTasks.db_dir = 'db/migrate/db1/'
+ActiveRecord::Migrator.migrations_paths = ['db/migrate/db1/']
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   # In the development environment your application's code is reloaded on

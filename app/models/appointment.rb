@@ -1,4 +1,4 @@
-class Appointment < ActiveRecord::Base
+class Appointment < Db1
   
   include PgSearch
   include AASM

@@ -1,4 +1,4 @@
-class Availability < ActiveRecord::Base
+class Availability < Db1
   
   # [rai] why do we need it here? you already have get_days_array in AvailabilitiesHelper(moved to avaialbilities_helper)
   #validations
